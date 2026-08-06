@@ -1,7 +1,8 @@
 //! Token estimation behind a replaceable trait boundary.
 //!
-//! The MVP ships a fast heuristic estimator. Exact BPE (`tiktoken-rs`) is
-//! deferred to TOK-002 pending a Workers bundle-size study.
+//! Exact BPE (`tiktoken-rs` + `cl100k_base`) stays bench-only. The shipped
+//! estimator is a character-class heuristic calibrated against cl100k on the
+//! TOK-002 fixture corpus (see `docs/context/tok-002-measurements.md`).
 
 /// Estimates how many LLM tokens a UTF-8 byte sequence would consume.
 pub trait TokenEstimator {
@@ -9,9 +10,18 @@ pub trait TokenEstimator {
     fn estimate(&self, text: &str) -> u64;
 }
 
-/// Heuristic estimator: roughly one token per ~4 UTF-8 bytes, floored at 1
-/// for non-empty input. This deliberately overestimates slightly on dense
-/// ASCII to avoid under-reporting savings.
+/// Documented max relative error of [`HeuristicEstimator`] vs cl100k_base on the
+/// TOK-002 fixture corpus (inputs). Shipping structural fixtures stay well
+/// under this; the worst case in the corpus is prose-heavy (~0.12).
+pub const HEURISTIC_MAX_RELATIVE_ERROR: f64 = 0.15;
+
+/// Character-class heuristic calibrated to `cl100k_base`.
+///
+/// Coefficients (TOK-002 fit): alphanumeric / `_` / space contribute `0.18`
+/// token-units each; other ASCII (JSON punctuation) contribute `0.73`;
+/// non-ASCII contributes `1.0`. This is **not** an affine function of byte
+/// length — unlike the TOK-001 `bytes.div_ceil(4)` estimator — so
+/// `tokens_after / tokens_before` can diverge from the byte ratio.
 #[derive(Debug, Default, Clone, Copy)]
 pub struct HeuristicEstimator;
 
@@ -20,8 +30,17 @@ impl TokenEstimator for HeuristicEstimator {
         if text.is_empty() {
             return 0;
         }
-        let bytes = text.len() as u64;
-        std::cmp::max(1, bytes.div_ceil(4))
+        let mut units = 0.0_f64;
+        for c in text.chars() {
+            if c.is_ascii_alphanumeric() || c == '_' || c == ' ' {
+                units += 0.18;
+            } else if c.is_ascii() {
+                units += 0.73;
+            } else {
+                units += 1.0;
+            }
+        }
+        std::cmp::max(1, units.round() as u64)
     }
 }
 
@@ -40,8 +59,9 @@ mod tests {
     }
 
     #[test]
-    fn scales_with_bytes() {
-        assert_eq!(HeuristicEstimator.estimate("abcd"), 1);
-        assert_eq!(HeuristicEstimator.estimate("abcdefgh"), 2);
+    fn punctuation_costs_more_than_letters() {
+        let letters = HeuristicEstimator.estimate("aaaaaaaa");
+        let punct = HeuristicEstimator.estimate("{}{}{}{}");
+        assert!(punct > letters);
     }
 }

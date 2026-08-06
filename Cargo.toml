@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "crates/tokendoo-core",
     "crates/tokendoo-worker",
+    "crates/tokendoo-bench",
 ]
 
 [workspace.package]

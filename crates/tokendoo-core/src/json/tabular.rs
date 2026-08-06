@@ -2,36 +2,34 @@
 
 use serde_json::{Map, Value};
 
+use crate::json::alphabet::AlphabetKind;
 use crate::json::{CodecError, MAX_DEPTH};
 
-/// Sentinel marking a collapsed tabular array (`U+0002` + `'T'`).
+/// Sentinel marking a collapsed tabular array (`U+0002` + `'T'`) — control alphabet.
 pub const TABULAR_SENTINEL: &str = "\u{0002}T";
 
-/// Return `true` if any string in the tree equals [`TABULAR_SENTINEL`].
+/// Return `true` if any string equals the control tabular sentinel.
 pub fn scan_tabular_sentinel(value: &Value) -> bool {
-    scan(value, 0)
+    AlphabetKind::Control.scan_tabular_collision(value)
 }
 
-fn scan(value: &Value, depth: u32) -> bool {
-    if depth > MAX_DEPTH {
-        return false;
-    }
-    match value {
-        Value::String(s) => s == TABULAR_SENTINEL,
-        Value::Array(items) => items.iter().any(|v| scan(v, depth + 1)),
-        Value::Object(map) => map.values().any(|v| scan(v, depth + 1)),
-        _ => false,
-    }
-}
-
-/// Recursively collapse homogeneous object arrays.
-///
-/// Returns the transformed tree and whether any collapse occurred.
+/// Recursively collapse homogeneous object arrays (control alphabet).
 pub fn apply_tabular(value: Value) -> Result<(Value, bool), CodecError> {
-    apply(value, 0)
+    apply_tabular_with(value, AlphabetKind::Control)
 }
 
-fn apply(value: Value, depth: u32) -> Result<(Value, bool), CodecError> {
+/// Collapse with an explicit alphabet (sentinel spelling).
+pub fn apply_tabular_with(
+    value: Value,
+    alphabet: AlphabetKind,
+) -> Result<(Value, bool), CodecError> {
+    if alphabet.scan_tabular_collision(&value) {
+        return Ok((value, false));
+    }
+    apply(value, alphabet, 0)
+}
+
+fn apply(value: Value, alphabet: AlphabetKind, depth: u32) -> Result<(Value, bool), CodecError> {
     if depth > MAX_DEPTH {
         return Err(CodecError::DepthExceeded { limit: MAX_DEPTH });
     }
@@ -40,12 +38,12 @@ fn apply(value: Value, depth: u32) -> Result<(Value, bool), CodecError> {
             let mut applied = false;
             let mut children = Vec::with_capacity(items.len());
             for item in items {
-                let (child, child_applied) = apply(item, depth + 1)?;
+                let (child, child_applied) = apply(item, alphabet, depth + 1)?;
                 applied |= child_applied;
                 children.push(child);
             }
 
-            if let Some(collapsed) = try_collapse(&children) {
+            if let Some(collapsed) = try_collapse(&children, alphabet) {
                 Ok((collapsed, true))
             } else {
                 Ok((Value::Array(children), applied))
@@ -55,7 +53,7 @@ fn apply(value: Value, depth: u32) -> Result<(Value, bool), CodecError> {
             let mut applied = false;
             let mut out = Map::new();
             for (k, v) in map {
-                let (child, child_applied) = apply(v, depth + 1)?;
+                let (child, child_applied) = apply(v, alphabet, depth + 1)?;
                 applied |= child_applied;
                 out.insert(k, child);
             }
@@ -65,14 +63,13 @@ fn apply(value: Value, depth: u32) -> Result<(Value, bool), CodecError> {
     }
 }
 
-fn try_collapse(items: &[Value]) -> Option<Value> {
+fn try_collapse(items: &[Value], alphabet: AlphabetKind) -> Option<Value> {
     if items.len() < 2 {
         return None;
     }
     let first = items.first()?.as_object()?;
     let schema: Vec<String> = first.keys().cloned().collect();
     if schema.is_empty() {
-        // Empty objects: collapsing is not profitable.
         return None;
     }
 
@@ -88,7 +85,6 @@ fn try_collapse(items: &[Value]) -> Option<Value> {
         }
     }
 
-    // Size heuristic: collapse only when estimated after < before.
     let before = estimate_before(items, &schema);
     let after = estimate_after(items.len(), &schema);
     if after >= before {
@@ -106,7 +102,7 @@ fn try_collapse(items: &[Value]) -> Option<Value> {
     }
 
     Some(Value::Array(vec![
-        Value::String(TABULAR_SENTINEL.to_string()),
+        Value::String(alphabet.tabular_sentinel().to_string()),
         Value::Array(schema.into_iter().map(Value::String).collect()),
         Value::Array(rows),
     ]))
@@ -119,38 +115,43 @@ fn estimate_before(items: &[Value], schema: &[String]) -> usize {
 
 fn estimate_after(row_count: usize, schema: &[String]) -> usize {
     let schema_cost: usize = schema.iter().map(|k| k.len() + 3).sum();
-    // sentinel + brackets + per-row brackets
     schema_cost + 8 + row_count * 2
 }
 
-/// Inverse of [`apply_tabular`]: expand every sentinel-tagged array.
+/// Inverse of [`apply_tabular`] for the control alphabet.
 pub fn invert_tabular(value: Value) -> Result<Value, CodecError> {
-    invert(value, 0)
+    invert_tabular_with(value, AlphabetKind::Control)
 }
 
-fn invert(value: Value, depth: u32) -> Result<Value, CodecError> {
+/// Expand sentinel-tagged arrays for the given alphabet.
+pub fn invert_tabular_with(value: Value, alphabet: AlphabetKind) -> Result<Value, CodecError> {
+    invert(value, alphabet, 0)
+}
+
+fn invert(value: Value, alphabet: AlphabetKind, depth: u32) -> Result<Value, CodecError> {
     if depth > MAX_DEPTH {
         return Err(CodecError::DepthExceeded { limit: MAX_DEPTH });
     }
+    let sentinel = alphabet.tabular_sentinel();
     match value {
         Value::Array(items) => {
             if items.len() == 3 {
                 if let Some(Value::String(s)) = items.first() {
-                    if s == TABULAR_SENTINEL {
-                        return expand_tabular(items, depth);
+                    if s == sentinel {
+                        return expand_tabular(items, alphabet, depth);
                     }
                 }
             }
             let mut out = Vec::with_capacity(items.len());
             for item in items {
-                out.push(invert(item, depth + 1)?);
+                out.push(invert(item, alphabet, depth + 1)?);
             }
             Ok(Value::Array(out))
         }
         Value::Object(map) => {
             let mut out = Map::new();
             for (k, v) in map {
-                out.insert(k, invert(v, depth + 1)?);
+                out.insert(k, invert(v, alphabet, depth + 1)?);
             }
             Ok(Value::Object(out))
         }
@@ -158,7 +159,11 @@ fn invert(value: Value, depth: u32) -> Result<Value, CodecError> {
     }
 }
 
-fn expand_tabular(items: Vec<Value>, depth: u32) -> Result<Value, CodecError> {
+fn expand_tabular(
+    items: Vec<Value>,
+    alphabet: AlphabetKind,
+    depth: u32,
+) -> Result<Value, CodecError> {
     let mut iter = items.into_iter();
     let _sentinel = iter.next();
     let schema_val = iter.next().ok_or(CodecError::MalformedHeader)?;
@@ -190,7 +195,7 @@ fn expand_tabular(items: Vec<Value>, depth: u32) -> Result<Value, CodecError> {
                     expected: schema.len(),
                     actual: cells.len(),
                 })?;
-            obj.insert(key.clone(), invert(cell, depth + 1)?);
+            obj.insert(key.clone(), invert(cell, alphabet, depth + 1)?);
         }
         objects.push(Value::Object(obj));
     }
@@ -220,7 +225,6 @@ mod tests {
         let v = json!([{"x": null}, {}]);
         let (transformed, applied) = apply_tabular(v.clone()).unwrap();
         assert!(!applied || transformed == v);
-        // Homogeneous check fails, so structure stays an array of objects.
         assert_eq!(transformed, v);
     }
 }

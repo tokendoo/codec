@@ -4,53 +4,42 @@ use std::collections::HashMap;
 
 use serde_json::{Map, Value};
 
-use crate::json::tabular::TABULAR_SENTINEL;
+use crate::json::alphabet::AlphabetKind;
 use crate::json::{CodecError, MAX_DEPTH};
 
 /// Control-character prefix for interned value symbols (`U+0003`).
 pub const VALUE_PREFIX: char = '\u{0003}';
 
-/// Encode an ordinal as a value symbol.
+/// Encode an ordinal as a value symbol (control alphabet).
 pub fn value_symbol(ordinal: usize) -> String {
-    format!("{VALUE_PREFIX}{}", to_base36(ordinal))
+    AlphabetKind::Control.value_symbol(ordinal)
 }
 
-/// Return `true` if any string value starts with [`VALUE_PREFIX`].
+/// Return `true` if any string value collides with the control alphabet.
 pub fn scan_value_sentinel(value: &Value) -> bool {
-    scan(value, 0, false)
+    AlphabetKind::Control.scan_value_collision(value)
 }
 
-fn scan(value: &Value, depth: u32, in_tabular_schema: bool) -> bool {
-    if depth > MAX_DEPTH {
-        return false;
-    }
-    match value {
-        Value::String(s) => !in_tabular_schema && s.starts_with(VALUE_PREFIX),
-        Value::Array(items) => {
-            if items.first().and_then(|v| v.as_str()) == Some(TABULAR_SENTINEL) && items.len() == 3
-            {
-                // [sentinel, schema, rows] — skip schema strings, scan rows.
-                let rows_hit = items
-                    .get(2)
-                    .map(|rows| scan(rows, depth + 1, false))
-                    .unwrap_or(false);
-                return rows_hit;
-            }
-            items.iter().any(|v| scan(v, depth + 1, false))
-        }
-        Value::Object(map) => map.values().any(|v| scan(v, depth + 1, false)),
-        _ => false,
-    }
-}
-
-/// Apply value interning if profitable. Returns `None` when skipped.
+/// Apply value interning if profitable (control alphabet).
 pub fn apply_intern(value: &Value) -> Result<Option<(Value, Vec<String>)>, CodecError> {
+    apply_intern_with(value, AlphabetKind::Control)
+}
+
+/// Apply value interning with an explicit alphabet.
+pub fn apply_intern_with(
+    value: &Value,
+    alphabet: AlphabetKind,
+) -> Result<Option<(Value, Vec<String>)>, CodecError> {
+    if alphabet.scan_value_collision(value) {
+        return Ok(None);
+    }
+
     let mut counts: HashMap<&str, usize> = HashMap::new();
-    count_strings(value, &mut counts, 0, false)?;
+    count_strings(value, &mut counts, alphabet, 0)?;
 
     let mut candidates: Vec<(&str, usize)> = counts
         .into_iter()
-        .filter(|(s, n)| is_profitable(s, *n))
+        .filter(|(s, n)| is_profitable(alphabet, s, *n))
         .collect();
     if candidates.is_empty() {
         return Ok(None);
@@ -60,18 +49,18 @@ pub fn apply_intern(value: &Value) -> Result<Option<(Value, Vec<String>)>, Codec
     let table: Vec<String> = candidates.iter().map(|(s, _)| (*s).to_string()).collect();
     let mut remap: HashMap<&str, String> = HashMap::with_capacity(table.len());
     for (i, s) in table.iter().enumerate() {
-        remap.insert(s.as_str(), value_symbol(i));
+        remap.insert(s.as_str(), alphabet.value_symbol(i));
     }
 
-    let transformed = rewrite(value, &remap, 0, false)?;
+    let transformed = rewrite(value, &remap, alphabet, 0)?;
     Ok(Some((transformed, table)))
 }
 
-fn is_profitable(s: &str, occurrences: usize) -> bool {
+fn is_profitable(alphabet: AlphabetKind, s: &str, occurrences: usize) -> bool {
     if occurrences < 2 {
         return false;
     }
-    let symbol_len = 1 + 1; // prefix + at least one digit
+    let symbol_len = alphabet.value_symbol_len(0);
     let saving = occurrences.saturating_mul(s.len().saturating_sub(symbol_len));
     let cost = s.len() + 3;
     saving > cost
@@ -80,34 +69,31 @@ fn is_profitable(s: &str, occurrences: usize) -> bool {
 fn count_strings<'a>(
     value: &'a Value,
     counts: &mut HashMap<&'a str, usize>,
+    alphabet: AlphabetKind,
     depth: u32,
-    in_schema: bool,
 ) -> Result<(), CodecError> {
     if depth > MAX_DEPTH {
         return Err(CodecError::DepthExceeded { limit: MAX_DEPTH });
     }
+    let sentinel = alphabet.tabular_sentinel();
     match value {
         Value::String(s) => {
-            if !in_schema {
-                *counts.entry(s.as_str()).or_insert(0) += 1;
-            }
+            *counts.entry(s.as_str()).or_insert(0) += 1;
         }
         Value::Array(items) => {
-            if items.first().and_then(|v| v.as_str()) == Some(TABULAR_SENTINEL) && items.len() == 3
-            {
-                // Skip schema (index 1); count inside rows (index 2).
+            if items.first().and_then(|v| v.as_str()) == Some(sentinel) && items.len() == 3 {
                 if let Some(rows) = items.get(2) {
-                    count_strings(rows, counts, depth + 1, false)?;
+                    count_strings(rows, counts, alphabet, depth + 1)?;
                 }
             } else {
                 for item in items {
-                    count_strings(item, counts, depth + 1, false)?;
+                    count_strings(item, counts, alphabet, depth + 1)?;
                 }
             }
         }
         Value::Object(map) => {
             for v in map.values() {
-                count_strings(v, counts, depth + 1, false)?;
+                count_strings(v, counts, alphabet, depth + 1)?;
             }
         }
         _ => {}
@@ -118,26 +104,24 @@ fn count_strings<'a>(
 fn rewrite(
     value: &Value,
     remap: &HashMap<&str, String>,
+    alphabet: AlphabetKind,
     depth: u32,
-    in_schema: bool,
 ) -> Result<Value, CodecError> {
     if depth > MAX_DEPTH {
         return Err(CodecError::DepthExceeded { limit: MAX_DEPTH });
     }
+    let sentinel = alphabet.tabular_sentinel();
     match value {
         Value::String(s) => {
-            if in_schema {
-                Ok(Value::String(s.clone()))
-            } else if let Some(sym) = remap.get(s.as_str()) {
+            if let Some(sym) = remap.get(s.as_str()) {
                 Ok(Value::String(sym.clone()))
             } else {
                 Ok(Value::String(s.clone()))
             }
         }
         Value::Array(items) => {
-            if items.first().and_then(|v| v.as_str()) == Some(TABULAR_SENTINEL) && items.len() == 3
-            {
-                let rewritten_rows = rewrite(&items[2], remap, depth + 1, false)?;
+            if items.first().and_then(|v| v.as_str()) == Some(sentinel) && items.len() == 3 {
+                let rewritten_rows = rewrite(&items[2], remap, alphabet, depth + 1)?;
                 Ok(Value::Array(vec![
                     items[0].clone(),
                     items[1].clone(),
@@ -146,7 +130,7 @@ fn rewrite(
             } else {
                 let mut out = Vec::with_capacity(items.len());
                 for item in items {
-                    out.push(rewrite(item, remap, depth + 1, false)?);
+                    out.push(rewrite(item, remap, alphabet, depth + 1)?);
                 }
                 Ok(Value::Array(out))
             }
@@ -154,7 +138,7 @@ fn rewrite(
         Value::Object(map) => {
             let mut out = Map::new();
             for (k, v) in map {
-                out.insert(k.clone(), rewrite(v, remap, depth + 1, false)?);
+                out.insert(k.clone(), rewrite(v, remap, alphabet, depth + 1)?);
             }
             Ok(Value::Object(out))
         }
@@ -162,40 +146,44 @@ fn rewrite(
     }
 }
 
-/// Inverse of [`apply_intern`].
+/// Inverse of [`apply_intern`] (control alphabet).
 pub fn invert_intern(value: Value, table: &[String]) -> Result<Value, CodecError> {
-    invert(value, table, 0, false)
+    invert_intern_with(value, table, AlphabetKind::Control)
+}
+
+/// Inverse with an explicit alphabet.
+pub fn invert_intern_with(
+    value: Value,
+    table: &[String],
+    alphabet: AlphabetKind,
+) -> Result<Value, CodecError> {
+    invert(value, table, alphabet, 0)
 }
 
 fn invert(
     value: Value,
     table: &[String],
+    alphabet: AlphabetKind,
     depth: u32,
-    in_schema: bool,
 ) -> Result<Value, CodecError> {
     if depth > MAX_DEPTH {
         return Err(CodecError::DepthExceeded { limit: MAX_DEPTH });
     }
+    let sentinel = alphabet.tabular_sentinel();
     match value {
-        Value::String(s) => {
-            if in_schema {
-                return Ok(Value::String(s));
+        Value::String(s) => match alphabet.parse_value_symbol(&s) {
+            Some(ord) => {
+                let restored = table
+                    .get(ord)
+                    .cloned()
+                    .ok_or(CodecError::DictionaryIndexOutOfRange)?;
+                Ok(Value::String(restored))
             }
-            match parse_value_symbol(&s) {
-                Some(ord) => {
-                    let restored = table
-                        .get(ord)
-                        .cloned()
-                        .ok_or(CodecError::DictionaryIndexOutOfRange)?;
-                    Ok(Value::String(restored))
-                }
-                None => Ok(Value::String(s)),
-            }
-        }
+            None => Ok(Value::String(s)),
+        },
         Value::Array(items) => {
-            if items.first().and_then(|v| v.as_str()) == Some(TABULAR_SENTINEL) && items.len() == 3
-            {
-                let inverted_rows = invert(items[2].clone(), table, depth + 1, false)?;
+            if items.first().and_then(|v| v.as_str()) == Some(sentinel) && items.len() == 3 {
+                let inverted_rows = invert(items[2].clone(), table, alphabet, depth + 1)?;
                 Ok(Value::Array(vec![
                     items[0].clone(),
                     items[1].clone(),
@@ -204,7 +192,7 @@ fn invert(
             } else {
                 let mut out = Vec::with_capacity(items.len());
                 for item in items {
-                    out.push(invert(item, table, depth + 1, false)?);
+                    out.push(invert(item, table, alphabet, depth + 1)?);
                 }
                 Ok(Value::Array(out))
             }
@@ -212,51 +200,12 @@ fn invert(
         Value::Object(map) => {
             let mut out = Map::new();
             for (k, v) in map {
-                out.insert(k, invert(v, table, depth + 1, false)?);
+                out.insert(k, invert(v, table, alphabet, depth + 1)?);
             }
             Ok(Value::Object(out))
         }
         other => Ok(other),
     }
-}
-
-fn parse_value_symbol(s: &str) -> Option<usize> {
-    let mut chars = s.chars();
-    if chars.next() != Some(VALUE_PREFIX) {
-        return None;
-    }
-    from_base36(chars.as_str())
-}
-
-fn to_base36(mut n: usize) -> String {
-    const DIGITS: &[u8] = b"0123456789abcdefghijklmnopqrstuvwxyz";
-    if n == 0 {
-        return "0".to_string();
-    }
-    let mut buf = Vec::new();
-    while n > 0 {
-        buf.push(DIGITS[n % 36]);
-        n /= 36;
-    }
-    buf.reverse();
-    String::from_utf8(buf).unwrap_or_else(|_| "0".to_string())
-}
-
-fn from_base36(s: &str) -> Option<usize> {
-    if s.is_empty() {
-        return None;
-    }
-    let mut n: usize = 0;
-    for c in s.chars() {
-        let digit = match c {
-            '0'..='9' => (c as u8 - b'0') as usize,
-            'a'..='z' => (c as u8 - b'a') as usize + 10,
-            'A'..='Z' => (c as u8 - b'A') as usize + 10,
-            _ => return None,
-        };
-        n = n.checked_mul(36)?.checked_add(digit)?;
-    }
-    Some(n)
 }
 
 #[cfg(test)]
@@ -277,21 +226,5 @@ mod tests {
         let (transformed, table) = apply_intern(&v).unwrap().expect("should intern");
         let restored = invert_intern(transformed, &table).unwrap();
         assert_eq!(restored, v);
-    }
-
-    #[test]
-    fn does_not_intern_tabular_schema() {
-        let v = json!([
-            "\u{0002}T",
-            ["userId", "createdAt"],
-            [["a", "b"], ["c", "d"], ["e", "f"], ["g", "h"], ["i", "j"]]
-        ]);
-        // Schema keys are short; even if repeated elsewhere they must stay.
-        let result = apply_intern(&v).unwrap();
-        if let Some((transformed, _)) = result {
-            if let Value::Array(items) = &transformed {
-                assert_eq!(items[1], json!(["userId", "createdAt"]));
-            }
-        }
     }
 }

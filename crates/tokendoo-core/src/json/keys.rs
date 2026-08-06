@@ -4,50 +4,42 @@ use std::collections::HashMap;
 
 use serde_json::{Map, Value};
 
+use crate::json::alphabet::AlphabetKind;
 use crate::json::{CodecError, MAX_DEPTH};
 
-/// Control-character prefix for key symbols (`U+0001`).
+/// Control-character prefix for key symbols (`U+0001`) — legacy alias for tests.
 pub const KEY_PREFIX: char = '\u{0001}';
 
-/// Encode an ordinal as a key symbol.
+/// Encode an ordinal as a key symbol using the default (control) alphabet.
 pub fn key_symbol(ordinal: usize) -> String {
-    format!("{KEY_PREFIX}{}", to_base36(ordinal))
+    AlphabetKind::Control.key_symbol(ordinal)
 }
 
-/// Return `true` if any object key in the tree starts with [`KEY_PREFIX`].
+/// Return `true` if any object key collides with the control alphabet.
 pub fn scan_key_sentinel(value: &Value) -> bool {
-    scan(value, 0)
+    AlphabetKind::Control.scan_key_collision(value)
 }
 
-fn scan(value: &Value, depth: u32) -> bool {
-    if depth > MAX_DEPTH {
-        return false;
-    }
-    match value {
-        Value::Object(map) => {
-            for (k, v) in map {
-                if k.starts_with(KEY_PREFIX) {
-                    return true;
-                }
-                if scan(v, depth + 1) {
-                    return true;
-                }
-            }
-            false
-        }
-        Value::Array(items) => items.iter().any(|v| scan(v, depth + 1)),
-        _ => false,
-    }
-}
-
-/// Apply the key dictionary if it is profitable. Returns `None` when skipped.
+/// Apply the key dictionary if profitable. Returns `None` when skipped.
 pub fn apply_keys(value: &Value) -> Result<Option<(Value, Vec<String>)>, CodecError> {
+    apply_keys_with(value, AlphabetKind::Control)
+}
+
+/// Apply the key dictionary with an explicit alphabet.
+pub fn apply_keys_with(
+    value: &Value,
+    alphabet: AlphabetKind,
+) -> Result<Option<(Value, Vec<String>)>, CodecError> {
+    if alphabet.scan_key_collision(value) {
+        return Ok(None);
+    }
+
     let mut counts: HashMap<&str, usize> = HashMap::new();
     count_keys(value, &mut counts, 0)?;
 
     let mut candidates: Vec<(&str, usize)> = counts
         .into_iter()
-        .filter(|(k, n)| is_profitable(k, *n))
+        .filter(|(k, n)| is_profitable(alphabet, k, *n))
         .collect();
     if candidates.is_empty() {
         return Ok(None);
@@ -57,20 +49,18 @@ pub fn apply_keys(value: &Value) -> Result<Option<(Value, Vec<String>)>, CodecEr
     let table: Vec<String> = candidates.iter().map(|(k, _)| (*k).to_string()).collect();
     let mut remap: HashMap<&str, String> = HashMap::with_capacity(table.len());
     for (i, key) in table.iter().enumerate() {
-        remap.insert(key.as_str(), key_symbol(i));
+        remap.insert(key.as_str(), alphabet.key_symbol(i));
     }
 
     let transformed = rewrite(value, &remap, 0)?;
     Ok(Some((transformed, table)))
 }
 
-fn is_profitable(key: &str, occurrences: usize) -> bool {
+fn is_profitable(alphabet: AlphabetKind, key: &str, occurrences: usize) -> bool {
     if occurrences == 0 {
         return false;
     }
-    // Estimate: each occurrence saves (len(key) - len(symbol)) quoted bytes;
-    // table cost is roughly len(key) + 3 (quotes + comma).
-    let symbol_len = 1 + base36_len(0); // worst-case underestimate uses short symbol
+    let symbol_len = alphabet.key_symbol_len(0);
     let saving = occurrences.saturating_mul(key.len().saturating_sub(symbol_len));
     let cost = key.len() + 3;
     saving > cost
@@ -129,12 +119,26 @@ fn rewrite(
     }
 }
 
-/// Inverse of [`apply_keys`].
+/// Inverse of [`apply_keys`] using the control alphabet.
 pub fn invert_keys(value: Value, table: &[String]) -> Result<Value, CodecError> {
-    invert(value, table, 0)
+    invert_keys_with(value, table, AlphabetKind::Control)
 }
 
-fn invert(value: Value, table: &[String], depth: u32) -> Result<Value, CodecError> {
+/// Inverse with an explicit alphabet.
+pub fn invert_keys_with(
+    value: Value,
+    table: &[String],
+    alphabet: AlphabetKind,
+) -> Result<Value, CodecError> {
+    invert(value, table, alphabet, 0)
+}
+
+fn invert(
+    value: Value,
+    table: &[String],
+    alphabet: AlphabetKind,
+    depth: u32,
+) -> Result<Value, CodecError> {
     if depth > MAX_DEPTH {
         return Err(CodecError::DepthExceeded { limit: MAX_DEPTH });
     }
@@ -142,21 +146,21 @@ fn invert(value: Value, table: &[String], depth: u32) -> Result<Value, CodecErro
         Value::Object(map) => {
             let mut out = Map::new();
             for (k, v) in map {
-                let restored = match parse_key_symbol(&k) {
+                let restored = match alphabet.parse_key_symbol(&k) {
                     Some(ord) => table
                         .get(ord)
                         .cloned()
                         .ok_or(CodecError::DictionaryIndexOutOfRange)?,
                     None => k,
                 };
-                out.insert(restored, invert(v, table, depth + 1)?);
+                out.insert(restored, invert(v, table, alphabet, depth + 1)?);
             }
             Ok(Value::Object(out))
         }
         Value::Array(items) => {
             let mut out = Vec::with_capacity(items.len());
             for item in items {
-                out.push(invert(item, table, depth + 1)?);
+                out.push(invert(item, table, alphabet, depth + 1)?);
             }
             Ok(Value::Array(out))
         }
@@ -164,60 +168,10 @@ fn invert(value: Value, table: &[String], depth: u32) -> Result<Value, CodecErro
     }
 }
 
-fn parse_key_symbol(s: &str) -> Option<usize> {
-    let mut chars = s.chars();
-    if chars.next() != Some(KEY_PREFIX) {
-        return None;
-    }
-    from_base36(chars.as_str())
-}
-
-fn to_base36(mut n: usize) -> String {
-    const DIGITS: &[u8] = b"0123456789abcdefghijklmnopqrstuvwxyz";
-    if n == 0 {
-        return "0".to_string();
-    }
-    let mut buf = Vec::new();
-    while n > 0 {
-        buf.push(DIGITS[n % 36]);
-        n /= 36;
-    }
-    buf.reverse();
-    String::from_utf8(buf).unwrap_or_else(|_| "0".to_string())
-}
-
-fn base36_len(n: usize) -> usize {
-    to_base36(n).len()
-}
-
-fn from_base36(s: &str) -> Option<usize> {
-    if s.is_empty() {
-        return None;
-    }
-    let mut n: usize = 0;
-    for c in s.chars() {
-        let digit = match c {
-            '0'..='9' => (c as u8 - b'0') as usize,
-            'a'..='z' => (c as u8 - b'a') as usize + 10,
-            'A'..='Z' => (c as u8 - b'A') as usize + 10,
-            _ => return None,
-        };
-        n = n.checked_mul(36)?.checked_add(digit)?;
-    }
-    Some(n)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use serde_json::json;
-
-    #[test]
-    fn symbol_roundtrip() {
-        assert_eq!(parse_key_symbol(&key_symbol(0)), Some(0));
-        assert_eq!(parse_key_symbol(&key_symbol(35)), Some(35));
-        assert_eq!(parse_key_symbol(&key_symbol(36)), Some(36));
-    }
 
     #[test]
     fn apply_and_invert() {
@@ -230,6 +184,22 @@ mod tests {
         ]);
         let (transformed, table) = apply_keys(&v).unwrap().expect("should apply");
         let restored = invert_keys(transformed, &table).unwrap();
+        assert_eq!(restored, v);
+    }
+
+    #[test]
+    fn printable_alphabet_roundtrip() {
+        let v = json!([
+            {"userId": 1, "createdAt": "a"},
+            {"userId": 2, "createdAt": "b"},
+            {"userId": 3, "createdAt": "c"},
+            {"userId": 4, "createdAt": "d"},
+            {"userId": 5, "createdAt": "e"},
+            {"userId": 6, "createdAt": "f"},
+        ]);
+        let (transformed, table) =
+            apply_keys_with(&v, AlphabetKind::Printable).unwrap().expect("apply");
+        let restored = invert_keys_with(transformed, &table, AlphabetKind::Printable).unwrap();
         assert_eq!(restored, v);
     }
 }

@@ -5,6 +5,7 @@
 //! flag when applied. The whole pipeline falls back to the identity form when
 //! the transformed payload (body + dictionary) is not strictly smaller.
 
+pub mod alphabet;
 pub mod canonical;
 mod emit;
 pub mod header;
@@ -15,14 +16,15 @@ pub mod tabular;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
+use self::alphabet::AlphabetKind;
 use self::emit::{emit_body, parse_body};
 use self::header::{
-    encode_header, parse_header, FLAG_IDENTITY, FLAG_KEYS, FLAG_TABULAR, FLAG_VALUES,
-    FLAG_WRAPPED_STRING,
+    alphabet_flags, alphabet_from_flags, encode_header, parse_header, FLAG_IDENTITY, FLAG_KEYS,
+    FLAG_TABULAR, FLAG_VALUES, FLAG_WRAPPED_STRING,
 };
-use self::intern::{apply_intern, invert_intern, scan_value_sentinel};
-use self::keys::{apply_keys, invert_keys, scan_key_sentinel};
-use self::tabular::{apply_tabular, invert_tabular, scan_tabular_sentinel};
+use self::intern::{apply_intern_with, invert_intern_with};
+use self::keys::{apply_keys_with, invert_keys_with};
+use self::tabular::{apply_tabular_with, invert_tabular_with};
 
 /// Hard upper bound on input payload size in bytes.
 pub const MAX_INPUT_BYTES: usize = 256 * 1024;
@@ -108,17 +110,33 @@ impl CodecError {
 /// Options controlling which optional transforms may run.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompressOptions {
+    /// Allow the key-dictionary transform.
+    #[serde(default = "default_true")]
+    pub key_dictionary: bool,
     /// Allow tabular collapse of homogeneous object arrays.
+    #[serde(default = "default_true")]
     pub tabular: bool,
     /// Allow value interning of repeated scalar strings.
+    #[serde(default = "default_true")]
     pub intern_values: bool,
+    /// Symbol alphabet (not part of the HTTP API; used by benches and core).
+    #[serde(skip)]
+    pub alphabet: AlphabetKind,
+}
+
+fn default_true() -> bool {
+    true
 }
 
 impl Default for CompressOptions {
     fn default() -> Self {
         Self {
+            // TOK-002: key dictionary alone failed the ≥10% token rule on bare;
+            // tabular + intern remain default-on.
+            key_dictionary: false,
             tabular: true,
             intern_values: true,
+            alphabet: AlphabetKind::default(),
         }
     }
 }
@@ -222,6 +240,7 @@ fn compress_value_inner(
     wrapped_string: bool,
     options: CompressOptions,
 ) -> Result<CompressResult, CodecError> {
+    let alphabet = options.alphabet;
     let canonical_body =
         serde_json::to_string(&value).map_err(|e| CodecError::from_serde(&e))?;
 
@@ -229,28 +248,24 @@ fn compress_value_inner(
     let mut flags: u8 = 0;
     let mut dictionary = Dictionary::default();
 
-    let skip_keys = scan_key_sentinel(&tree);
-    let skip_tabular = scan_tabular_sentinel(&tree);
-    let skip_values = scan_value_sentinel(&tree);
-
-    if !skip_keys {
-        if let Some((transformed, table)) = apply_keys(&tree)? {
+    if options.key_dictionary {
+        if let Some((transformed, table)) = apply_keys_with(&tree, alphabet)? {
             tree = transformed;
             dictionary.k = table;
             flags |= FLAG_KEYS;
         }
     }
 
-    if options.tabular && !skip_tabular {
-        let (transformed, applied) = apply_tabular(tree)?;
+    if options.tabular {
+        let (transformed, applied) = apply_tabular_with(tree, alphabet)?;
         tree = transformed;
         if applied {
             flags |= FLAG_TABULAR;
         }
     }
 
-    if options.intern_values && !skip_values {
-        if let Some((transformed, table)) = apply_intern(&tree)? {
+    if options.intern_values {
+        if let Some((transformed, table)) = apply_intern_with(&tree, alphabet)? {
             tree = transformed;
             dictionary.v = table;
             flags |= FLAG_VALUES;
@@ -264,16 +279,17 @@ fn compress_value_inner(
     let identity_len =
         header::HEADER_LEN + canonical_body.len() + serialized_dictionary_len(&empty_dict);
 
+    let alpha_bits = alphabet_flags(alphabet);
     let (final_flags, final_body, final_dict, identity) = if candidate_len >= identity_len
         || flags == 0
     {
-        let mut id_flags = FLAG_IDENTITY;
+        let mut id_flags = FLAG_IDENTITY | alpha_bits;
         if wrapped_string {
             id_flags |= FLAG_WRAPPED_STRING;
         }
         (id_flags, canonical_body, empty_dict, true)
     } else {
-        let mut f = flags;
+        let mut f = flags | alpha_bits;
         if wrapped_string {
             f |= FLAG_WRAPPED_STRING;
         }
@@ -327,6 +343,7 @@ pub fn decompress_to_value(
         return Err(CodecError::DictionaryMismatch);
     }
 
+    let alphabet = alphabet_from_flags(flags);
     let mut tree = parse_body(body)?;
     check_depth(&tree, 0)?;
 
@@ -335,13 +352,13 @@ pub fn decompress_to_value(
     }
 
     if values_set {
-        tree = invert_intern(tree, &dictionary.v)?;
+        tree = invert_intern_with(tree, &dictionary.v, alphabet)?;
     }
     if flags & FLAG_TABULAR != 0 {
-        tree = invert_tabular(tree)?;
+        tree = invert_tabular_with(tree, alphabet)?;
     }
     if keys_set {
-        tree = invert_keys(tree, &dictionary.k)?;
+        tree = invert_keys_with(tree, &dictionary.k, alphabet)?;
     }
 
     Ok(tree)
