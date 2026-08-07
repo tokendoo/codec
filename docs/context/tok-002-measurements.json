@@ -1,5 +1,17 @@
 {
   "baseline_wasm_bytes": 601320,
+  "estimator": {
+    "model": "burst",
+    "coefficients": {
+      "w0": 0.155,
+      "w1": 0.12,
+      "p0": 0.7,
+      "p1": 0.3414,
+      "s1": 0.01,
+      "n": 0.2,
+      "digit_rule": "ceil(L/3) per digit run"
+    }
+  },
   "cells": [
     {
       "fixture": "homogeneous_8",
@@ -14,8 +26,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -30,8 +42,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -46,8 +58,8 @@
       "divergence": 0.1211779625193744,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 108
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 167
     },
     {
       "fixture": "homogeneous_8",
@@ -62,8 +74,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -78,8 +90,8 @@
       "divergence": 0.12422854727349586,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 115
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 178
     },
     {
       "fixture": "homogeneous_8",
@@ -94,8 +106,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -110,8 +122,8 @@
       "divergence": 0.1785895448781175,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 119
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 196
     },
     {
       "fixture": "homogeneous_8",
@@ -126,8 +138,8 @@
       "divergence": 0.18164012963223886,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 126
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 207
     },
     {
       "fixture": "homogeneous_8",
@@ -142,8 +154,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -158,8 +170,8 @@
       "divergence": 0.19151754262364384,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 143
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 238
     },
     {
       "fixture": "homogeneous_8",
@@ -174,8 +186,8 @@
       "divergence": 0.1166901507679301,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 106
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 165
     },
     {
       "fixture": "homogeneous_8",
@@ -190,8 +202,8 @@
       "divergence": 0.11087079047484849,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 153
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 231
     },
     {
       "fixture": "homogeneous_8",
@@ -206,8 +218,8 @@
       "divergence": 0.10202198111878258,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 110
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 173
     },
     {
       "fixture": "homogeneous_8",
@@ -222,8 +234,8 @@
       "divergence": 0.29720304353952387,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 139
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 253
     },
     {
       "fixture": "homogeneous_8",
@@ -238,8 +250,8 @@
       "divergence": 0.22237565168381002,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 103
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 180
     },
     {
       "fixture": "homogeneous_8",
@@ -254,8 +266,8 @@
       "divergence": 0.2077074820346625,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 106
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 188
     },
     {
       "fixture": "homogeneous_8",
@@ -270,8 +282,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -286,8 +298,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -302,8 +314,8 @@
       "divergence": 0.11503452162885719,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 107
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 165
     },
     {
       "fixture": "homogeneous_8",
@@ -318,8 +330,8 @@
       "divergence": 0.10000704523037895,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 150
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 232
     },
     {
       "fixture": "homogeneous_8",
@@ -334,8 +346,8 @@
       "divergence": 0.11503452162885719,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 107
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 165
     },
     {
       "fixture": "homogeneous_8",
@@ -350,8 +362,8 @@
       "divergence": 0.10000704523037895,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 150
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 232
     },
     {
       "fixture": "homogeneous_8",
@@ -366,8 +378,8 @@
       "divergence": 0.2098562773002678,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 100
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 180
     },
     {
       "fixture": "homogeneous_8",
@@ -382,8 +394,8 @@
       "divergence": 0.2098562773002678,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 100
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 180
     },
     {
       "fixture": "homogeneous_8",
@@ -398,8 +410,8 @@
       "divergence": 0.0051852895589685755,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 157
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 216
     },
     {
       "fixture": "homogeneous_8",
@@ -414,8 +426,8 @@
       "divergence": 0.1426025081020149,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 136
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 210
     },
     {
       "fixture": "homogeneous_8",
@@ -430,8 +442,8 @@
       "divergence": 0.11503452162885719,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 107
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 165
     },
     {
       "fixture": "homogeneous_8",
@@ -446,8 +458,8 @@
       "divergence": 0.059806960687614596,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 153
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 218
     },
     {
       "fixture": "homogeneous_8",
@@ -462,8 +474,8 @@
       "divergence": 0.11998731858531775,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 110
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 170
     },
     {
       "fixture": "homogeneous_8",
@@ -478,8 +490,8 @@
       "divergence": 0.19722417923066093,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 132
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 213
     },
     {
       "fixture": "homogeneous_8",
@@ -494,8 +506,8 @@
       "divergence": 0.1696561927575032,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 103
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 167
     },
     {
       "fixture": "homogeneous_8",
@@ -510,8 +522,8 @@
       "divergence": 0.17460898971396366,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 151,
-      "heuristic_tokens_after": 106
+      "heuristic_tokens_before": 209,
+      "heuristic_tokens_after": 173
     },
     {
       "fixture": "homogeneous_100",
@@ -526,8 +538,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -542,8 +554,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -558,8 +570,8 @@
       "divergence": 0.11779000556286712,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1173
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1841
     },
     {
       "fixture": "homogeneous_100",
@@ -574,8 +586,8 @@
       "divergence": 0.12194973069433901,
       "identity": false,
       "flags": 4,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1803
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2540
     },
     {
       "fixture": "homogeneous_100",
@@ -590,8 +602,8 @@
       "divergence": 0.11811988285809194,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1180
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1852
     },
     {
       "fixture": "homogeneous_100",
@@ -606,8 +618,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -622,8 +634,8 @@
       "divergence": 0.13592141899016075,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1064
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1770
     },
     {
       "fixture": "homogeneous_100",
@@ -638,8 +650,8 @@
       "divergence": 0.13625129628538557,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1072
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1782
     },
     {
       "fixture": "homogeneous_100",
@@ -654,8 +666,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -670,8 +682,8 @@
       "divergence": 0.19945481010887534,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1668
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2816
     },
     {
       "fixture": "homogeneous_100",
@@ -686,8 +698,8 @@
       "divergence": 0.11741241556749737,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1171
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1838
     },
     {
       "fixture": "homogeneous_100",
@@ -702,8 +714,8 @@
       "divergence": 0.08307851920020504,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1428
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2110
     },
     {
       "fixture": "homogeneous_100",
@@ -718,8 +730,8 @@
       "divergence": 0.0845736978680014,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1175
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1846
     },
     {
       "fixture": "homogeneous_100",
@@ -734,8 +746,8 @@
       "divergence": 0.28205638303755676,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1184
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2316
     },
     {
       "fixture": "homogeneous_100",
@@ -750,8 +762,8 @@
       "divergence": 0.20001398849617885,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 688
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1338
     },
     {
       "fixture": "homogeneous_100",
@@ -766,8 +778,8 @@
       "divergence": 0.16717527079668276,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 692
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1346
     },
     {
       "fixture": "homogeneous_100",
@@ -782,8 +794,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -798,8 +810,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -814,8 +826,8 @@
       "divergence": 0.1172812508245803,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1172
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1838
     },
     {
       "fixture": "homogeneous_100",
@@ -830,8 +842,8 @@
       "divergence": 0.019086571079814374,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1353
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2007
     },
     {
       "fixture": "homogeneous_100",
@@ -846,8 +858,8 @@
       "divergence": 0.1172812508245803,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1172
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1838
     },
     {
       "fixture": "homogeneous_100",
@@ -862,8 +874,8 @@
       "divergence": 0.019086571079814374,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1353
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2007
     },
     {
       "fixture": "homogeneous_100",
@@ -878,8 +890,8 @@
       "divergence": 0.135890875632871,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 613
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1235
     },
     {
       "fixture": "homogeneous_100",
@@ -894,8 +906,8 @@
       "divergence": 0.135890875632871,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 613
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1235
     },
     {
       "fixture": "homogeneous_100",
@@ -910,8 +922,8 @@
       "divergence": 0.00047694627152372604,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1912
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2610
     },
     {
       "fixture": "homogeneous_100",
@@ -926,8 +938,8 @@
       "divergence": 0.14861245503891296,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1569
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 2449
     },
     {
       "fixture": "homogeneous_100",
@@ -942,8 +954,8 @@
       "divergence": 0.1172812508245803,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1172
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1838
     },
     {
       "fixture": "homogeneous_100",
@@ -958,8 +970,8 @@
       "divergence": -0.015095783245540728,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1428
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1874
     },
     {
       "fixture": "homogeneous_100",
@@ -974,8 +986,8 @@
       "divergence": 0.11772507833738588,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1175
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1844
     },
     {
       "fixture": "homogeneous_100",
@@ -990,8 +1002,8 @@
       "divergence": 0.13303972552184862,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 1085
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1714
     },
     {
       "fixture": "homogeneous_100",
@@ -1006,8 +1018,8 @@
       "divergence": 0.10170852130751595,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 688
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1102
     },
     {
       "fixture": "homogeneous_100",
@@ -1022,8 +1034,8 @@
       "divergence": 0.10215234882032154,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 1906,
-      "heuristic_tokens_after": 692
+      "heuristic_tokens_before": 2603,
+      "heuristic_tokens_after": 1108
     },
     {
       "fixture": "homogeneous_1000",
@@ -1035,11 +1047,11 @@
       "tokens_after": 29012,
       "byte_ratio": 1.0002589868434684,
       "token_ratio": 1.0003103127262698,
-      "divergence": 5.132588280143402e-05,
+      "divergence": 0.00005132588280143402,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 19312
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 26031
     },
     {
       "fixture": "homogeneous_1000",
@@ -1051,11 +1063,11 @@
       "tokens_after": 29012,
       "byte_ratio": 1.0002589868434684,
       "token_ratio": 1.0003103127262698,
-      "divergence": 5.132588280143402e-05,
+      "divergence": 0.00005132588280143402,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 19312
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 26031
     },
     {
       "fixture": "homogeneous_1000",
@@ -1070,8 +1082,8 @@
       "divergence": 0.11264547344486264,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11823
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18213
     },
     {
       "fixture": "homogeneous_1000",
@@ -1086,8 +1098,8 @@
       "divergence": 0.07773930695981512,
       "identity": false,
       "flags": 4,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 16653
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 22326
     },
     {
       "fixture": "homogeneous_1000",
@@ -1102,8 +1114,8 @@
       "divergence": 0.11268369282352653,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11830
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18224
     },
     {
       "fixture": "homogeneous_1000",
@@ -1118,8 +1130,8 @@
       "divergence": 0.2197638378778758,
       "identity": false,
       "flags": 5,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 17909
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 27797
     },
     {
       "fixture": "homogeneous_1000",
@@ -1134,8 +1146,8 @@
       "divergence": 0.08689587909864432,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 9164
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 14509
     },
     {
       "fixture": "homogeneous_1000",
@@ -1150,8 +1162,8 @@
       "divergence": 0.0869340984773081,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 9172
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 14520
     },
     {
       "fixture": "homogeneous_1000",
@@ -1163,11 +1175,11 @@
       "tokens_after": 29012,
       "byte_ratio": 1.0002589868434684,
       "token_ratio": 1.0003103127262698,
-      "divergence": 5.132588280143402e-05,
+      "divergence": 0.00005132588280143402,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 19312
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 26031
     },
     {
       "fixture": "homogeneous_1000",
@@ -1182,8 +1194,8 @@
       "divergence": 0.1983992221711498,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 16818
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 28036
     },
     {
       "fixture": "homogeneous_1000",
@@ -1198,8 +1210,8 @@
       "divergence": 0.11260678258030654,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11821
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18210
     },
     {
       "fixture": "homogeneous_1000",
@@ -1214,8 +1226,8 @@
       "divergence": 0.03559010052718581,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 12903
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18005
     },
     {
       "fixture": "homogeneous_1000",
@@ -1230,8 +1242,8 @@
       "divergence": 0.0782910919002121,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11825
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18218
     },
     {
       "fixture": "homogeneous_1000",
@@ -1246,8 +1258,8 @@
       "divergence": 0.2339379968155343,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 10409
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 20011
     },
     {
       "fixture": "homogeneous_1000",
@@ -1262,8 +1274,8 @@
       "divergence": 0.14814555722469103,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 5413
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 10185
     },
     {
       "fixture": "homogeneous_1000",
@@ -1278,8 +1290,8 @@
       "divergence": 0.11382986654459659,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 5417
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 10193
     },
     {
       "fixture": "homogeneous_1000",
@@ -1291,11 +1303,11 @@
       "tokens_after": 29012,
       "byte_ratio": 1.0002589868434684,
       "token_ratio": 1.0003103127262698,
-      "divergence": 5.132588280143402e-05,
+      "divergence": 0.00005132588280143402,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 19312
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 26031
     },
     {
       "fixture": "homogeneous_1000",
@@ -1307,11 +1319,11 @@
       "tokens_after": 29012,
       "byte_ratio": 1.0002589868434684,
       "token_ratio": 1.0003103127262698,
-      "divergence": 5.132588280143402e-05,
+      "divergence": 0.00005132588280143402,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 19312
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 26031
     },
     {
       "fixture": "homogeneous_1000",
@@ -1326,8 +1338,8 @@
       "divergence": 0.1125938332381331,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11822
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18210
     },
     {
       "fixture": "homogeneous_1000",
@@ -1342,8 +1354,8 @@
       "divergence": -0.02899944837579349,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 12153
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 16981
     },
     {
       "fixture": "homogeneous_1000",
@@ -1358,8 +1370,8 @@
       "divergence": 0.1125938332381331,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11822
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18210
     },
     {
       "fixture": "homogeneous_1000",
@@ -1374,8 +1386,8 @@
       "divergence": -0.02899944837579349,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 12153
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 16981
     },
     {
       "fixture": "homogeneous_1000",
@@ -1390,8 +1402,8 @@
       "divergence": 0.08354305897953829,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 4663
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 9161
     },
     {
       "fixture": "homogeneous_1000",
@@ -1406,8 +1418,8 @@
       "divergence": 0.08354305897953829,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 4663
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 9161
     },
     {
       "fixture": "homogeneous_1000",
@@ -1419,11 +1431,11 @@
       "tokens_after": 29012,
       "byte_ratio": 1.0002589868434684,
       "token_ratio": 1.0003103127262698,
-      "divergence": 5.132588280143402e-05,
+      "divergence": 0.00005132588280143402,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 19312
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 26031
     },
     {
       "fixture": "homogeneous_1000",
@@ -1438,8 +1450,8 @@
       "divergence": 0.14676322711433643,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 15819
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 24358
     },
     {
       "fixture": "homogeneous_1000",
@@ -1454,8 +1466,8 @@
       "divergence": 0.1125938332381331,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11822
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18210
     },
     {
       "fixture": "homogeneous_1000",
@@ -1470,8 +1482,8 @@
       "divergence": -0.06181361632969107,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 12903
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 15684
     },
     {
       "fixture": "homogeneous_1000",
@@ -1486,8 +1498,8 @@
       "divergence": 0.11264094744818598,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 11825
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 18216
     },
     {
       "fixture": "homogeneous_1000",
@@ -1502,8 +1514,8 @@
       "divergence": 0.08489828490184409,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 9410
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 14012
     },
     {
       "fixture": "homogeneous_1000",
@@ -1518,8 +1530,8 @@
       "divergence": 0.05072889102564071,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 5413
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 7863
     },
     {
       "fixture": "homogeneous_1000",
@@ -1534,8 +1546,8 @@
       "divergence": 0.050776005235693644,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 19306,
-      "heuristic_tokens_after": 5417
+      "heuristic_tokens_before": 26023,
+      "heuristic_tokens_after": 7870
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1550,8 +1562,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1566,8 +1578,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1582,8 +1594,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1598,8 +1610,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1614,8 +1626,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1630,8 +1642,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1646,8 +1658,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1662,8 +1674,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1678,8 +1690,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1694,8 +1706,8 @@
       "divergence": 0.24388926999893057,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 450
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 732
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1710,8 +1722,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1726,8 +1738,8 @@
       "divergence": 0.012953104336916321,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 492
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 647
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1742,8 +1754,8 @@
       "divergence": 0.24388926999893057,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 450
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 732
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1758,8 +1770,8 @@
       "divergence": 0.25377755403865065,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 435
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 721
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1774,8 +1786,8 @@
       "divergence": 0.012953104336916321,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 492
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 647
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1790,8 +1802,8 @@
       "divergence": 0.25377755403865065,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 435
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 721
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1806,8 +1818,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1822,8 +1834,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1838,8 +1850,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1854,8 +1866,8 @@
       "divergence": -0.011226371539687419,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 484
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 636
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1870,8 +1882,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1886,8 +1898,8 @@
       "divergence": -0.011226371539687419,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 484
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 636
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1902,8 +1914,8 @@
       "divergence": -0.011226371539687419,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 484
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 636
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1918,8 +1930,8 @@
       "divergence": -0.011226371539687419,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 484
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 636
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1934,8 +1946,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1950,8 +1962,8 @@
       "divergence": 0.1689328947814588,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 427
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 621
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1966,8 +1978,8 @@
       "divergence": 0.0030648202971961247,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 506
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 657
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1982,8 +1994,8 @@
       "divergence": -0.02621138652470245,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 492
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 615
     },
     {
       "fixture": "heterogeneous_nested",
@@ -1998,8 +2010,8 @@
       "divergence": 0.1689328947814588,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 427
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 621
     },
     {
       "fixture": "heterogeneous_nested",
@@ -2014,8 +2026,8 @@
       "divergence": 0.1396566879595601,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 411
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 579
     },
     {
       "fixture": "heterogeneous_nested",
@@ -2030,8 +2042,8 @@
       "divergence": -0.02621138652470245,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 492
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 615
     },
     {
       "fixture": "heterogeneous_nested",
@@ -2046,8 +2058,8 @@
       "divergence": 0.1396566879595601,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 501,
-      "heuristic_tokens_after": 411
+      "heuristic_tokens_before": 650,
+      "heuristic_tokens_after": 579
     },
     {
       "fixture": "realistic_api",
@@ -2062,8 +2074,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2078,8 +2090,8 @@
       "divergence": 0.2150095928373481,
       "identity": false,
       "flags": 1,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2334
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 3329
     },
     {
       "fixture": "realistic_api",
@@ -2094,8 +2106,8 @@
       "divergence": 0.08087774461735242,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1857
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2305
     },
     {
       "fixture": "realistic_api",
@@ -2110,8 +2122,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2126,8 +2138,8 @@
       "divergence": 0.1807371829034321,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1850
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2578
     },
     {
       "fixture": "realistic_api",
@@ -2142,8 +2154,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2158,8 +2170,8 @@
       "divergence": 0.14285779950969946,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1965
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2583
     },
     {
       "fixture": "realistic_api",
@@ -2174,8 +2186,8 @@
       "divergence": 0.24271723779577914,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1958
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2856
     },
     {
       "fixture": "realistic_api",
@@ -2190,8 +2202,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2206,8 +2218,8 @@
       "divergence": 0.25686633979961637,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1884
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2913
     },
     {
       "fixture": "realistic_api",
@@ -2222,8 +2234,8 @@
       "divergence": 0.0804731800255809,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1856
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2303
     },
     {
       "fixture": "realistic_api",
@@ -2238,8 +2250,8 @@
       "divergence": 0.07337781123427833,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2159
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2697
     },
     {
       "fixture": "realistic_api",
@@ -2254,8 +2266,8 @@
       "divergence": 0.20389196066936688,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1643
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2385
     },
     {
       "fixture": "realistic_api",
@@ -2270,8 +2282,8 @@
       "divergence": 0.32925089266680874,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1692
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2866
     },
     {
       "fixture": "realistic_api",
@@ -2286,8 +2298,8 @@
       "divergence": 0.15285773289277338,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1664
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2256
     },
     {
       "fixture": "realistic_api",
@@ -2302,8 +2314,8 @@
       "divergence": 0.27627651353655935,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1451
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2338
     },
     {
       "fixture": "realistic_api",
@@ -2318,8 +2330,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2334,8 +2346,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2350,8 +2362,8 @@
       "divergence": 0.08036659294393522,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1856
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2303
     },
     {
       "fixture": "realistic_api",
@@ -2366,8 +2378,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2382,8 +2394,8 @@
       "divergence": 0.08036659294393522,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1856
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2303
     },
     {
       "fixture": "realistic_api",
@@ -2398,8 +2410,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2414,8 +2426,8 @@
       "divergence": 0.08036659294393522,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1856
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2303
     },
     {
       "fixture": "realistic_api",
@@ -2430,8 +2442,8 @@
       "divergence": 0.08036659294393522,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1856
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2303
     },
     {
       "fixture": "realistic_api",
@@ -2446,8 +2458,8 @@
       "divergence": 0.0009932583670859696,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2351
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2745
     },
     {
       "fixture": "realistic_api",
@@ -2462,8 +2474,8 @@
       "divergence": 0.1827376891920699,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1794
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2486
     },
     {
       "fixture": "realistic_api",
@@ -2478,8 +2490,8 @@
       "divergence": 0.08036659294393522,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1856
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2303
     },
     {
       "fixture": "realistic_api",
@@ -2494,8 +2506,8 @@
       "divergence": 0.0015028112342783118,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 2159
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2491
     },
     {
       "fixture": "realistic_api",
@@ -2510,8 +2522,8 @@
       "divergence": 0.16980974205926247,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1602
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2190
     },
     {
       "fixture": "realistic_api",
@@ -2526,8 +2538,8 @@
       "divergence": 0.18324724205926246,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1602
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2233
     },
     {
       "fixture": "realistic_api",
@@ -2542,8 +2554,8 @@
       "divergence": 0.08087614581112768,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1664
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 2049
     },
     {
       "fixture": "realistic_api",
@@ -2558,8 +2570,8 @@
       "divergence": 0.17031929492645492,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 2346,
-      "heuristic_tokens_after": 1410
+      "heuristic_tokens_before": 2737,
+      "heuristic_tokens_after": 1936
     },
     {
       "fixture": "prose_heavy",
@@ -2574,8 +2586,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2590,8 +2602,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2606,8 +2618,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2622,8 +2634,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2638,8 +2650,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2654,8 +2666,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2670,8 +2682,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2686,8 +2698,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2702,8 +2714,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2718,8 +2730,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2734,8 +2746,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2750,8 +2762,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2766,8 +2778,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2782,8 +2794,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2798,8 +2810,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2814,8 +2826,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2830,8 +2842,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2846,8 +2858,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2862,8 +2874,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2878,8 +2890,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2894,8 +2906,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2910,8 +2922,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2926,8 +2938,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2942,8 +2954,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2958,8 +2970,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2974,8 +2986,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -2990,8 +3002,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -3006,8 +3018,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -3022,8 +3034,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -3038,8 +3050,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -3054,8 +3066,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "prose_heavy",
@@ -3070,8 +3082,8 @@
       "divergence": 0.00199299033239142,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 3624,
-      "heuristic_tokens_after": 3630
+      "heuristic_tokens_before": 1604,
+      "heuristic_tokens_after": 1612
     },
     {
       "fixture": "size_1k",
@@ -3086,8 +3098,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3102,8 +3114,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3118,8 +3130,8 @@
       "divergence": 0.12111152754725063,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 165
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 258
     },
     {
       "fixture": "size_1k",
@@ -3134,8 +3146,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3150,8 +3162,8 @@
       "divergence": 0.1231889489746747,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 172
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 269
     },
     {
       "fixture": "size_1k",
@@ -3166,8 +3178,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3182,8 +3194,8 @@
       "divergence": 0.20958665738608984,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 184
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 315
     },
     {
       "fixture": "size_1k",
@@ -3198,8 +3210,8 @@
       "divergence": 0.2116640788135139,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 192
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 326
     },
     {
       "fixture": "size_1k",
@@ -3214,8 +3226,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3230,8 +3242,8 @@
       "divergence": 0.19538202066713073,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 225
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 378
     },
     {
       "fixture": "size_1k",
@@ -3246,8 +3258,8 @@
       "divergence": 0.11830326069497243,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 164
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 256
     },
     {
       "fixture": "size_1k",
@@ -3262,8 +3274,8 @@
       "divergence": 0.15564062750977126,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 238
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 373
     },
     {
       "fixture": "size_1k",
@@ -3278,8 +3290,8 @@
       "divergence": 0.09616640788135133,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 167
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 264
     },
     {
       "fixture": "size_1k",
@@ -3294,8 +3306,8 @@
       "divergence": 0.3476843176098945,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 212
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 405
     },
     {
       "fixture": "size_1k",
@@ -3310,8 +3322,8 @@
       "divergence": 0.2706055576377362,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 151
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 282
     },
     {
       "fixture": "size_1k",
@@ -3326,8 +3338,8 @@
       "divergence": 0.24846870482411532,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 154
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 290
     },
     {
       "fixture": "size_1k",
@@ -3342,8 +3354,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3358,8 +3370,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3374,8 +3386,8 @@
       "divergence": 0.11728596669700697,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 164
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 256
     },
     {
       "fixture": "size_1k",
@@ -3390,8 +3402,8 @@
       "divergence": 0.11366921882529313,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 232
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 364
     },
     {
       "fixture": "size_1k",
@@ -3406,8 +3418,8 @@
       "divergence": 0.11728596669700697,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 164
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 256
     },
     {
       "fixture": "size_1k",
@@ -3422,8 +3434,8 @@
       "divergence": 0.11366921882529313,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 232
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 364
     },
     {
       "fixture": "size_1k",
@@ -3438,8 +3450,8 @@
       "divergence": 0.2276168549552926,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 144
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 274
     },
     {
       "fixture": "size_1k",
@@ -3454,8 +3466,8 @@
       "divergence": 0.2276168549552926,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 144
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 274
     },
     {
       "fixture": "size_1k",
@@ -3470,8 +3482,8 @@
       "divergence": 0.003338330567007608,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 251
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 346
     },
     {
       "fixture": "size_1k",
@@ -3486,8 +3498,8 @@
       "divergence": 0.14582641751887349,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 213
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 332
     },
     {
       "fixture": "size_1k",
@@ -3502,8 +3514,8 @@
       "divergence": 0.11728596669700697,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 164
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 256
     },
     {
       "fixture": "size_1k",
@@ -3518,8 +3530,8 @@
       "divergence": 0.08721957487819232,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 238
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 345
     },
     {
       "fixture": "size_1k",
@@ -3534,8 +3546,8 @@
       "divergence": 0.12044760935910481,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 167
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 261
     },
     {
       "fixture": "size_1k",
@@ -3550,8 +3562,8 @@
       "divergence": 0.22970766183005842,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 200
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 332
     },
     {
       "fixture": "size_1k",
@@ -3566,8 +3578,8 @@
       "divergence": 0.2011672110081919,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 151
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 255
     },
     {
       "fixture": "size_1k",
@@ -3582,8 +3594,8 @@
       "divergence": 0.20432885367028963,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 246,
-      "heuristic_tokens_after": 154
+      "heuristic_tokens_before": 339,
+      "heuristic_tokens_after": 261
     },
     {
       "fixture": "size_10k",
@@ -3598,8 +3610,8 @@
       "divergence": 0.0003661974125852563,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2550
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3469
     },
     {
       "fixture": "size_10k",
@@ -3614,8 +3626,8 @@
       "divergence": 0.0003661974125852563,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2550
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3469
     },
     {
       "fixture": "size_10k",
@@ -3630,8 +3642,8 @@
       "divergence": 0.11637969661420144,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1563
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2441
     },
     {
       "fixture": "size_10k",
@@ -3646,8 +3658,8 @@
       "divergence": 0.11017786440512278,
       "identity": false,
       "flags": 4,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2348
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3266
     },
     {
       "fixture": "size_10k",
@@ -3662,8 +3674,8 @@
       "divergence": 0.11663866213706131,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1570
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2452
     },
     {
       "fixture": "size_10k",
@@ -3678,8 +3690,8 @@
       "divergence": 0.2507596865122038,
       "identity": false,
       "flags": 5,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2520
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3999
     },
     {
       "fixture": "size_10k",
@@ -3694,8 +3706,8 @@
       "divergence": 0.12282348795907061,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1361
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2238
     },
     {
       "fixture": "size_10k",
@@ -3710,8 +3722,8 @@
       "divergence": 0.12308245348193048,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1369
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2249
     },
     {
       "fixture": "size_10k",
@@ -3726,8 +3738,8 @@
       "divergence": 0.0003661974125852563,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2550
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3469
     },
     {
       "fixture": "size_10k",
@@ -3742,8 +3754,8 @@
       "divergence": 0.19917371362466185,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2223
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3741
     },
     {
       "fixture": "size_10k",
@@ -3758,8 +3770,8 @@
       "divergence": 0.11609384674292045,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1562
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2439
     },
     {
       "fixture": "size_10k",
@@ -3774,8 +3786,8 @@
       "divergence": 0.07021703001270907,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1849
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2692
     },
     {
       "fixture": "size_10k",
@@ -3790,8 +3802,8 @@
       "divergence": 0.08285277560530513,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1565
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2447
     },
     {
       "fixture": "size_10k",
@@ -3806,8 +3818,8 @@
       "divergence": 0.2690245462247858,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1523
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2964
     },
     {
       "fixture": "size_10k",
@@ -3822,8 +3834,8 @@
       "divergence": 0.18594467934304426,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 861
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 1662
     },
     {
       "fixture": "size_10k",
@@ -3838,8 +3850,8 @@
       "divergence": 0.152703608205429,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 865
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 1670
     },
     {
       "fixture": "size_10k",
@@ -3854,8 +3866,8 @@
       "divergence": 0.0003661974125852563,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2550
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3469
     },
     {
       "fixture": "size_10k",
@@ -3870,8 +3882,8 @@
       "divergence": 0.0003661974125852563,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2550
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3469
     },
     {
       "fixture": "size_10k",
@@ -3886,8 +3898,8 @@
       "divergence": 0.11599557630266888,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1562
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2439
     },
     {
       "fixture": "size_10k",
@@ -3902,8 +3914,8 @@
       "divergence": 0.006059060025417895,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1749
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2556
     },
     {
       "fixture": "size_10k",
@@ -3918,8 +3930,8 @@
       "divergence": 0.11599557630266888,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1562
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2439
     },
     {
       "fixture": "size_10k",
@@ -3934,8 +3946,8 @@
       "divergence": 0.006059060025417895,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1749
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2556
     },
     {
       "fixture": "size_10k",
@@ -3950,8 +3962,8 @@
       "divergence": 0.12168843891550168,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 762
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 1525
     },
     {
       "fixture": "size_10k",
@@ -3966,8 +3978,8 @@
       "divergence": 0.12168843891550168,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 762
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 1525
     },
     {
       "fixture": "size_10k",
@@ -3982,8 +3994,8 @@
       "divergence": 0.0003661974125852563,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2550
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3469
     },
     {
       "fixture": "size_10k",
@@ -3998,8 +4010,8 @@
       "divergence": 0.14811249470459809,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 2091
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 3253
     },
     {
       "fixture": "size_10k",
@@ -4014,8 +4026,8 @@
       "divergence": 0.11599557630266888,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1562
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2439
     },
     {
       "fixture": "size_10k",
@@ -4030,8 +4042,8 @@
       "divergence": -0.027969498484700317,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1849
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2380
     },
     {
       "fixture": "size_10k",
@@ -4046,8 +4058,8 @@
       "divergence": 0.11633499120148594,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1566
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2444
     },
     {
       "fixture": "size_10k",
@@ -4062,8 +4074,8 @@
       "divergence": 0.11977679880731251,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 1391
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 2164
     },
     {
       "fixture": "size_10k",
@@ -4078,8 +4090,8 @@
       "divergence": 0.08765988040538342,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 862
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 1349
     },
     {
       "fixture": "size_10k",
@@ -4094,8 +4106,8 @@
       "divergence": 0.08799929530420048,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 2544,
-      "heuristic_tokens_after": 865
+      "heuristic_tokens_before": 3462,
+      "heuristic_tokens_after": 1355
     },
     {
       "fixture": "size_100k",
@@ -4107,11 +4119,11 @@
       "tokens_after": 39992,
       "byte_ratio": 1.0001888681133964,
       "token_ratio": 1.000225095665658,
-      "divergence": 3.622755226162511e-05,
+      "divergence": 0.00003622755226162511,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 26479
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 35921
     },
     {
       "fixture": "size_100k",
@@ -4123,11 +4135,11 @@
       "tokens_after": 39992,
       "byte_ratio": 1.0001888681133964,
       "token_ratio": 1.000225095665658,
-      "divergence": 3.622755226162511e-05,
+      "divergence": 0.00003622755226162511,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 26479
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 35921
     },
     {
       "fixture": "size_100k",
@@ -4142,8 +4154,8 @@
       "divergence": 0.11367048212707609,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16245
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25237
     },
     {
       "fixture": "size_100k",
@@ -4158,8 +4170,8 @@
       "divergence": 0.07648625403742082,
       "identity": false,
       "flags": 4,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 22784
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 30739
     },
     {
       "fixture": "size_100k",
@@ -4174,8 +4186,8 @@
       "divergence": 0.11369675091686193,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16252
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25248
     },
     {
       "fixture": "size_100k",
@@ -4190,8 +4202,8 @@
       "divergence": 0.21689833487937316,
       "identity": false,
       "flags": 5,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 24497
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 38209
     },
     {
       "fixture": "size_100k",
@@ -4206,8 +4218,8 @@
       "divergence": 0.08762694884933625,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 12550
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 20055
     },
     {
       "fixture": "size_100k",
@@ -4222,8 +4234,8 @@
       "divergence": 0.08765321763912204,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 12557
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 20066
     },
     {
       "fixture": "size_100k",
@@ -4235,11 +4247,11 @@
       "tokens_after": 39992,
       "byte_ratio": 1.0001888681133964,
       "token_ratio": 1.000225095665658,
-      "divergence": 3.622755226162511e-05,
+      "divergence": 0.00003622755226162511,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 26479
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 35921
     },
     {
       "fixture": "size_100k",
@@ -4254,8 +4266,8 @@
       "divergence": 0.19728561088497543,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 23070
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 38658
     },
     {
       "fixture": "size_100k",
@@ -4270,8 +4282,8 @@
       "divergence": 0.11364266726687267,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16244
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25234
     },
     {
       "fixture": "size_100k",
@@ -4286,8 +4298,8 @@
       "divergence": 0.035732080150722156,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 17661
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 24836
     },
     {
       "fixture": "size_100k",
@@ -4302,8 +4314,8 @@
       "divergence": 0.07959604596170422,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16247
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25242
     },
     {
       "fixture": "size_100k",
@@ -4318,8 +4330,8 @@
       "divergence": 0.23298146348343618,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 14252
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 27573
     },
     {
       "fixture": "size_100k",
@@ -4334,8 +4346,8 @@
       "divergence": 0.14933851986533336,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 7426
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 14149
     },
     {
       "fixture": "size_100k",
@@ -4350,8 +4362,8 @@
       "divergence": 0.11529189856016492,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 7430
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 14157
     },
     {
       "fixture": "size_100k",
@@ -4363,11 +4375,11 @@
       "tokens_after": 39992,
       "byte_ratio": 1.0001888681133964,
       "token_ratio": 1.000225095665658,
-      "divergence": 3.622755226162511e-05,
+      "divergence": 0.00003622755226162511,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 26479
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 35921
     },
     {
       "fixture": "size_100k",
@@ -4379,11 +4391,11 @@
       "tokens_after": 39992,
       "byte_ratio": 1.0001888681133964,
       "token_ratio": 1.000225095665658,
-      "divergence": 3.622755226162511e-05,
+      "divergence": 0.00003622755226162511,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 26479
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 35921
     },
     {
       "fixture": "size_100k",
@@ -4398,8 +4410,8 @@
       "divergence": 0.11363322386120278,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16244
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25234
     },
     {
       "fixture": "size_100k",
@@ -4414,8 +4426,8 @@
       "divergence": -0.028062403177251505,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16637
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 23437
     },
     {
       "fixture": "size_100k",
@@ -4430,8 +4442,8 @@
       "divergence": 0.11363322386120278,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16244
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25234
     },
     {
       "fixture": "size_100k",
@@ -4446,8 +4458,8 @@
       "divergence": -0.028062403177251505,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16637
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 23437
     },
     {
       "fixture": "size_100k",
@@ -4462,8 +4474,8 @@
       "divergence": 0.08553459313168985,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 6402
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 12750
     },
     {
       "fixture": "size_100k",
@@ -4478,8 +4490,8 @@
       "divergence": 0.08553459313168985,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 6402
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 12750
     },
     {
       "fixture": "size_100k",
@@ -4491,11 +4503,11 @@
       "tokens_after": 39992,
       "byte_ratio": 1.0001888681133964,
       "token_ratio": 1.000225095665658,
-      "divergence": 3.622755226162511e-05,
+      "divergence": 0.00003622755226162511,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 26479
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 35921
     },
     {
       "fixture": "size_100k",
@@ -4510,8 +4522,8 @@
       "divergence": 0.14639362393266286,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 21705
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 33633
     },
     {
       "fixture": "size_100k",
@@ -4526,8 +4538,8 @@
       "divergence": 0.11363322386120278,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16244
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25234
     },
     {
       "fixture": "size_100k",
@@ -4542,8 +4554,8 @@
       "divergence": -0.06075892852796627,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 17661
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 21665
     },
     {
       "fixture": "size_100k",
@@ -4558,8 +4570,8 @@
       "divergence": 0.11366664718277841,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 16248
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 25240
     },
     {
       "fixture": "size_100k",
@@ -4574,8 +4586,8 @@
       "divergence": 0.08559846785243524,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 12887
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 19379
     },
     {
       "fixture": "size_100k",
@@ -4590,8 +4602,8 @@
       "divergence": 0.052838067780975106,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 7426
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 10979
     },
     {
       "fixture": "size_100k",
@@ -4606,8 +4618,8 @@
       "divergence": 0.05287149110255063,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 26474,
-      "heuristic_tokens_after": 7430
+      "heuristic_tokens_before": 35913,
+      "heuristic_tokens_after": 10985
     },
     {
       "fixture": "size_250k",
@@ -4619,11 +4631,11 @@
       "tokens_after": 98612,
       "byte_ratio": 1.0000772326014258,
       "token_ratio": 1.0000912751133333,
-      "divergence": 1.404251190750827e-05,
+      "divergence": 0.00001404251190750827,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 64745
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 88723
     },
     {
       "fixture": "size_250k",
@@ -4635,11 +4647,11 @@
       "tokens_after": 98612,
       "byte_ratio": 1.0000772326014258,
       "token_ratio": 1.0000912751133333,
-      "divergence": 1.404251190750827e-05,
+      "divergence": 0.00001404251190750827,
       "identity": true,
       "flags": 8,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 64745
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 88723
     },
     {
       "fixture": "size_250k",
@@ -4654,8 +4666,8 @@
       "divergence": 0.11525160995198813,
       "identity": false,
       "flags": 2,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39856
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62736
     },
     {
       "fixture": "size_250k",
@@ -4670,8 +4682,8 @@
       "divergence": 0.07453908654705987,
       "identity": false,
       "flags": 4,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 55513
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 75650
     },
     {
       "fixture": "size_250k",
@@ -4686,8 +4698,8 @@
       "divergence": 0.11526132283103185,
       "identity": false,
       "flags": 3,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39863
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62748
     },
     {
       "fixture": "size_250k",
@@ -4702,8 +4714,8 @@
       "divergence": 0.21242644916185682,
       "identity": false,
       "flags": 5,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 59669
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 93797
     },
     {
       "fixture": "size_250k",
@@ -4718,8 +4730,8 @@
       "divergence": 0.08876552856499309,
       "identity": false,
       "flags": 6,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 30624
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 49664
     },
     {
       "fixture": "size_250k",
@@ -4734,8 +4746,8 @@
       "divergence": 0.08877524144403681,
       "identity": false,
       "flags": 7,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 30632
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 49675
     },
     {
       "fixture": "size_250k",
@@ -4747,11 +4759,11 @@
       "tokens_after": 98612,
       "byte_ratio": 1.0000772326014258,
       "token_ratio": 1.0000912751133333,
-      "divergence": 1.404251190750827e-05,
+      "divergence": 0.00001404251190750827,
       "identity": true,
       "flags": 40,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 64745
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 88723
     },
     {
       "fixture": "size_250k",
@@ -4766,8 +4778,8 @@
       "divergence": 0.19552908211386877,
       "identity": false,
       "flags": 33,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 56451
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 95366
     },
     {
       "fixture": "size_250k",
@@ -4782,8 +4794,8 @@
       "divergence": 0.11524049306456685,
       "identity": false,
       "flags": 34,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39855
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62734
     },
     {
       "fixture": "size_250k",
@@ -4798,8 +4810,8 @@
       "divergence": 0.03598307743948048,
       "identity": false,
       "flags": 36,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 43063
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 61303
     },
     {
       "fixture": "size_250k",
@@ -4814,8 +4826,8 @@
       "divergence": 0.08161747189544566,
       "identity": false,
       "flags": 35,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39858
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62742
     },
     {
       "fixture": "size_250k",
@@ -4830,8 +4842,8 @@
       "divergence": 0.23149811704144174,
       "identity": false,
       "flags": 37,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 34769
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 67946
     },
     {
       "fixture": "size_250k",
@@ -4846,8 +4858,8 @@
       "divergence": 0.15120952799213982,
       "identity": false,
       "flags": 38,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 18173
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 35314
     },
     {
       "fixture": "size_250k",
@@ -4862,8 +4874,8 @@
       "divergence": 0.11758650682301858,
       "identity": false,
       "flags": 39,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 18177
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 35322
     },
     {
       "fixture": "size_250k",
@@ -4875,11 +4887,11 @@
       "tokens_after": 98612,
       "byte_ratio": 1.0000772326014258,
       "token_ratio": 1.0000912751133333,
-      "divergence": 1.404251190750827e-05,
+      "divergence": 0.00001404251190750827,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 64745
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 88723
     },
     {
       "fixture": "size_250k",
@@ -4891,11 +4903,11 @@
       "tokens_after": 98612,
       "byte_ratio": 1.0000772326014258,
       "token_ratio": 1.0000912751133333,
-      "divergence": 1.404251190750827e-05,
+      "divergence": 0.00001404251190750827,
       "identity": true,
       "flags": 72,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 64745
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 88723
     },
     {
       "fixture": "size_250k",
@@ -4910,8 +4922,8 @@
       "divergence": 0.11523663143449558,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39855
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62734
     },
     {
       "fixture": "size_250k",
@@ -4926,8 +4938,8 @@
       "divergence": -0.026566212472661443,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 40573
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 57902
     },
     {
       "fixture": "size_250k",
@@ -4942,8 +4954,8 @@
       "divergence": 0.11523663143449558,
       "identity": false,
       "flags": 66,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39855
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62734
     },
     {
       "fixture": "size_250k",
@@ -4958,8 +4970,8 @@
       "divergence": -0.026566212472661443,
       "identity": false,
       "flags": 68,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 40573
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 57902
     },
     {
       "fixture": "size_250k",
@@ -4974,8 +4986,8 @@
       "divergence": 0.08865637644992663,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 15683
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 31914
     },
     {
       "fixture": "size_250k",
@@ -4990,8 +5002,8 @@
       "divergence": 0.08865637644992663,
       "identity": false,
       "flags": 70,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 15683
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 31914
     },
     {
       "fixture": "size_250k",
@@ -5003,11 +5015,11 @@
       "tokens_after": 98612,
       "byte_ratio": 1.0000772326014258,
       "token_ratio": 1.0000912751133333,
-      "divergence": 1.404251190750827e-05,
+      "divergence": 0.00001404251190750827,
       "identity": true,
       "flags": 104,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 64745
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 88723
     },
     {
       "fixture": "size_250k",
@@ -5022,8 +5034,8 @@
       "divergence": 0.14580137924655745,
       "identity": false,
       "flags": 97,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 53132
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 83152
     },
     {
       "fixture": "size_250k",
@@ -5038,8 +5050,8 @@
       "divergence": 0.11523663143449558,
       "identity": false,
       "flags": 98,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39855
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62734
     },
     {
       "fixture": "size_250k",
@@ -5054,8 +5066,8 @@
       "divergence": -0.05904445721970841,
       "identity": false,
       "flags": 100,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 43063
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 53604
     },
     {
       "fixture": "size_250k",
@@ -5070,8 +5082,8 @@
       "divergence": 0.11524969873824098,
       "identity": false,
       "flags": 99,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 39859
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 62739
     },
     {
       "fixture": "size_250k",
@@ -5086,8 +5098,8 @@
       "divergence": 0.08674287951494147,
       "identity": false,
       "flags": 101,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 31450
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 48034
     },
     {
       "fixture": "size_250k",
@@ -5102,8 +5114,8 @@
       "divergence": 0.05617813170287966,
       "identity": false,
       "flags": 102,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 18173
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 27615
     },
     {
       "fixture": "size_250k",
@@ -5118,8 +5130,8 @@
       "divergence": 0.05619119900662517,
       "identity": false,
       "flags": 103,
-      "heuristic_tokens_before": 64740,
-      "heuristic_tokens_after": 18177
+      "heuristic_tokens_before": 88715,
+      "heuristic_tokens_after": 27621
     }
   ],
   "decision": {
@@ -5139,13 +5151,7 @@
       "transform key_dictionary on bare: hits=0/shipping with ratio<=0.90, prose_ok=true => default_on=false",
       "transform tabular on bare: hits=5/shipping with ratio<=0.90, prose_ok=true => default_on=true",
       "transform intern_values on bare: hits=4/shipping with ratio<=0.90, prose_ok=true => default_on=true",
-      "prose_heavy S7 token_ratio=1.0034 (must be <=1.05)",
-      "WASM size 601320 \u2192 608969 (+7649). Delta is AlphabetKind/T2 codec code in tokendoo-core, not tiktoken-rs (absent from tokendoo-worker dependency tree). Exact BPE remains bench-only.",
-      "Wire magic bumped T1 \u2192 T2. No backward-compat shim (v1 unpublished). T1 payloads return MalformedHeader.",
-      "Default CompressOptions: alphabet=bare, key_dictionary=false, tabular=true, intern_values=true."
+      "prose_heavy S7 token_ratio=1.0034 (must be <=1.05)"
     ]
-  },
-  "post_wasm_bytes": 608969,
-  "wasm_delta_bytes": 7649,
-  "tiktoken_in_worker": false
+  }
 }

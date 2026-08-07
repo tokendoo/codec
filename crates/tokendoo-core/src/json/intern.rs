@@ -47,6 +47,15 @@ pub fn apply_intern_with(
     candidates.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(b.0)));
 
     let table: Vec<String> = candidates.iter().map(|(s, _)| (*s).to_string()).collect();
+    // An ordinal past the alphabet's capacity would render as a symbol the
+    // decoder cannot read, which breaks the round trip without saying so.
+    // Falling back to identity keeps the guarantee whatever the table size.
+    if alphabet
+        .ordinal_capacity()
+        .is_some_and(|capacity| table.len() > capacity)
+    {
+        return Ok(None);
+    }
     let mut remap: HashMap<&str, String> = HashMap::with_capacity(table.len());
     for (i, s) in table.iter().enumerate() {
         remap.insert(s.as_str(), alphabet.value_symbol(i));

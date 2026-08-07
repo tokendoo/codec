@@ -47,6 +47,14 @@ pub fn apply_keys_with(
     candidates.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(b.0)));
 
     let table: Vec<String> = candidates.iter().map(|(k, _)| (*k).to_string()).collect();
+    // See the matching guard in `intern`: an ordinal past the alphabet's
+    // capacity would be unreadable on the way back.
+    if alphabet
+        .ordinal_capacity()
+        .is_some_and(|capacity| table.len() > capacity)
+    {
+        return Ok(None);
+    }
     let mut remap: HashMap<&str, String> = HashMap::with_capacity(table.len());
     for (i, key) in table.iter().enumerate() {
         remap.insert(key.as_str(), alphabet.key_symbol(i));

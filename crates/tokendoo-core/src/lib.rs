@@ -45,4 +45,9 @@ pub use json::{
     compress, compress_value, compress_with_options, decompress, decompress_to_value, CodecError,
     CompressOptions, CompressResult, Dictionary, MAX_DEPTH, MAX_INPUT_BYTES,
 };
-pub use tokenizer::{HeuristicEstimator, TokenEstimator, HEURISTIC_MAX_RELATIVE_ERROR};
+pub use tokenizer::{
+    EstimatorCoefficients, HeuristicEstimator, TokenEstimator, ESTIMATOR_COEFFICIENTS,
+    ESTIMATOR_MODEL, HEURISTIC_BIAS_TOLERANCE, HEURISTIC_COMPRESSED_BIAS,
+    HEURISTIC_COMPRESSED_MAX_RELATIVE_ERROR, HEURISTIC_INPUT_BIAS,
+    HEURISTIC_INPUT_MAX_RELATIVE_ERROR, HEURISTIC_MAX_RATIO_ERROR, HEURISTIC_RATIO_BIAS,
+};

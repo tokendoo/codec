@@ -14,6 +14,7 @@ use tiktoken_rs::cl100k_base;
 use tokendoo_bench::fixtures::{build_corpus, Fixture};
 use tokendoo_core::{
     compress_with_options, AlphabetKind, CompressOptions, HeuristicEstimator, TokenEstimator,
+    ESTIMATOR_COEFFICIENTS, ESTIMATOR_MODEL,
 };
 
 #[derive(Debug, Clone, Copy)]
@@ -96,8 +97,26 @@ struct Cell {
 #[derive(Debug, Serialize)]
 struct Report {
     baseline_wasm_bytes: u64,
+    estimator: EstimatorMeta,
     cells: Vec<Cell>,
     decision: DecisionSummary,
+}
+
+#[derive(Debug, Serialize, Clone)]
+struct EstimatorMeta {
+    model: String,
+    coefficients: EstimatorCoeffsJson,
+}
+
+#[derive(Debug, Serialize, Clone)]
+struct EstimatorCoeffsJson {
+    w0: f64,
+    w1: f64,
+    p0: f64,
+    p1: f64,
+    s1: f64,
+    n: f64,
+    digit_rule: &'static str,
 }
 
 #[derive(Debug, Serialize, Clone)]
@@ -226,10 +245,17 @@ fn decide(cells: &[Cell]) -> DecisionSummary {
     let (winner, win_med, _) = alphabet_scores[0];
     let ship_token_claim = win_med <= 0.90;
 
-    let key_dictionary = transform_worth(cells, winner, "S1_keys", ship, &mut notes, "key_dictionary");
+    let key_dictionary =
+        transform_worth(cells, winner, "S1_keys", ship, &mut notes, "key_dictionary");
     let tabular = transform_worth(cells, winner, "S2_tabular", ship, &mut notes, "tabular");
-    let intern_values =
-        transform_worth(cells, winner, "S3_intern", ship, &mut notes, "intern_values");
+    let intern_values = transform_worth(
+        cells,
+        winner,
+        "S3_intern",
+        ship,
+        &mut notes,
+        "intern_values",
+    );
 
     if let Some(p) = cells.iter().find(|c| {
         c.alphabet == winner.as_str() && c.subset == "S7_full" && c.fixture == "prose_heavy"
@@ -287,9 +313,7 @@ fn transform_worth(
     let prose_ok = cells
         .iter()
         .filter(|c| {
-            c.alphabet == winner.as_str()
-                && c.subset == subset_name
-                && c.fixture == "prose_heavy"
+            c.alphabet == winner.as_str() && c.subset == subset_name && c.fixture == "prose_heavy"
         })
         .all(|c| c.token_ratio <= 1.05);
     let worth = hits >= 2 && prose_ok;
@@ -409,6 +433,18 @@ fn main() {
     let decision = decide(&cells);
     let report = Report {
         baseline_wasm_bytes: baseline_wasm,
+        estimator: EstimatorMeta {
+            model: ESTIMATOR_MODEL.to_string(),
+            coefficients: EstimatorCoeffsJson {
+                w0: ESTIMATOR_COEFFICIENTS.w0,
+                w1: ESTIMATOR_COEFFICIENTS.w1,
+                p0: ESTIMATOR_COEFFICIENTS.p0,
+                p1: ESTIMATOR_COEFFICIENTS.p1,
+                s1: ESTIMATOR_COEFFICIENTS.s1,
+                n: ESTIMATOR_COEFFICIENTS.n,
+                digit_rule: "ceil(L/3) per digit run",
+            },
+        },
         cells,
         decision,
     };

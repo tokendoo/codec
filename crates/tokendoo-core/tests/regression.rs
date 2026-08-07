@@ -138,6 +138,69 @@ fn single_element_homogeneous_array_stays_identity_or_roundtrips() {
     assert_eq!(restored, v);
 }
 
+/// Build a document whose values are interned, plus one literal the codec must
+/// leave alone. `distinct` controls the dictionary size, which decides whether a
+/// misread ordinal lands inside the table or past its end.
+fn interned_document(distinct: usize, literal: &str) -> serde_json::Value {
+    let mut map = serde_json::Map::new();
+    for index in 0..distinct {
+        let payload = format!("LONGVALUE_{index:04}_PADDING");
+        for copy in 0..4 {
+            map.insert(
+                format!("k{index}_{copy}"),
+                serde_json::Value::String(payload.clone()),
+            );
+        }
+    }
+    map.insert(
+        "literal".to_string(),
+        serde_json::Value::String(literal.to_string()),
+    );
+    serde_json::Value::Object(map)
+}
+
+#[test]
+fn base36_looking_literals_survive_value_interning() {
+    // The bare alphabet writes ordinals with no prefix, so a literal that reads
+    // as base36 is ambiguous with a dictionary reference. The collision
+    // detector once accepted a narrower set of strings than the decoder, and
+    // every literal in the gap was silently reinterpreted on the way back.
+    for literal in ["ZZZZZ", "abcdef", "A", "AB12", "12345", "Z", "0Z"] {
+        let document = interned_document(1, literal);
+        let result = compress_value(document.clone()).expect("compress");
+        let restored = decompress_to_value(&result.compressed, &result.dictionary)
+            .unwrap_or_else(|error| panic!("{literal:?} failed to decompress: {error}"));
+        assert_eq!(restored, document, "{literal:?} did not survive the round trip");
+    }
+}
+
+#[test]
+fn a_misread_ordinal_inside_the_dictionary_would_corrupt_silently() {
+    // The dangerous shape: "A" reads as base36 ordinal 10, and a twelve-entry
+    // dictionary has an entry there, so the decoder used to return a different
+    // string with no error raised at all. Value equality is the only thing that
+    // catches this class of defect.
+    let document = interned_document(12, "A");
+    let result = compress_value(document.clone()).expect("compress");
+    assert!(result.dictionary.v.len() >= 11, "dictionary too small to expose the case");
+    let restored = decompress_to_value(&result.compressed, &result.dictionary).expect("decompress");
+    assert_eq!(restored, document);
+}
+
+#[test]
+fn lowercase_short_literals_force_the_identity_fallback() {
+    // Inside the readable window, ambiguity is unavoidable, so the codec must
+    // decline to intern rather than emit something it cannot reverse.
+    let document = interned_document(3, "7");
+    let result = compress_value(document.clone()).expect("compress");
+    assert!(
+        result.dictionary.v.is_empty(),
+        "interning must be skipped when a literal collides"
+    );
+    let restored = decompress_to_value(&result.compressed, &result.dictionary).expect("decompress");
+    assert_eq!(restored, document);
+}
+
 #[test]
 fn input_size_cap_boundary() {
     // Exactly at the cap: a string payload whose JSON encoding fits.

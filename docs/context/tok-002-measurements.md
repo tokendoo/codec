@@ -1,15 +1,12 @@
 # TOK-002 Measurements
 
-Baseline Worker WASM size (pre-change): **601320** bytes.  
-Post-change WASM size: **608969** bytes (Δ +7649 from alphabet/T2 codec code in `tokendoo-core`; `tiktoken-rs` is **not** in the Worker graph).
+Baseline Worker WASM size (pre-change reference): **601320** bytes.
 
 ## Decision
 
 - Winning alphabet: **bare**
 - Median S7 token ratio (shipping fixtures): **0.4207**
 - Ship token claim: **true**
-- Wire magic: **T2** (no T1 migration shim)
-- Default alphabet: **bare**; key_dictionary default **off**; tabular/intern default **on**
 - Default transforms: keys=false, tabular=true, intern=true
 
 ### Notes

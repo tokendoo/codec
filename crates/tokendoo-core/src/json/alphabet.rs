@@ -74,6 +74,44 @@ pub fn from_base36(s: &str) -> Option<usize> {
     Some(n)
 }
 
+/// Longest bare ordinal the codec may write or read.
+///
+/// Four base-36 digits address [`BARE_ORDINAL_CAPACITY`] symbols, which is far
+/// beyond what a payload under [`crate::json::MAX_INPUT_BYTES`] can require.
+pub const BARE_SYMBOL_MAX_LEN: usize = 4;
+
+/// Number of ordinals the bare alphabet can express, `36^4`.
+pub const BARE_ORDINAL_CAPACITY: usize = 36 * 36 * 36 * 36;
+
+/// The exact set of strings the bare alphabet interprets as an ordinal.
+///
+/// Both directions go through this function, and that is the point. The bare
+/// alphabet has no prefix to separate a symbol from ordinary content, so the
+/// collision detector and the decoder must agree on the same set of strings,
+/// character for character. When they disagreed, a literal outside the
+/// detector's window survived interning and was then decoded as a dictionary
+/// reference: either a hard [`crate::json::CodecError::DictionaryIndexOutOfRange`],
+/// or — when the ordinal landed inside the table — a different string returned
+/// with no error at all.
+///
+/// [`to_base36`] emits lowercase, and every ordinal below
+/// [`BARE_ORDINAL_CAPACITY`] fits in [`BARE_SYMBOL_MAX_LEN`] characters, so the
+/// encoder's output is contained in this set and this function is its exact
+/// inverse. The tabular sentinel `__T` is excluded for free: `_` is not a
+/// base-36 digit.
+pub fn bare_ordinal(s: &str) -> Option<usize> {
+    if s.is_empty() || s.len() > BARE_SYMBOL_MAX_LEN {
+        return None;
+    }
+    if !s
+        .chars()
+        .all(|c| c.is_ascii_digit() || c.is_ascii_lowercase())
+    {
+        return None;
+    }
+    from_base36(s)
+}
+
 /// Curated short symbols intended to be single cl100k tokens.
 /// Indexed ordinals wrap with a numeric suffix when exhausted.
 const COMMON_WORDS: &[&str] = &[
@@ -136,12 +174,7 @@ impl AlphabetKind {
                 }
                 from_base36(rest)
             }
-            Self::Bare => {
-                if s == "__T" {
-                    return None;
-                }
-                from_base36(s)
-            }
+            Self::Bare => bare_ordinal(s),
             Self::CommonWord => parse_common_word(s),
         }
     }
@@ -163,16 +196,24 @@ impl AlphabetKind {
                 }
                 from_base36(chars.as_str())
             }
-            Self::Bare => {
-                if s == "__T" {
-                    return None;
-                }
-                from_base36(s)
-            }
+            Self::Bare => bare_ordinal(s),
             Self::CommonWord => {
                 let idx = parse_common_word(s)?;
                 idx.checked_sub(COMMON_WORDS.len() / 2)
             }
+        }
+    }
+
+    /// Number of ordinals this alphabet can express, when it is bounded.
+    ///
+    /// Bounded only for [`AlphabetKind::Bare`], whose symbols carry no prefix
+    /// and are therefore capped at [`BARE_SYMBOL_MAX_LEN`] characters so that a
+    /// symbol stays distinguishable from ordinary content. The prefixed
+    /// alphabets can grow a symbol indefinitely without ambiguity.
+    pub const fn ordinal_capacity(self) -> Option<usize> {
+        match self {
+            Self::Bare => Some(BARE_ORDINAL_CAPACITY),
+            Self::Control | Self::Printable | Self::CommonWord => None,
         }
     }
 
@@ -246,14 +287,8 @@ fn key_looks_like_symbol(alphabet: AlphabetKind, k: &str) -> bool {
         AlphabetKind::Printable => {
             k.starts_with('~') && alphabet.parse_key_symbol(k).is_some()
         }
-        AlphabetKind::Bare => {
-            // Ambiguous if the key is pure base36 (could be confused with a symbol).
-            !k.is_empty()
-                && k.chars()
-                    .all(|c| c.is_ascii_alphanumeric() && (c.is_ascii_digit() || c.is_ascii_lowercase()))
-                && from_base36(k).is_some()
-                && k.len() <= 4
-        }
+        // Ambiguous exactly when the decoder would read the key as an ordinal.
+        AlphabetKind::Bare => bare_ordinal(k).is_some(),
         AlphabetKind::CommonWord => {
             COMMON_WORDS.contains(&k) || (k.starts_with('z') && from_base36(&k[1..]).is_some())
         }
@@ -300,13 +335,8 @@ fn value_looks_like_symbol(alphabet: AlphabetKind, s: &str) -> bool {
     match alphabet {
         AlphabetKind::Control => s.starts_with('\u{0003}'),
         AlphabetKind::Printable => s.starts_with('^') && alphabet.parse_value_symbol(s).is_some(),
-        AlphabetKind::Bare => {
-            !s.is_empty()
-                && s.chars()
-                    .all(|c| c.is_ascii_alphanumeric() && (c.is_ascii_digit() || c.is_ascii_lowercase()))
-                && from_base36(s).is_some()
-                && s.len() <= 4
-        }
+        // Ambiguous exactly when the decoder would read the value as an ordinal.
+        AlphabetKind::Bare => bare_ordinal(s).is_some(),
         AlphabetKind::CommonWord => alphabet.parse_value_symbol(s).is_some(),
     }
 }
@@ -338,5 +368,106 @@ mod tests {
         let cw = AlphabetKind::CommonWord;
         assert_eq!(cw.parse_key_symbol(&cw.key_symbol(0)), Some(0));
         assert_eq!(cw.parse_value_symbol(&cw.value_symbol(0)), Some(0));
+    }
+
+    #[test]
+    fn every_bare_symbol_the_encoder_writes_is_readable() {
+        let bare = AlphabetKind::Bare;
+        for ordinal in [0, 1, 35, 36, 1_295, 1_296, BARE_ORDINAL_CAPACITY - 1] {
+            let symbol = bare.value_symbol(ordinal);
+            assert!(
+                symbol.len() <= BARE_SYMBOL_MAX_LEN,
+                "ordinal {ordinal} rendered as {symbol}, longer than the readable window"
+            );
+            assert_eq!(bare.parse_value_symbol(&symbol), Some(ordinal));
+            assert_eq!(bare.parse_key_symbol(&bare.key_symbol(ordinal)), Some(ordinal));
+        }
+    }
+
+    #[test]
+    fn bare_capacity_is_the_boundary_the_guard_protects() {
+        // One past the capacity needs five characters, which the decoder must
+        // not accept; the transforms therefore fall back to identity rather
+        // than emitting it. See the capacity guard in `intern` and `keys`.
+        assert_eq!(to_base36(BARE_ORDINAL_CAPACITY).len(), 5);
+        assert_eq!(bare_ordinal(&to_base36(BARE_ORDINAL_CAPACITY)), None);
+        assert_eq!(
+            AlphabetKind::Bare.ordinal_capacity(),
+            Some(BARE_ORDINAL_CAPACITY)
+        );
+    }
+
+    #[test]
+    fn bare_collision_detector_and_decoder_accept_the_same_strings() {
+        // The regression this pins: the detector used to accept only lowercase
+        // strings of at most four characters while the decoder accepted
+        // uppercase and any length, so a literal like "ZZZZZ" or "abcdef"
+        // passed the detector and was then read as a dictionary reference.
+        let bare = AlphabetKind::Bare;
+        let probes = [
+            "0", "9", "a", "z", "10", "zzzz", "__T", "ZZZZZ", "abcdef", "A", "AB12", "Z", "0Z",
+            "a-b", "a_b", "", "hello", "1234", "12345", "café",
+        ];
+        for probe in probes {
+            let decoder_reads_it = bare.parse_value_symbol(probe).is_some();
+            assert_eq!(
+                decoder_reads_it,
+                value_looks_like_symbol(bare, probe),
+                "value detector and decoder disagree on {probe:?}"
+            );
+            assert_eq!(
+                bare.parse_key_symbol(probe).is_some(),
+                key_looks_like_symbol(bare, probe),
+                "key detector and decoder disagree on {probe:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn bare_detector_and_decoder_agree_over_every_boundary_string() {
+        // The probe list above names the classes; this enumerates them. The
+        // charset holds both ends of each base-36 range, both ends of the
+        // uppercase range the old decoder wrongly accepted, and two characters
+        // that are not base-36 digits at all. Lengths run one past
+        // `BARE_SYMBOL_MAX_LEN`, so every string that sits on the readable
+        // window's edge is covered.
+        const CHARSET: &[char] = &['0', '9', 'a', 'z', 'A', 'Z', '_', '-'];
+        let bare = AlphabetKind::Bare;
+        let mut current: Vec<String> = vec![String::new()];
+        let mut checked = 0_usize;
+        for _ in 1..=BARE_SYMBOL_MAX_LEN + 1 {
+            let mut next = Vec::with_capacity(current.len() * CHARSET.len());
+            for prefix in &current {
+                for c in CHARSET {
+                    let candidate = format!("{prefix}{c}");
+                    assert_eq!(
+                        bare.parse_value_symbol(&candidate).is_some(),
+                        value_looks_like_symbol(bare, &candidate),
+                        "value detector and decoder disagree on {candidate:?}"
+                    );
+                    assert_eq!(
+                        bare.parse_key_symbol(&candidate).is_some(),
+                        key_looks_like_symbol(bare, &candidate),
+                        "key detector and decoder disagree on {candidate:?}"
+                    );
+                    checked += 1;
+                    next.push(candidate);
+                }
+            }
+            current = next;
+        }
+        assert_eq!(checked, 37_448, "the enumeration lost strings");
+    }
+
+    #[test]
+    fn bare_leaves_content_that_is_not_a_symbol_alone() {
+        let bare = AlphabetKind::Bare;
+        for literal in ["ZZZZZ", "abcdef", "A", "AB12", "__T", "a_b", "12345"] {
+            assert_eq!(
+                bare.parse_value_symbol(literal),
+                None,
+                "{literal:?} must not be read as an ordinal"
+            );
+        }
     }
 }
