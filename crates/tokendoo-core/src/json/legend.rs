@@ -12,7 +12,7 @@ use crate::json::header::{FLAG_IDENTITY, FLAG_TABULAR, FLAG_VALUES};
 /// Explains the framing header. Needed by every non-original condition,
 /// identity included, because the framing is transmitted there too.
 pub const CLAUSE_HEADER: &str = "The DATA block is a Tokendoo-compressed JSON document. \
-It begins with `T2`, two hexadecimal digits and a colon; that prefix is a format header and \
+It begins with `T3`, two hexadecimal digits and a colon; that prefix is a format header and \
 carries no data.";
 
 /// Explains tabular collapse.
@@ -20,11 +20,11 @@ pub const CLAUSE_TABULAR: &str = "Any array shaped like [\"__T\", [name1, name2,
 [[value1, value2, ...], ...]] is a collapsed table: the second element lists the field names, \
 and each array inside the third element is one record whose values appear in that same order.";
 
-/// Explains value interning against the dictionary (bare / base36 spelling).
+/// Explains value interning against the dictionary.
 pub const CLAUSE_DICTIONARY: &str = "A DICTIONARY block follows the data. Inside the document, \
-a string that is a short base36 index (digits 0-9 then letters a-z, for example \"0\", \"7\", \
-\"a\", \"1c\") stands for the entry at that zero-based position in the dictionary's \"v\" array. \
-Resolve such a string to its dictionary entry before answering.";
+a short string symbol (for example \"0\", \"a\", or another single-token spelling from the \
+active alphabet) stands for the entry at that zero-based position in the dictionary's \"v\" \
+array. Resolve such a string to its dictionary entry before answering.";
 
 /// Build the legend text required to read a payload emitted with `flags`.
 ///

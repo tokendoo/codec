@@ -23,6 +23,14 @@ path = "src/bin/eval.rs"
 name = "tokendoo-calibrate"
 path = "src/bin/calibrate.rs"
 
+[[bin]]
+name = "tokendoo-derive-alphabet"
+path = "src/bin/derive_alphabet.rs"
+
+[[bin]]
+name = "tokendoo-alphabets"
+path = "src/bin/alphabets.rs"
+
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }
@@ -30,6 +38,7 @@ tokendoo-core = { workspace = true }
 tiktoken-rs = "0.12"
 ureq = "3.3.0"
 sha2 = "0.11.0"
+tokenizers = { version = "0.21", default-features = false, features = ["fancy-regex", "progressbar"] }
 
 [dev-dependencies]
 serde_json = { workspace = true }

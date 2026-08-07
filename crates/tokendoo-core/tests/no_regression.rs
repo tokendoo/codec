@@ -7,10 +7,14 @@ use tokendoo_core::json::header::{
 use tokendoo_core::json::legend::legend_bytes_for_flags;
 use tokendoo_core::{compress, compress_value, AlphabetKind, Dictionary};
 
-/// Framing overhead always present on the wire (header + empty dictionary JSON).
+/// Framing overhead always present on the wire for the default alphabet
+/// (header + dictionary carrying the derived alphabet id).
 fn identity_framing_overhead() -> usize {
-    let empty = Dictionary::default();
-    let dict_len = serde_json::to_string(&empty).map(|s| s.len()).unwrap_or(0);
+    let dict = Dictionary {
+        a: AlphabetKind::default().wire_id().map(str::to_string),
+        ..Dictionary::default()
+    };
+    let dict_len = serde_json::to_string(&dict).map(|s| s.len()).unwrap_or(0);
     HEADER_LEN + dict_len
 }
 
@@ -100,7 +104,7 @@ fn wire_shrink_erased_by_legend_falls_back_to_identity() {
     let canonical = serde_json::to_string(&v).unwrap();
     let result = compress_value(v).unwrap();
 
-    let alpha = alphabet_flags(AlphabetKind::Bare);
+    let alpha = alphabet_flags(AlphabetKind::default());
     let transform_flags = FLAG_TABULAR | FLAG_VALUES | alpha;
     let identity_flags = FLAG_IDENTITY | alpha;
     let legend_delta =

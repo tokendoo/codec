@@ -8,6 +8,7 @@
 
 pub mod alphabet;
 pub mod canonical;
+pub mod derived_tables;
 mod emit;
 pub mod header;
 pub mod intern;
@@ -70,6 +71,10 @@ pub enum CodecError {
     },
     /// An ordinal symbol referenced an out-of-range dictionary entry.
     DictionaryIndexOutOfRange,
+    /// Header alphabet id is not a published table.
+    UnknownAlphabet,
+    /// Header alphabet id disagrees with `dictionary.a`.
+    AlphabetMismatch,
     /// Requested compression mode is not implemented.
     UnsupportedMode,
 }
@@ -92,6 +97,10 @@ impl std::fmt::Display for CodecError {
                 write!(f, "schema arity mismatch: expected {expected}, got {actual}")
             }
             Self::DictionaryIndexOutOfRange => write!(f, "dictionary index out of range"),
+            Self::UnknownAlphabet => write!(f, "unknown alphabet identifier"),
+            Self::AlphabetMismatch => {
+                write!(f, "header alphabet does not match dictionary alphabet id")
+            }
             Self::UnsupportedMode => write!(f, "unsupported compression mode"),
         }
     }
@@ -153,6 +162,13 @@ pub struct Dictionary {
     /// Value dictionary: index `i` maps to intern ordinal `i`.
     #[serde(default)]
     pub v: Vec<String>,
+    /// Short alphabet id for vocabulary-derived tables (`c1`, `o1`, …).
+    ///
+    /// Required when the header selects a derived alphabet; must be absent for
+    /// the four hand-written alphabets. Mismatch yields
+    /// [`CodecError::AlphabetMismatch`].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub a: Option<String>,
 }
 
 /// Successful compression output.
@@ -300,12 +316,16 @@ fn compress_value_inner(
         + serialized_dictionary_len(&empty_dict)
         + legend_bytes_for_flags(identity_flags);
 
-    let (final_flags, final_body, final_dict, identity) =
+    let (final_flags, final_body, mut final_dict, identity) =
         if candidate_prompt >= identity_prompt || flags == 0 {
             (identity_flags, canonical_body, empty_dict, true)
         } else {
             (candidate_flags, transformed_body, dictionary, false)
         };
+
+    // Derived alphabets pin their table id in the dictionary so a payload
+    // compressed for one tokenizer cannot silently decode against another.
+    final_dict.a = alphabet.wire_id().map(str::to_string);
 
     let compressed = encode_header(final_flags, &final_body);
     let bytes_after = compressed.len() + serialized_dictionary_len(&final_dict);
@@ -354,7 +374,13 @@ pub fn decompress_to_value(
         return Err(CodecError::DictionaryMismatch);
     }
 
-    let alphabet = alphabet_from_flags(flags);
+    let alphabet = alphabet_from_flags(flags)?;
+    match (alphabet.wire_id(), dictionary.a.as_deref()) {
+        (Some(expected), Some(got)) if expected == got => {}
+        (None, None) => {}
+        _ => return Err(CodecError::AlphabetMismatch),
+    }
+
     let mut tree = parse_body(body)?;
     check_depth(&tree, 0)?;
 

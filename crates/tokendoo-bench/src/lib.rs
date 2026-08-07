@@ -11,4 +11,7 @@
 #[deny(missing_docs)]
 pub mod eval;
 
+/// Vocabulary-derived alphabet construction (TOK-007). Bench-only.
+pub mod derive;
+
 pub mod fixtures;

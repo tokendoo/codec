@@ -88,17 +88,77 @@ fn default_compress_uses_bare_and_roundtrips() {
         {"rec_id": 4, "ts": "t", "status": "active", "role": "member"},
     ]);
     let result = compress_value(v.clone()).unwrap();
-    // Default alphabet is bare → bits 5–6 == 0b10 == 2
-    assert_eq!((result.flags & 0x60) >> 5, 2);
+    // Default alphabet is derived_cl100k_v1 → bits 5–7 == 4
+    assert_eq!((result.flags & 0xE0) >> 5, 4);
+    assert_eq!(result.dictionary.a.as_deref(), Some("c1"));
+    assert!(result.compressed.starts_with("T3"));
     let restored = decompress_to_value(&result.compressed, &result.dictionary).unwrap();
     assert_eq!(restored, v);
 }
 
 #[test]
-fn t1_magic_is_rejected_after_t2_bump() {
-    let err = decompress_to_value("T108:{}", &Default::default()).unwrap_err();
-    assert!(matches!(
-        err,
-        tokendoo_core::CodecError::MalformedHeader
-    ));
+fn legacy_magics_are_rejected_after_t3_bump() {
+    for payload in ["T108:{}", "T240:{}"] {
+        let err = decompress_to_value(payload, &Default::default()).unwrap_err();
+        assert!(
+            matches!(err, tokendoo_core::CodecError::MalformedHeader),
+            "{payload}"
+        );
+    }
+}
+
+#[test]
+fn derived_alphabet_roundtrips_and_pins_dictionary_id() {
+    let mut rows = Vec::new();
+    for i in 0..40 {
+        rows.push(json!({
+            "rec_id": i,
+            "ts": "2024-06-01T12:00:00Z",
+            "status": "active",
+            "role": "member",
+        }));
+    }
+    let v = serde_json::Value::Array(rows);
+    let text = serde_json::to_string(&v).unwrap();
+    let result = compress_with_options(&text, opts(AlphabetKind::DerivedCl100kV1)).unwrap();
+    assert_eq!(result.dictionary.a.as_deref(), Some("c1"));
+    assert_eq!((result.flags & 0xE0) >> 5, 4);
+    let restored = decompress_to_value(&result.compressed, &result.dictionary).unwrap();
+    assert_eq!(restored, v);
+}
+
+#[test]
+fn derived_symbol_literals_force_identity_not_silent_corruption() {
+    // Pull adversarial literals from the frozen table itself.
+    let table = AlphabetKind::DerivedCl100kV1
+        .symbol_table()
+        .expect("table");
+    let probe = table[0];
+    let v = json!({
+        "safe": ["LONGVALUE_PAD", "LONGVALUE_PAD", "LONGVALUE_PAD"],
+        "hit": probe,
+    });
+    let text = serde_json::to_string(&v).unwrap();
+    let result = compress_with_options(&text, opts(AlphabetKind::DerivedCl100kV1)).unwrap();
+    let restored = decompress_to_value(&result.compressed, &result.dictionary).unwrap();
+    assert_eq!(restored, v);
+}
+
+#[test]
+fn wrong_dictionary_alphabet_id_fails_loudly() {
+    let mut rows = Vec::new();
+    for i in 0..40 {
+        rows.push(json!({
+            "rec_id": i,
+            "ts": "2024-06-01T12:00:00Z",
+            "status": "active",
+            "role": "member",
+        }));
+    }
+    let v = serde_json::Value::Array(rows);
+    let text = serde_json::to_string(&v).unwrap();
+    let mut result = compress_with_options(&text, opts(AlphabetKind::DerivedCl100kV1)).unwrap();
+    result.dictionary.a = Some("o1".into());
+    let err = decompress_to_value(&result.compressed, &result.dictionary).unwrap_err();
+    assert!(matches!(err, tokendoo_core::CodecError::AlphabetMismatch));
 }

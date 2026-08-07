@@ -1,0 +1,353 @@
+{
+  "tok002_bare_shipping_median": 0.421,
+  "cells": [
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "homogeneous_100",
+      "alphabet": "bare",
+      "tokens_before": 2903,
+      "tokens_after": 1327,
+      "token_ratio": 0.4571133310368584,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "homogeneous_100",
+      "alphabet": "derived_cl100k_v1",
+      "tokens_before": 2903,
+      "tokens_after": 1229,
+      "token_ratio": 0.42335514984498795,
+      "identity": false,
+      "flags": 134
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "homogeneous_1000",
+      "alphabet": "bare",
+      "tokens_before": 29003,
+      "tokens_after": 9427,
+      "token_ratio": 0.32503534117160293,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "homogeneous_1000",
+      "alphabet": "derived_cl100k_v1",
+      "tokens_before": 29003,
+      "tokens_after": 8387,
+      "token_ratio": 0.28917698169154915,
+      "identity": false,
+      "flags": 134
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "realistic_api",
+      "alphabet": "bare",
+      "tokens_before": 3200,
+      "tokens_after": 2789,
+      "token_ratio": 0.8715625,
+      "identity": false,
+      "flags": 66
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "realistic_api",
+      "alphabet": "derived_cl100k_v1",
+      "tokens_before": 3200,
+      "tokens_after": 2415,
+      "token_ratio": 0.7546875,
+      "identity": false,
+      "flags": 134
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "size_10k",
+      "alphabet": "bare",
+      "tokens_before": 3860,
+      "tokens_after": 1624,
+      "token_ratio": 0.42072538860103625,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "size_10k",
+      "alphabet": "derived_cl100k_v1",
+      "tokens_before": 3860,
+      "tokens_after": 1493,
+      "token_ratio": 0.3867875647668394,
+      "identity": false,
+      "flags": 134
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "size_100k",
+      "alphabet": "bare",
+      "tokens_before": 39983,
+      "tokens_after": 13087,
+      "token_ratio": 0.32731410849611087,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "cl100k_base",
+      "fixture": "size_100k",
+      "alphabet": "derived_cl100k_v1",
+      "tokens_before": 39983,
+      "tokens_after": 11663,
+      "token_ratio": 0.29169897206312684,
+      "identity": false,
+      "flags": 134
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "homogeneous_100",
+      "alphabet": "bare",
+      "tokens_before": 2903,
+      "tokens_after": 1328,
+      "token_ratio": 0.4574578022735102,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "homogeneous_100",
+      "alphabet": "derived_o200k_v1",
+      "tokens_before": 2903,
+      "tokens_after": 1232,
+      "token_ratio": 0.42438856355494314,
+      "identity": false,
+      "flags": 166
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "homogeneous_1000",
+      "alphabet": "bare",
+      "tokens_before": 29003,
+      "tokens_after": 9428,
+      "token_ratio": 0.3250698203634107,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "homogeneous_1000",
+      "alphabet": "derived_o200k_v1",
+      "tokens_before": 29003,
+      "tokens_after": 8390,
+      "token_ratio": 0.2892804192669724,
+      "identity": false,
+      "flags": 166
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "realistic_api",
+      "alphabet": "bare",
+      "tokens_before": 3242,
+      "tokens_after": 2829,
+      "token_ratio": 0.8726095003084515,
+      "identity": false,
+      "flags": 66
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "realistic_api",
+      "alphabet": "derived_o200k_v1",
+      "tokens_before": 3242,
+      "tokens_after": 2462,
+      "token_ratio": 0.7594077729796422,
+      "identity": false,
+      "flags": 166
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "size_10k",
+      "alphabet": "bare",
+      "tokens_before": 3860,
+      "tokens_after": 1625,
+      "token_ratio": 0.4209844559585492,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "size_10k",
+      "alphabet": "derived_o200k_v1",
+      "tokens_before": 3860,
+      "tokens_after": 1496,
+      "token_ratio": 0.38756476683937824,
+      "identity": false,
+      "flags": 166
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "size_100k",
+      "alphabet": "bare",
+      "tokens_before": 39983,
+      "tokens_after": 13088,
+      "token_ratio": 0.3273391191256284,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "o200k_base",
+      "fixture": "size_100k",
+      "alphabet": "derived_o200k_v1",
+      "tokens_before": 39983,
+      "tokens_after": 11666,
+      "token_ratio": 0.29177400395167946,
+      "identity": false,
+      "flags": 166
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "homogeneous_100",
+      "alphabet": "bare",
+      "tokens_before": 3958,
+      "tokens_after": 1623,
+      "token_ratio": 0.410055583628095,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "homogeneous_100",
+      "alphabet": "derived_llama_v1",
+      "tokens_before": 3958,
+      "tokens_after": 1596,
+      "token_ratio": 0.40323395654370897,
+      "identity": false,
+      "flags": 198
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "homogeneous_1000",
+      "alphabet": "bare",
+      "tokens_before": 40558,
+      "tokens_after": 11523,
+      "token_ratio": 0.2841116425859263,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "homogeneous_1000",
+      "alphabet": "derived_llama_v1",
+      "tokens_before": 40558,
+      "tokens_after": 11240,
+      "token_ratio": 0.2771339809655308,
+      "identity": false,
+      "flags": 198
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "realistic_api",
+      "alphabet": "bare",
+      "tokens_before": 4352,
+      "tokens_after": 3748,
+      "token_ratio": 0.8612132352941176,
+      "identity": false,
+      "flags": 66
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "realistic_api",
+      "alphabet": "derived_llama_v1",
+      "tokens_before": 4352,
+      "tokens_after": 3311,
+      "token_ratio": 0.7607996323529411,
+      "identity": false,
+      "flags": 198
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "size_10k",
+      "alphabet": "bare",
+      "tokens_before": 5300,
+      "tokens_after": 1986,
+      "token_ratio": 0.37471698113207547,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "size_10k",
+      "alphabet": "derived_llama_v1",
+      "tokens_before": 5300,
+      "tokens_after": 1951,
+      "token_ratio": 0.3681132075471698,
+      "identity": false,
+      "flags": 198
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "size_100k",
+      "alphabet": "bare",
+      "tokens_before": 55808,
+      "tokens_after": 15915,
+      "token_ratio": 0.28517416857798167,
+      "identity": false,
+      "flags": 70
+    },
+    {
+      "tokenizer": "llama",
+      "fixture": "size_100k",
+      "alphabet": "derived_llama_v1",
+      "tokens_before": 55808,
+      "tokens_after": 15528,
+      "token_ratio": 0.2782396788990826,
+      "identity": false,
+      "flags": 198
+    }
+  ],
+  "summaries": [
+    {
+      "tokenizer": "cl100k_base",
+      "bare_median_s6": 0.42072538860103625,
+      "derived_median_s6": 0.3867875647668394,
+      "beats_bare_baseline": true,
+      "tok002_bare_baseline": 0.421,
+      "derived_symbol_count": 2048,
+      "notes": [
+        "Gate tokenizer. Derived became the codec default."
+      ]
+    },
+    {
+      "tokenizer": "o200k_base",
+      "bare_median_s6": 0.4209844559585492,
+      "derived_median_s6": 0.38756476683937824,
+      "beats_bare_baseline": true,
+      "tok002_bare_baseline": 0.421,
+      "derived_symbol_count": 2048,
+      "notes": [
+        "Second OpenAI-family tokenizer; derived beats bare."
+      ]
+    },
+    {
+      "tokenizer": "llama",
+      "bare_median_s6": 0.37471698113207547,
+      "derived_median_s6": 0.3681132075471698,
+      "beats_bare_baseline": true,
+      "tok002_bare_baseline": 0.421,
+      "derived_symbol_count": 1377,
+      "notes": [
+        "Non-OpenAI family (`hf-internal-testing/llama-tokenizer`).",
+        "cl100k∩llama overlap 438/2048 — tables diverge across families."
+      ]
+    }
+  ],
+  "table_overlap": {
+    "cl100k_symbols": 2048,
+    "o200k_symbols": 2048,
+    "llama_symbols": 1377,
+    "cl100k_o200k_intersection": 1838,
+    "cl100k_llama_intersection": 438
+  },
+  "gate": {
+    "cl100k_derived_beats_bare": true,
+    "cl100k_derived_median": 0.3867875647668394,
+    "default_alphabet_changed": true
+  }
+}

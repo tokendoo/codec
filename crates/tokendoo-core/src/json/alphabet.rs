@@ -2,9 +2,19 @@
 //!
 //! Each alphabet defines how ordinals are rendered as key/value symbols and
 //! how the tabular sentinel is spelled. Collision detection is alphabet-specific.
+//!
+//! Vocabulary-derived alphabets (TOK-007) resolve ordinals through a frozen
+//! [`SymbolTable`] shared by the encoder, decoder and collision scanners — the
+//! ADR-013 invariant generalised past the bare grammar.
+
+use std::collections::HashMap;
+use std::sync::OnceLock;
 
 use serde_json::Value;
 
+use crate::json::derived_tables::{
+    CL100K_V1, CL100K_V1_ID, LLAMA_V1, LLAMA_V1_ID, O200K_V1, O200K_V1_ID,
+};
 use crate::json::MAX_DEPTH;
 
 /// Identifies which symbol alphabet the codec uses.
@@ -14,11 +24,18 @@ pub enum AlphabetKind {
     Control,
     /// Printable rare ASCII: `~` + base36 keys, `~T` tabular, `^` + base36 values.
     Printable,
-    /// Bare base36 ordinals; tabular sentinel `__T`. Selected by TOK-002 (default).
-    #[default]
+    /// Bare base36 ordinals; tabular sentinel `__T`. Selected by TOK-002.
     Bare,
     /// Short static tokens curated for cheap BPE cost; tabular `__T`.
     CommonWord,
+    /// Frozen table derived from `cl100k_base` (TOK-007). Default after the
+    /// TOK-007 gate (median 0.387 on shipping fixtures vs bare 0.421).
+    #[default]
+    DerivedCl100kV1,
+    /// Frozen table derived from `o200k_base` (TOK-007).
+    DerivedO200kV1,
+    /// Frozen table derived from a Llama tokenizer (TOK-007, non-OpenAI family).
+    DerivedLlamaV1,
 }
 
 impl AlphabetKind {
@@ -29,16 +46,46 @@ impl AlphabetKind {
             Self::Printable => "printable",
             Self::Bare => "bare",
             Self::CommonWord => "common_word",
+            Self::DerivedCl100kV1 => "derived_cl100k_v1",
+            Self::DerivedO200kV1 => "derived_o200k_v1",
+            Self::DerivedLlamaV1 => "derived_llama_v1",
         }
     }
 
-    /// All candidates measured in TOK-002.
+    /// Short wire id stored in `dictionary.a` for derived alphabets.
+    pub const fn wire_id(self) -> Option<&'static str> {
+        match self {
+            Self::DerivedCl100kV1 => Some(CL100K_V1_ID),
+            Self::DerivedO200kV1 => Some(O200K_V1_ID),
+            Self::DerivedLlamaV1 => Some(LLAMA_V1_ID),
+            Self::Control | Self::Printable | Self::Bare | Self::CommonWord => None,
+        }
+    }
+
+    /// The four hand-written alphabets measured in TOK-002.
     pub const ALL: [Self; 4] = [
         Self::Control,
         Self::Printable,
         Self::Bare,
         Self::CommonWord,
     ];
+
+    /// Vocabulary-derived alphabets published in TOK-007.
+    pub const DERIVED: [Self; 3] = [
+        Self::DerivedCl100kV1,
+        Self::DerivedO200kV1,
+        Self::DerivedLlamaV1,
+    ];
+
+    /// Frozen symbol table for a derived alphabet, if any.
+    pub fn symbol_table(self) -> Option<&'static [&'static str]> {
+        match self {
+            Self::DerivedCl100kV1 => Some(CL100K_V1),
+            Self::DerivedO200kV1 => Some(O200K_V1),
+            Self::DerivedLlamaV1 => Some(LLAMA_V1),
+            Self::Control | Self::Printable | Self::Bare | Self::CommonWord => None,
+        }
+    }
 }
 
 /// Encode `n` as lowercase base-36.
@@ -75,30 +122,12 @@ pub fn from_base36(s: &str) -> Option<usize> {
 }
 
 /// Longest bare ordinal the codec may write or read.
-///
-/// Four base-36 digits address [`BARE_ORDINAL_CAPACITY`] symbols, which is far
-/// beyond what a payload under [`crate::json::MAX_INPUT_BYTES`] can require.
 pub const BARE_SYMBOL_MAX_LEN: usize = 4;
 
 /// Number of ordinals the bare alphabet can express, `36^4`.
 pub const BARE_ORDINAL_CAPACITY: usize = 36 * 36 * 36 * 36;
 
 /// The exact set of strings the bare alphabet interprets as an ordinal.
-///
-/// Both directions go through this function, and that is the point. The bare
-/// alphabet has no prefix to separate a symbol from ordinary content, so the
-/// collision detector and the decoder must agree on the same set of strings,
-/// character for character. When they disagreed, a literal outside the
-/// detector's window survived interning and was then decoded as a dictionary
-/// reference: either a hard [`crate::json::CodecError::DictionaryIndexOutOfRange`],
-/// or — when the ordinal landed inside the table — a different string returned
-/// with no error at all.
-///
-/// [`to_base36`] emits lowercase, and every ordinal below
-/// [`BARE_ORDINAL_CAPACITY`] fits in [`BARE_SYMBOL_MAX_LEN`] characters, so the
-/// encoder's output is contained in this set and this function is its exact
-/// inverse. The tabular sentinel `__T` is excluded for free: `_` is not a
-/// base-36 digit.
 pub fn bare_ordinal(s: &str) -> Option<usize> {
     if s.is_empty() || s.len() > BARE_SYMBOL_MAX_LEN {
         return None;
@@ -112,8 +141,39 @@ pub fn bare_ordinal(s: &str) -> Option<usize> {
     from_base36(s)
 }
 
+/// Index of `s` in a derived table, or `None` if it is not a symbol.
+///
+/// Encoder, decoder and collision scanners all call this — one definition.
+pub fn derived_ordinal(table: &'static [&'static str], s: &str) -> Option<usize> {
+    derived_index_map(table).get(s).copied()
+}
+
+fn derived_index_map(table: &'static [&'static str]) -> &'static HashMap<&'static str, usize> {
+    if std::ptr::eq(table, CL100K_V1) {
+        static MAP: OnceLock<HashMap<&'static str, usize>> = OnceLock::new();
+        return MAP.get_or_init(|| build_index_map(CL100K_V1));
+    }
+    if std::ptr::eq(table, O200K_V1) {
+        static MAP: OnceLock<HashMap<&'static str, usize>> = OnceLock::new();
+        return MAP.get_or_init(|| build_index_map(O200K_V1));
+    }
+    if std::ptr::eq(table, LLAMA_V1) {
+        static MAP: OnceLock<HashMap<&'static str, usize>> = OnceLock::new();
+        return MAP.get_or_init(|| build_index_map(LLAMA_V1));
+    }
+    static FALLBACK: OnceLock<HashMap<&'static str, usize>> = OnceLock::new();
+    FALLBACK.get_or_init(HashMap::new)
+}
+
+fn build_index_map(table: &'static [&'static str]) -> HashMap<&'static str, usize> {
+    let mut map = HashMap::with_capacity(table.len());
+    for (i, sym) in table.iter().enumerate() {
+        map.insert(*sym, i);
+    }
+    map
+}
+
 /// Curated short symbols intended to be single cl100k tokens.
-/// Indexed ordinals wrap with a numeric suffix when exhausted.
 const COMMON_WORDS: &[&str] = &[
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
     "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "aa", "ab", "ac", "ad", "ae",
@@ -129,6 +189,14 @@ impl AlphabetKind {
             Self::Printable => format!("~{}", to_base36(ordinal)),
             Self::Bare => to_base36(ordinal),
             Self::CommonWord => common_word(ordinal),
+            Self::DerivedCl100kV1 | Self::DerivedO200kV1 | Self::DerivedLlamaV1 => {
+                let table = self.symbol_table().unwrap_or(&[]);
+                table
+                    .get(ordinal)
+                    .copied()
+                    .unwrap_or("")
+                    .to_string()
+            }
         }
     }
 
@@ -138,9 +206,10 @@ impl AlphabetKind {
             Self::Control => format!("\u{0003}{}", to_base36(ordinal)),
             Self::Printable => format!("^{}", to_base36(ordinal)),
             Self::Bare => to_base36(ordinal),
-            // Offset into a disjoint half of the table so keys/values do not share
-            // the same short token when both transforms run.
             Self::CommonWord => common_word(ordinal.saturating_add(COMMON_WORDS.len() / 2)),
+            Self::DerivedCl100kV1 | Self::DerivedO200kV1 | Self::DerivedLlamaV1 => {
+                self.key_symbol(ordinal)
+            }
         }
     }
 
@@ -149,7 +218,11 @@ impl AlphabetKind {
         match self {
             Self::Control => "\u{0002}T",
             Self::Printable => "~T",
-            Self::Bare | Self::CommonWord => "__T",
+            Self::Bare
+            | Self::CommonWord
+            | Self::DerivedCl100kV1
+            | Self::DerivedO200kV1
+            | Self::DerivedLlamaV1 => "__T",
         }
     }
 
@@ -170,12 +243,15 @@ impl AlphabetKind {
                 }
                 let rest = chars.as_str();
                 if rest == "T" {
-                    return None; // tabular sentinel, not a key symbol
+                    return None;
                 }
                 from_base36(rest)
             }
             Self::Bare => bare_ordinal(s),
             Self::CommonWord => parse_common_word(s),
+            Self::DerivedCl100kV1 | Self::DerivedO200kV1 | Self::DerivedLlamaV1 => {
+                derived_ordinal(self.symbol_table()?, s)
+            }
         }
     }
 
@@ -201,18 +277,19 @@ impl AlphabetKind {
                 let idx = parse_common_word(s)?;
                 idx.checked_sub(COMMON_WORDS.len() / 2)
             }
+            Self::DerivedCl100kV1 | Self::DerivedO200kV1 | Self::DerivedLlamaV1 => {
+                derived_ordinal(self.symbol_table()?, s)
+            }
         }
     }
 
     /// Number of ordinals this alphabet can express, when it is bounded.
-    ///
-    /// Bounded only for [`AlphabetKind::Bare`], whose symbols carry no prefix
-    /// and are therefore capped at [`BARE_SYMBOL_MAX_LEN`] characters so that a
-    /// symbol stays distinguishable from ordinary content. The prefixed
-    /// alphabets can grow a symbol indefinitely without ambiguity.
     pub const fn ordinal_capacity(self) -> Option<usize> {
         match self {
             Self::Bare => Some(BARE_ORDINAL_CAPACITY),
+            Self::DerivedCl100kV1 => Some(CL100K_V1.len()),
+            Self::DerivedO200kV1 => Some(O200K_V1.len()),
+            Self::DerivedLlamaV1 => Some(LLAMA_V1.len()),
             Self::Control | Self::Printable | Self::CommonWord => None,
         }
     }
@@ -287,11 +364,14 @@ fn key_looks_like_symbol(alphabet: AlphabetKind, k: &str) -> bool {
         AlphabetKind::Printable => {
             k.starts_with('~') && alphabet.parse_key_symbol(k).is_some()
         }
-        // Ambiguous exactly when the decoder would read the key as an ordinal.
         AlphabetKind::Bare => bare_ordinal(k).is_some(),
         AlphabetKind::CommonWord => {
             COMMON_WORDS.contains(&k) || (k.starts_with('z') && from_base36(&k[1..]).is_some())
         }
+        // One definition with the decoder: membership in the frozen table.
+        AlphabetKind::DerivedCl100kV1
+        | AlphabetKind::DerivedO200kV1
+        | AlphabetKind::DerivedLlamaV1 => alphabet.parse_key_symbol(k).is_some(),
     }
 }
 
@@ -335,9 +415,11 @@ fn value_looks_like_symbol(alphabet: AlphabetKind, s: &str) -> bool {
     match alphabet {
         AlphabetKind::Control => s.starts_with('\u{0003}'),
         AlphabetKind::Printable => s.starts_with('^') && alphabet.parse_value_symbol(s).is_some(),
-        // Ambiguous exactly when the decoder would read the value as an ordinal.
         AlphabetKind::Bare => bare_ordinal(s).is_some(),
         AlphabetKind::CommonWord => alphabet.parse_value_symbol(s).is_some(),
+        AlphabetKind::DerivedCl100kV1
+        | AlphabetKind::DerivedO200kV1
+        | AlphabetKind::DerivedLlamaV1 => alphabet.parse_value_symbol(s).is_some(),
     }
 }
 
@@ -371,6 +453,29 @@ mod tests {
     }
 
     #[test]
+    fn derived_roundtrip_and_shared_definition() {
+        for kind in AlphabetKind::DERIVED {
+            let table = kind.symbol_table().expect("table");
+            assert!(!table.is_empty());
+            for ordinal in [0, 1, table.len() / 2, table.len() - 1] {
+                let symbol = kind.value_symbol(ordinal);
+                assert_eq!(kind.parse_value_symbol(&symbol), Some(ordinal));
+                assert_eq!(kind.parse_key_symbol(&symbol), Some(ordinal));
+                assert_eq!(
+                    value_looks_like_symbol(kind, &symbol),
+                    kind.parse_value_symbol(&symbol).is_some()
+                );
+                assert_eq!(
+                    key_looks_like_symbol(kind, &symbol),
+                    kind.parse_key_symbol(&symbol).is_some()
+                );
+            }
+            assert_eq!(kind.ordinal_capacity(), Some(table.len()));
+            assert!(kind.wire_id().is_some());
+        }
+    }
+
+    #[test]
     fn every_bare_symbol_the_encoder_writes_is_readable() {
         let bare = AlphabetKind::Bare;
         for ordinal in [0, 1, 35, 36, 1_295, 1_296, BARE_ORDINAL_CAPACITY - 1] {
@@ -386,9 +491,6 @@ mod tests {
 
     #[test]
     fn bare_capacity_is_the_boundary_the_guard_protects() {
-        // One past the capacity needs five characters, which the decoder must
-        // not accept; the transforms therefore fall back to identity rather
-        // than emitting it. See the capacity guard in `intern` and `keys`.
         assert_eq!(to_base36(BARE_ORDINAL_CAPACITY).len(), 5);
         assert_eq!(bare_ordinal(&to_base36(BARE_ORDINAL_CAPACITY)), None);
         assert_eq!(
@@ -399,10 +501,6 @@ mod tests {
 
     #[test]
     fn bare_collision_detector_and_decoder_accept_the_same_strings() {
-        // The regression this pins: the detector used to accept only lowercase
-        // strings of at most four characters while the decoder accepted
-        // uppercase and any length, so a literal like "ZZZZZ" or "abcdef"
-        // passed the detector and was then read as a dictionary reference.
         let bare = AlphabetKind::Bare;
         let probes = [
             "0", "9", "a", "z", "10", "zzzz", "__T", "ZZZZZ", "abcdef", "A", "AB12", "Z", "0Z",
@@ -425,12 +523,6 @@ mod tests {
 
     #[test]
     fn bare_detector_and_decoder_agree_over_every_boundary_string() {
-        // The probe list above names the classes; this enumerates them. The
-        // charset holds both ends of each base-36 range, both ends of the
-        // uppercase range the old decoder wrongly accepted, and two characters
-        // that are not base-36 digits at all. Lengths run one past
-        // `BARE_SYMBOL_MAX_LEN`, so every string that sits on the readable
-        // window's edge is covered.
         const CHARSET: &[char] = &['0', '9', 'a', 'z', 'A', 'Z', '_', '-'];
         let bare = AlphabetKind::Bare;
         let mut current: Vec<String> = vec![String::new()];

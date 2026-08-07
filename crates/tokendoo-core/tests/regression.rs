@@ -5,8 +5,18 @@ use tokendoo_core::json::header::{parse_header, FLAG_IDENTITY};
 use tokendoo_core::json::keys::KEY_PREFIX;
 use tokendoo_core::json::tabular::TABULAR_SENTINEL;
 use tokendoo_core::{
-    compress, compress_value, decompress_to_value, CodecError, MAX_DEPTH, MAX_INPUT_BYTES,
+    compress, compress_value, compress_with_options, decompress_to_value, AlphabetKind,
+    CodecError, CompressOptions, MAX_DEPTH, MAX_INPUT_BYTES,
 };
+
+fn bare_opts() -> CompressOptions {
+    CompressOptions {
+        key_dictionary: false,
+        tabular: true,
+        intern_values: true,
+        alphabet: AlphabetKind::Bare,
+    }
+}
 
 fn assert_roundtrip_str(input: &str) {
     let result = compress(input).expect("compress");
@@ -167,7 +177,8 @@ fn base36_looking_literals_survive_value_interning() {
     // every literal in the gap was silently reinterpreted on the way back.
     for literal in ["ZZZZZ", "abcdef", "A", "AB12", "12345", "Z", "0Z"] {
         let document = interned_document(1, literal);
-        let result = compress_value(document.clone()).expect("compress");
+        let text = serde_json::to_string(&document).unwrap();
+        let result = compress_with_options(&text, bare_opts()).expect("compress");
         let restored = decompress_to_value(&result.compressed, &result.dictionary)
             .unwrap_or_else(|error| panic!("{literal:?} failed to decompress: {error}"));
         assert_eq!(restored, document, "{literal:?} did not survive the round trip");
@@ -176,12 +187,11 @@ fn base36_looking_literals_survive_value_interning() {
 
 #[test]
 fn a_misread_ordinal_inside_the_dictionary_would_corrupt_silently() {
-    // The dangerous shape: "A" reads as base36 ordinal 10, and a twelve-entry
-    // dictionary has an entry there, so the decoder used to return a different
-    // string with no error raised at all. Value equality is the only thing that
-    // catches this class of defect.
+    // The dangerous shape under the bare alphabet: "A" once read as base36
+    // ordinal 10. Pinned on bare so the ADR-013 regression stays targeted.
     let document = interned_document(12, "A");
-    let result = compress_value(document.clone()).expect("compress");
+    let text = serde_json::to_string(&document).unwrap();
+    let result = compress_with_options(&text, bare_opts()).expect("compress");
     assert!(result.dictionary.v.len() >= 11, "dictionary too small to expose the case");
     let restored = decompress_to_value(&result.compressed, &result.dictionary).expect("decompress");
     assert_eq!(restored, document);
@@ -189,10 +199,11 @@ fn a_misread_ordinal_inside_the_dictionary_would_corrupt_silently() {
 
 #[test]
 fn lowercase_short_literals_force_the_identity_fallback() {
-    // Inside the readable window, ambiguity is unavoidable, so the codec must
-    // decline to intern rather than emit something it cannot reverse.
+    // Inside the bare readable window, ambiguity is unavoidable, so the codec
+    // must decline to intern rather than emit something it cannot reverse.
     let document = interned_document(3, "7");
-    let result = compress_value(document.clone()).expect("compress");
+    let text = serde_json::to_string(&document).unwrap();
+    let result = compress_with_options(&text, bare_opts()).expect("compress");
     assert!(
         result.dictionary.v.is_empty(),
         "interning must be skipped when a literal collides"
