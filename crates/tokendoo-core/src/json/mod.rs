@@ -3,7 +3,8 @@
 //! Transforms are applied in order: canonicalize → key dictionary → tabular
 //! collapse → value interning → emit. Each step records its bit in the header
 //! flag when applied. The whole pipeline falls back to the identity form when
-//! the transformed payload (body + dictionary) is not strictly smaller.
+//! the transformed **prompt** (body + dictionary + legend) is not strictly
+//! smaller than the identity prompt.
 
 pub mod alphabet;
 pub mod canonical;
@@ -11,6 +12,7 @@ mod emit;
 pub mod header;
 pub mod intern;
 pub mod keys;
+pub mod legend;
 pub mod tabular;
 
 use serde::{Deserialize, Serialize};
@@ -24,6 +26,7 @@ use self::header::{
 };
 use self::intern::{apply_intern_with, invert_intern_with};
 use self::keys::{apply_keys_with, invert_keys_with};
+use self::legend::legend_bytes_for_flags;
 use self::tabular::{apply_tabular_with, invert_tabular_with};
 
 /// Hard upper bound on input payload size in bytes.
@@ -273,28 +276,36 @@ fn compress_value_inner(
     }
 
     let transformed_body = emit_body(&tree)?;
-    let candidate_len =
-        header::HEADER_LEN + transformed_body.len() + serialized_dictionary_len(&dictionary);
     let empty_dict = Dictionary::default();
-    let identity_len =
-        header::HEADER_LEN + canonical_body.len() + serialized_dictionary_len(&empty_dict);
-
     let alpha_bits = alphabet_flags(alphabet);
-    let (final_flags, final_body, final_dict, identity) = if candidate_len >= identity_len
-        || flags == 0
-    {
-        let mut id_flags = FLAG_IDENTITY | alpha_bits;
-        if wrapped_string {
-            id_flags |= FLAG_WRAPPED_STRING;
-        }
-        (id_flags, canonical_body, empty_dict, true)
-    } else {
-        let mut f = flags | alpha_bits;
-        if wrapped_string {
-            f |= FLAG_WRAPPED_STRING;
-        }
-        (f, transformed_body, dictionary, false)
-    };
+
+    // Prompt-level sizes: wire framing + dictionary + the legend the client
+    // must send for the model to read the form. Comparing wire alone would
+    // compress payloads whose legend erases the gain.
+    let mut candidate_flags = flags | alpha_bits;
+    if wrapped_string {
+        candidate_flags |= FLAG_WRAPPED_STRING;
+    }
+    let mut identity_flags = FLAG_IDENTITY | alpha_bits;
+    if wrapped_string {
+        identity_flags |= FLAG_WRAPPED_STRING;
+    }
+
+    let candidate_prompt = header::HEADER_LEN
+        + transformed_body.len()
+        + serialized_dictionary_len(&dictionary)
+        + legend_bytes_for_flags(candidate_flags);
+    let identity_prompt = header::HEADER_LEN
+        + canonical_body.len()
+        + serialized_dictionary_len(&empty_dict)
+        + legend_bytes_for_flags(identity_flags);
+
+    let (final_flags, final_body, final_dict, identity) =
+        if candidate_prompt >= identity_prompt || flags == 0 {
+            (identity_flags, canonical_body, empty_dict, true)
+        } else {
+            (candidate_flags, transformed_body, dictionary, false)
+        };
 
     let compressed = encode_header(final_flags, &final_body);
     let bytes_after = compressed.len() + serialized_dictionary_len(&final_dict);

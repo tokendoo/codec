@@ -1,8 +1,11 @@
 //! Asserts transforms never beat the identity fallback when they would grow,
 //! and that compressible fixtures actually shrink.
 
-use tokendoo_core::json::header::{parse_header, FLAG_IDENTITY, HEADER_LEN};
-use tokendoo_core::{compress, compress_value, Dictionary};
+use tokendoo_core::json::header::{
+    alphabet_flags, parse_header, FLAG_IDENTITY, FLAG_TABULAR, FLAG_VALUES, HEADER_LEN,
+};
+use tokendoo_core::json::legend::legend_bytes_for_flags;
+use tokendoo_core::{compress, compress_value, AlphabetKind, Dictionary};
 
 /// Framing overhead always present on the wire (header + empty dictionary JSON).
 fn identity_framing_overhead() -> usize {
@@ -82,4 +85,39 @@ fn repetitive_fixture_shrinks() {
         result.bytes_after
     );
     assert!(!result.identity);
+}
+
+#[test]
+fn wire_shrink_erased_by_legend_falls_back_to_identity() {
+    // Small homogeneous array: tabular + intern shrink the wire a little, but
+    // the transform legend is larger than that saving, so the prompt-level
+    // guard must refuse the transform.
+    let v = serde_json::json!([
+        {"status": "active", "role": "member"},
+        {"status": "active", "role": "member"},
+        {"status": "active", "role": "member"},
+    ]);
+    let canonical = serde_json::to_string(&v).unwrap();
+    let result = compress_value(v).unwrap();
+
+    let alpha = alphabet_flags(AlphabetKind::Bare);
+    let transform_flags = FLAG_TABULAR | FLAG_VALUES | alpha;
+    let identity_flags = FLAG_IDENTITY | alpha;
+    let legend_delta =
+        legend_bytes_for_flags(transform_flags) - legend_bytes_for_flags(identity_flags);
+
+    // Sanity: the fixture is in the regime the bug targeted — wire would save
+    // less than the legend costs.
+    assert!(
+        legend_delta > 0,
+        "transform legend must cost more bytes than the identity legend"
+    );
+
+    assert!(
+        result.identity,
+        "expected identity when legend erases the wire gain; bytes_after={} canonical={}",
+        result.bytes_after,
+        canonical.len()
+    );
+    assert_eq!(result.flags & FLAG_IDENTITY, FLAG_IDENTITY);
 }

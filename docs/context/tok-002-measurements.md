@@ -24,10 +24,10 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 
 | fixture | alphabet | bytes_before | bytes_after | tokens_before | tokens_after | byte_ratio | token_ratio | divergence | identity |
 |---------|----------|-------------:|------------:|--------------:|-------------:|-----------:|------------:|-----------:|---------|
-| homogeneous_8 | control | 604 | 502 | 235 | 238 | 0.8311 | 1.0128 | +0.1816 | false |
-| homogeneous_8 | printable | 604 | 422 | 235 | 213 | 0.6987 | 0.9064 | +0.2077 | false |
-| homogeneous_8 | bare | 604 | 395 | 235 | 203 | 0.6540 | 0.8638 | +0.2099 | false |
-| homogeneous_8 | common_word | 604 | 424 | 235 | 206 | 0.7020 | 0.8766 | +0.1746 | false |
+| homogeneous_8 | control | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
+| homogeneous_8 | printable | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
+| homogeneous_8 | bare | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
+| homogeneous_8 | common_word | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
 | homogeneous_100 | control | 7624 | 4282 | 2903 | 2026 | 0.5616 | 0.6979 | +0.1363 | false |
 | homogeneous_100 | printable | 7624 | 2762 | 2903 | 1537 | 0.3623 | 0.5295 | +0.1672 | false |
 | homogeneous_100 | bare | 7624 | 2449 | 2903 | 1327 | 0.3212 | 0.4571 | +0.1359 | false |
@@ -37,8 +37,8 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | homogeneous_1000 | bare | 77224 | 18649 | 29003 | 9427 | 0.2415 | 0.3250 | +0.0835 | false |
 | homogeneous_1000 | common_word | 77224 | 21664 | 29003 | 9609 | 0.2805 | 0.3313 | +0.0508 | false |
 | heterogeneous_nested | control | 2002 | 2022 | 766 | 776 | 1.0100 | 1.0131 | +0.0031 | true |
-| heterogeneous_nested | printable | 2002 | 1737 | 766 | 859 | 0.8676 | 1.1214 | +0.2538 | false |
-| heterogeneous_nested | bare | 2002 | 1933 | 766 | 731 | 0.9655 | 0.9543 | -0.0112 | false |
+| heterogeneous_nested | printable | 2002 | 2022 | 766 | 776 | 1.0100 | 1.0131 | +0.0031 | true |
+| heterogeneous_nested | bare | 2002 | 2022 | 766 | 776 | 1.0100 | 1.0131 | +0.0031 | true |
 | heterogeneous_nested | common_word | 2002 | 1644 | 766 | 736 | 0.8212 | 0.9608 | +0.1397 | false |
 | realistic_api | control | 9382 | 7829 | 3200 | 3447 | 0.8345 | 1.0772 | +0.2427 | false |
 | realistic_api | printable | 9382 | 5799 | 3200 | 2862 | 0.6181 | 0.8944 | +0.2763 | false |
@@ -48,10 +48,10 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | prose_heavy | printable | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
 | prose_heavy | bare | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
 | prose_heavy | common_word | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
-| size_1k | control | 983 | 762 | 380 | 375 | 0.7752 | 0.9868 | +0.2117 | false |
-| size_1k | printable | 983 | 612 | 380 | 331 | 0.6226 | 0.8711 | +0.2485 | false |
-| size_1k | bare | 983 | 573 | 380 | 308 | 0.5829 | 0.8105 | +0.2276 | false |
-| size_1k | common_word | 983 | 614 | 380 | 315 | 0.6246 | 0.8289 | +0.2043 | false |
+| size_1k | control | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
+| size_1k | printable | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
+| size_1k | bare | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
+| size_1k | common_word | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
 | size_10k | control | 10176 | 5470 | 3860 | 2550 | 0.5375 | 0.6606 | +0.1231 | false |
 | size_10k | printable | 10176 | 3455 | 3860 | 1900 | 0.3395 | 0.4922 | +0.1527 | false |
 | size_10k | bare | 10176 | 3043 | 3860 | 1624 | 0.2990 | 0.4207 | +0.1217 | false |
@@ -71,36 +71,36 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 |---------|----------|--------|------------:|-----------:|-----------:|---------|
 | homogeneous_8 | control | S0_none | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | control | S1_keys | 1.0383 | 1.0331 | +0.0052 | true |
-| homogeneous_8 | control | S2_tabular | 0.8298 | 0.7086 | +0.1212 | false |
+| homogeneous_8 | control | S2_tabular | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | control | S3_intern | 1.0383 | 1.0331 | +0.0052 | true |
-| homogeneous_8 | control | S4_keys_tabular | 0.8809 | 0.7566 | +0.1242 | false |
+| homogeneous_8 | control | S4_keys_tabular | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | control | S5_keys_intern | 1.0383 | 1.0331 | +0.0052 | true |
-| homogeneous_8 | control | S6_tabular_intern | 0.9617 | 0.7831 | +0.1786 | false |
-| homogeneous_8 | control | S7_full | 1.0128 | 0.8311 | +0.1816 | false |
+| homogeneous_8 | control | S6_tabular_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | control | S7_full | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | printable | S0_none | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | printable | S1_keys | 1.1319 | 0.9404 | +0.1915 | false |
-| homogeneous_8 | printable | S2_tabular | 0.8170 | 0.7003 | +0.1167 | false |
-| homogeneous_8 | printable | S3_intern | 1.1191 | 1.0083 | +0.1109 | false |
-| homogeneous_8 | printable | S4_keys_tabular | 0.8255 | 0.7235 | +0.1020 | false |
-| homogeneous_8 | printable | S5_keys_intern | 1.2128 | 0.9156 | +0.2972 | false |
-| homogeneous_8 | printable | S6_tabular_intern | 0.8979 | 0.6755 | +0.2224 | false |
-| homogeneous_8 | printable | S7_full | 0.9064 | 0.6987 | +0.2077 | false |
+| homogeneous_8 | printable | S2_tabular | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | printable | S3_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | printable | S4_keys_tabular | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | printable | S5_keys_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | printable | S6_tabular_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | printable | S7_full | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | bare | S0_none | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | bare | S1_keys | 1.0383 | 1.0331 | +0.0052 | true |
-| homogeneous_8 | bare | S2_tabular | 0.8170 | 0.7020 | +0.1150 | false |
-| homogeneous_8 | bare | S3_intern | 1.0851 | 0.9851 | +0.1000 | false |
-| homogeneous_8 | bare | S4_keys_tabular | 0.8170 | 0.7020 | +0.1150 | false |
-| homogeneous_8 | bare | S5_keys_intern | 1.0851 | 0.9851 | +0.1000 | false |
-| homogeneous_8 | bare | S6_tabular_intern | 0.8638 | 0.6540 | +0.2099 | false |
-| homogeneous_8 | bare | S7_full | 0.8638 | 0.6540 | +0.2099 | false |
+| homogeneous_8 | bare | S2_tabular | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | bare | S3_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | bare | S4_keys_tabular | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | bare | S5_keys_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | bare | S6_tabular_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | bare | S7_full | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | common_word | S0_none | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | common_word | S1_keys | 1.0383 | 0.8957 | +0.1426 | false |
-| homogeneous_8 | common_word | S2_tabular | 0.8170 | 0.7020 | +0.1150 | false |
-| homogeneous_8 | common_word | S3_intern | 1.0681 | 1.0083 | +0.0598 | false |
-| homogeneous_8 | common_word | S4_keys_tabular | 0.8468 | 0.7268 | +0.1200 | false |
-| homogeneous_8 | common_word | S5_keys_intern | 1.0681 | 0.8709 | +0.1972 | false |
-| homogeneous_8 | common_word | S6_tabular_intern | 0.8468 | 0.6772 | +0.1697 | false |
-| homogeneous_8 | common_word | S7_full | 0.8766 | 0.7020 | +0.1746 | false |
+| homogeneous_8 | common_word | S2_tabular | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | common_word | S3_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | common_word | S4_keys_tabular | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | common_word | S5_keys_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | common_word | S6_tabular_intern | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | common_word | S7_full | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_100 | control | S0_none | 1.0031 | 1.0026 | +0.0005 | true |
 | homogeneous_100 | control | S1_keys | 1.0031 | 1.0026 | +0.0005 | true |
 | homogeneous_100 | control | S2_tabular | 0.7327 | 0.6149 | +0.1178 | false |
@@ -176,26 +176,26 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | heterogeneous_nested | printable | S0_none | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | printable | S1_keys | 1.1410 | 0.8971 | +0.2439 | false |
 | heterogeneous_nested | printable | S2_tabular | 1.0131 | 1.0100 | +0.0031 | true |
-| heterogeneous_nested | printable | S3_intern | 0.9935 | 0.9805 | +0.0130 | false |
+| heterogeneous_nested | printable | S3_intern | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | printable | S4_keys_tabular | 1.1410 | 0.8971 | +0.2439 | false |
-| heterogeneous_nested | printable | S5_keys_intern | 1.1214 | 0.8676 | +0.2538 | false |
-| heterogeneous_nested | printable | S6_tabular_intern | 0.9935 | 0.9805 | +0.0130 | false |
-| heterogeneous_nested | printable | S7_full | 1.1214 | 0.8676 | +0.2538 | false |
+| heterogeneous_nested | printable | S5_keys_intern | 1.0131 | 1.0100 | +0.0031 | true |
+| heterogeneous_nested | printable | S6_tabular_intern | 1.0131 | 1.0100 | +0.0031 | true |
+| heterogeneous_nested | printable | S7_full | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | bare | S0_none | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | bare | S1_keys | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | bare | S2_tabular | 1.0131 | 1.0100 | +0.0031 | true |
-| heterogeneous_nested | bare | S3_intern | 0.9543 | 0.9655 | -0.0112 | false |
+| heterogeneous_nested | bare | S3_intern | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | bare | S4_keys_tabular | 1.0131 | 1.0100 | +0.0031 | true |
-| heterogeneous_nested | bare | S5_keys_intern | 0.9543 | 0.9655 | -0.0112 | false |
-| heterogeneous_nested | bare | S6_tabular_intern | 0.9543 | 0.9655 | -0.0112 | false |
-| heterogeneous_nested | bare | S7_full | 0.9543 | 0.9655 | -0.0112 | false |
+| heterogeneous_nested | bare | S5_keys_intern | 1.0131 | 1.0100 | +0.0031 | true |
+| heterogeneous_nested | bare | S6_tabular_intern | 1.0131 | 1.0100 | +0.0031 | true |
+| heterogeneous_nested | bare | S7_full | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | common_word | S0_none | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | common_word | S1_keys | 1.0196 | 0.8506 | +0.1689 | false |
 | heterogeneous_nested | common_word | S2_tabular | 1.0131 | 1.0100 | +0.0031 | true |
-| heterogeneous_nested | common_word | S3_intern | 0.9543 | 0.9805 | -0.0262 | false |
+| heterogeneous_nested | common_word | S3_intern | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | common_word | S4_keys_tabular | 1.0196 | 0.8506 | +0.1689 | false |
 | heterogeneous_nested | common_word | S5_keys_intern | 0.9608 | 0.8212 | +0.1397 | false |
-| heterogeneous_nested | common_word | S6_tabular_intern | 0.9543 | 0.9805 | -0.0262 | false |
+| heterogeneous_nested | common_word | S6_tabular_intern | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | common_word | S7_full | 0.9608 | 0.8212 | +0.1397 | false |
 | realistic_api | control | S0_none | 1.0031 | 1.0021 | +0.0010 | true |
 | realistic_api | control | S1_keys | 1.2100 | 0.9950 | +0.2150 | false |
@@ -267,38 +267,38 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | size_1k | control | S3_intern | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | control | S4_keys_tabular | 0.8211 | 0.6979 | +0.1232 | false |
 | size_1k | control | S5_keys_intern | 1.0237 | 1.0203 | +0.0033 | true |
-| size_1k | control | S6_tabular_intern | 0.9553 | 0.7457 | +0.2096 | false |
-| size_1k | control | S7_full | 0.9868 | 0.7752 | +0.2117 | false |
+| size_1k | control | S6_tabular_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | control | S7_full | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | printable | S0_none | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | printable | S1_keys | 1.1079 | 0.9125 | +0.1954 | false |
 | size_1k | printable | S2_tabular | 0.7816 | 0.6633 | +0.1183 | false |
-| size_1k | printable | S3_intern | 1.1211 | 0.9654 | +0.1556 | false |
+| size_1k | printable | S3_intern | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | printable | S4_keys_tabular | 0.7737 | 0.6775 | +0.0962 | false |
-| size_1k | printable | S5_keys_intern | 1.2053 | 0.8576 | +0.3477 | false |
-| size_1k | printable | S6_tabular_intern | 0.8789 | 0.6083 | +0.2706 | false |
-| size_1k | printable | S7_full | 0.8711 | 0.6226 | +0.2485 | false |
+| size_1k | printable | S5_keys_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | printable | S6_tabular_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | printable | S7_full | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | bare | S0_none | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | bare | S1_keys | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | bare | S2_tabular | 0.7816 | 0.6643 | +0.1173 | false |
-| size_1k | bare | S3_intern | 1.0526 | 0.9390 | +0.1137 | false |
+| size_1k | bare | S3_intern | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | bare | S4_keys_tabular | 0.7816 | 0.6643 | +0.1173 | false |
-| size_1k | bare | S5_keys_intern | 1.0526 | 0.9390 | +0.1137 | false |
-| size_1k | bare | S6_tabular_intern | 0.8105 | 0.5829 | +0.2276 | false |
-| size_1k | bare | S7_full | 0.8105 | 0.5829 | +0.2276 | false |
+| size_1k | bare | S5_keys_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | bare | S6_tabular_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | bare | S7_full | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | common_word | S0_none | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | common_word | S1_keys | 1.0105 | 0.8647 | +0.1458 | false |
 | size_1k | common_word | S2_tabular | 0.7816 | 0.6643 | +0.1173 | false |
-| size_1k | common_word | S3_intern | 1.0526 | 0.9654 | +0.0872 | false |
+| size_1k | common_word | S3_intern | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | common_word | S4_keys_tabular | 0.8000 | 0.6796 | +0.1204 | false |
-| size_1k | common_word | S5_keys_intern | 1.0395 | 0.8098 | +0.2297 | false |
-| size_1k | common_word | S6_tabular_intern | 0.8105 | 0.6094 | +0.2012 | false |
-| size_1k | common_word | S7_full | 0.8289 | 0.6246 | +0.2043 | false |
+| size_1k | common_word | S5_keys_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | common_word | S6_tabular_intern | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | common_word | S7_full | 1.0237 | 1.0203 | +0.0033 | true |
 | size_10k | control | S0_none | 1.0023 | 1.0020 | +0.0004 | true |
 | size_10k | control | S1_keys | 1.0023 | 1.0020 | +0.0004 | true |
 | size_10k | control | S2_tabular | 0.7306 | 0.6142 | +0.1164 | false |
 | size_10k | control | S3_intern | 1.0326 | 0.9225 | +0.1102 | false |
 | size_10k | control | S4_keys_tabular | 0.7337 | 0.6170 | +0.1166 | false |
-| size_10k | control | S5_keys_intern | 1.2409 | 0.9902 | +0.2508 | false |
+| size_10k | control | S5_keys_intern | 1.0023 | 1.0020 | +0.0004 | true |
 | size_10k | control | S6_tabular_intern | 0.6575 | 0.5347 | +0.1228 | false |
 | size_10k | control | S7_full | 0.6606 | 0.5375 | +0.1231 | false |
 | size_10k | printable | S0_none | 1.0023 | 1.0020 | +0.0004 | true |
