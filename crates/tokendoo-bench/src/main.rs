@@ -1,7 +1,7 @@
 //! TOK-002 benchmark binary: exact cl100k_base token ratios across alphabets,
 //! fixtures, and transform subsets.
 //!
-//! Usage: `cargo run -p tokendoo-bench --release`
+//! Usage: `cargo run -p tokendoo-bench --bin tokendoo-bench --release`
 //! Writes:
 //! - `docs/context/tok-002-measurements.md`
 //! - `docs/context/tok-002-measurements.json`
@@ -122,7 +122,8 @@ struct EstimatorCoeffsJson {
 #[derive(Debug, Serialize, Clone)]
 struct DecisionSummary {
     winning_alphabet: String,
-    median_token_ratio_s7: f64,
+    /// Median token ratio on shipping fixtures under [`SHIPPED_SUBSET`].
+    median_token_ratio_s6: f64,
     ship_token_claim: bool,
     transforms_default: TransformsDefault,
     notes: Vec<String>,
@@ -203,17 +204,22 @@ fn median(mut xs: Vec<f64>) -> f64 {
     }
 }
 
+/// Shipped transform subset: tabular + intern, key dictionary off (ADR-011).
+/// Alphabet ranking uses this row, not `S7_full` — on bare the two coincide, on
+/// derived they need not, and the landing median is the shipped configuration.
+const SHIPPED_SUBSET: &str = "S6_tabular_intern";
+
 fn decide(cells: &[Cell]) -> DecisionSummary {
     let mut notes = Vec::new();
     let ship = shipping_fixtures();
 
     let mut alphabet_scores: Vec<(AlphabetKind, f64, f64)> = Vec::new();
-    for alphabet in AlphabetKind::ALL {
+    for alphabet in AlphabetKind::MEASURED {
         let ratios: Vec<f64> = cells
             .iter()
             .filter(|c| {
                 c.alphabet == alphabet.as_str()
-                    && c.subset == "S7_full"
+                    && c.subset == SHIPPED_SUBSET
                     && ship.contains(&c.fixture.as_str())
             })
             .map(|c| c.token_ratio)
@@ -224,7 +230,7 @@ fn decide(cells: &[Cell]) -> DecisionSummary {
             .iter()
             .filter(|c| {
                 c.alphabet == alphabet.as_str()
-                    && c.subset == "S7_full"
+                    && c.subset == SHIPPED_SUBSET
                     && ship.contains(&c.fixture.as_str())
             })
             .map(|c| c.divergence.abs())
@@ -232,7 +238,7 @@ fn decide(cells: &[Cell]) -> DecisionSummary {
             / n;
         alphabet_scores.push((alphabet, med, mean_abs_div));
         notes.push(format!(
-            "alphabet {}: median_token_ratio_S7={med:.4}, mean_|divergence|={mean_abs_div:.4}",
+            "alphabet {}: median_token_ratio_S6={med:.4}, mean_|divergence|={mean_abs_div:.4}",
             alphabet.as_str()
         ));
     }
@@ -245,10 +251,12 @@ fn decide(cells: &[Cell]) -> DecisionSummary {
     let (winner, win_med, _) = alphabet_scores[0];
     let ship_token_claim = win_med <= 0.90;
 
-    let key_dictionary =
-        transform_worth(cells, winner, "S1_keys", ship, &mut notes, "key_dictionary");
-    let tabular = transform_worth(cells, winner, "S2_tabular", ship, &mut notes, "tabular");
-    let intern_values = transform_worth(
+    // Isolation diagnostics only. Transform defaults are pinned by ADR-011
+    // (keys off, tabular + intern on) and were not reopened when TOK-007 moved
+    // the alphabet; regenerating the matrix must not flip them in the artefact.
+    let _ = transform_worth(cells, winner, "S1_keys", ship, &mut notes, "key_dictionary");
+    let _ = transform_worth(cells, winner, "S2_tabular", ship, &mut notes, "tabular");
+    let _ = transform_worth(
         cells,
         winner,
         "S3_intern",
@@ -256,17 +264,26 @@ fn decide(cells: &[Cell]) -> DecisionSummary {
         &mut notes,
         "intern_values",
     );
+    notes.push(
+        "transforms_default pinned to ADR-011 shipped values (key_dictionary=false, tabular=true, intern_values=true); isolation hits above are diagnostic only"
+            .into(),
+    );
+    let key_dictionary = false;
+    let tabular = true;
+    let intern_values = true;
 
     if let Some(p) = cells.iter().find(|c| {
-        c.alphabet == winner.as_str() && c.subset == "S7_full" && c.fixture == "prose_heavy"
+        c.alphabet == winner.as_str()
+            && c.subset == SHIPPED_SUBSET
+            && c.fixture == "prose_heavy"
     }) {
         notes.push(format!(
-            "prose_heavy S7 token_ratio={:.4} (must be <=1.05)",
+            "prose_heavy S6 token_ratio={:.4} (must be <=1.05)",
             p.token_ratio
         ));
         if p.token_ratio > 1.05 {
             notes.push(
-                "WARNING: full pipeline worsens prose_heavy tokens; size guard may need token-aware revision"
+                "WARNING: shipped pipeline worsens prose_heavy tokens; size guard may need token-aware revision"
                     .into(),
             );
         }
@@ -282,7 +299,7 @@ fn decide(cells: &[Cell]) -> DecisionSummary {
 
     DecisionSummary {
         winning_alphabet: winner.as_str().to_string(),
-        median_token_ratio_s7: win_med,
+        median_token_ratio_s6: win_med,
         ship_token_claim,
         transforms_default: TransformsDefault {
             key_dictionary,
@@ -337,8 +354,8 @@ fn write_markdown(path: &PathBuf, report: &Report) {
         report.decision.winning_alphabet
     ));
     md.push_str(&format!(
-        "- Median S7 token ratio (shipping fixtures): **{:.4}**\n",
-        report.decision.median_token_ratio_s7
+        "- Median S6 token ratio (shipping fixtures, shipped transforms): **{:.4}**\n",
+        report.decision.median_token_ratio_s6
     ));
     md.push_str(&format!(
         "- Ship token claim: **{}**\n",
@@ -415,13 +432,13 @@ fn main() {
     eprintln!(
         "Running matrix: {} fixtures × {} alphabets × {} subsets",
         corpus.len(),
-        AlphabetKind::ALL.len(),
+        AlphabetKind::MEASURED.len(),
         SUBSETS.len()
     );
 
     let mut cells = Vec::new();
     for fixture in &corpus {
-        for alphabet in AlphabetKind::ALL {
+        for alphabet in AlphabetKind::MEASURED {
             for subset in SUBSETS {
                 eprint!(".");
                 cells.push(measure_cell(fixture, alphabet, subset));
@@ -463,9 +480,9 @@ fn main() {
     println!("Wrote {}", json_path.display());
     println!("Wrote {}", md_path.display());
     println!(
-        "Winner={} median_S7={:.4} ship_claim={}",
+        "Winner={} median_S6={:.4} ship_claim={}",
         report.decision.winning_alphabet,
-        report.decision.median_token_ratio_s7,
+        report.decision.median_token_ratio_s6,
         report.decision.ship_token_claim
     );
 }

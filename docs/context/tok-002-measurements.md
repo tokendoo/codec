@@ -4,21 +4,25 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 
 ## Decision
 
-- Winning alphabet: **bare**
-- Median S7 token ratio (shipping fixtures): **0.4207**
+- Winning alphabet: **derived_cl100k_v1**
+- Median S6 token ratio (shipping fixtures, shipped transforms): **0.3868**
 - Ship token claim: **true**
 - Default transforms: keys=false, tabular=true, intern=true
 
 ### Notes
 
-- alphabet control: median_token_ratio_S7=0.6606, mean_|divergence|=0.1353
-- alphabet printable: median_token_ratio_S7=0.4922, mean_|divergence|=0.1651
-- alphabet bare: median_token_ratio_S7=0.4207, mean_|divergence|=0.1014
-- alphabet common_word: median_token_ratio_S7=0.4277, mean_|divergence|=0.0928
-- transform key_dictionary on bare: hits=0/shipping with ratio<=0.90, prose_ok=true => default_on=false
-- transform tabular on bare: hits=5/shipping with ratio<=0.90, prose_ok=true => default_on=true
-- transform intern_values on bare: hits=4/shipping with ratio<=0.90, prose_ok=true => default_on=true
-- prose_heavy S7 token_ratio=1.0034 (must be <=1.05)
+- alphabet control: median_token_ratio_S6=0.6575, mean_|divergence|=0.1152
+- alphabet printable: median_token_ratio_S6=0.5241, mean_|divergence|=0.1673
+- alphabet bare: median_token_ratio_S6=0.4207, mean_|divergence|=0.1014
+- alphabet common_word: median_token_ratio_S6=0.4259, mean_|divergence|=0.0748
+- alphabet derived_cl100k_v1: median_token_ratio_S6=0.3868, mean_|divergence|=0.0668
+- alphabet derived_o200k_v1: median_token_ratio_S6=0.3873, mean_|divergence|=0.0672
+- alphabet derived_llama_v1: median_token_ratio_S6=0.3972, mean_|divergence|=0.0780
+- transform key_dictionary on derived_cl100k_v1: hits=2/shipping with ratio<=0.90, prose_ok=true => default_on=true
+- transform tabular on derived_cl100k_v1: hits=5/shipping with ratio<=0.90, prose_ok=true => default_on=true
+- transform intern_values on derived_cl100k_v1: hits=5/shipping with ratio<=0.90, prose_ok=true => default_on=true
+- transforms_default pinned to ADR-011 shipped values (key_dictionary=false, tabular=true, intern_values=true); isolation hits above are diagnostic only
+- prose_heavy S6 token_ratio=1.0051 (must be <=1.05)
 
 ## Full pipeline (S7) — primary table
 
@@ -28,42 +32,72 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | homogeneous_8 | printable | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
 | homogeneous_8 | bare | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
 | homogeneous_8 | common_word | 604 | 624 | 235 | 244 | 1.0331 | 1.0383 | +0.0052 | true |
+| homogeneous_8 | derived_cl100k_v1 | 604 | 633 | 235 | 249 | 1.0480 | 1.0596 | +0.0116 | true |
+| homogeneous_8 | derived_o200k_v1 | 604 | 633 | 235 | 251 | 1.0480 | 1.0681 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | 604 | 633 | 235 | 251 | 1.0480 | 1.0681 | +0.0201 | true |
 | homogeneous_100 | control | 7624 | 4282 | 2903 | 2026 | 0.5616 | 0.6979 | +0.1363 | false |
 | homogeneous_100 | printable | 7624 | 2762 | 2903 | 1537 | 0.3623 | 0.5295 | +0.1672 | false |
 | homogeneous_100 | bare | 7624 | 2449 | 2903 | 1327 | 0.3212 | 0.4571 | +0.1359 | false |
 | homogeneous_100 | common_word | 7624 | 2764 | 2903 | 1349 | 0.3625 | 0.4647 | +0.1022 | false |
+| homogeneous_100 | derived_cl100k_v1 | 7624 | 2507 | 2903 | 1234 | 0.3288 | 0.4251 | +0.0962 | false |
+| homogeneous_100 | derived_o200k_v1 | 7624 | 2507 | 2903 | 1236 | 0.3288 | 0.4258 | +0.0969 | false |
+| homogeneous_100 | derived_llama_v1 | 7624 | 2492 | 2903 | 1259 | 0.3269 | 0.4337 | +0.1068 | false |
 | homogeneous_1000 | control | 77224 | 36682 | 29003 | 16298 | 0.4750 | 0.5619 | +0.0869 | false |
 | homogeneous_1000 | printable | 77224 | 21662 | 29003 | 11437 | 0.2805 | 0.3943 | +0.1138 | false |
 | homogeneous_1000 | bare | 77224 | 18649 | 29003 | 9427 | 0.2415 | 0.3250 | +0.0835 | false |
 | homogeneous_1000 | common_word | 77224 | 21664 | 29003 | 9609 | 0.2805 | 0.3313 | +0.0508 | false |
+| homogeneous_1000 | derived_cl100k_v1 | 77224 | 19007 | 29003 | 8392 | 0.2461 | 0.2893 | +0.0432 | false |
+| homogeneous_1000 | derived_o200k_v1 | 77224 | 19007 | 29003 | 8394 | 0.2461 | 0.2894 | +0.0433 | false |
+| homogeneous_1000 | derived_llama_v1 | 77224 | 18992 | 29003 | 8717 | 0.2459 | 0.3006 | +0.0546 | false |
 | heterogeneous_nested | control | 2002 | 2022 | 766 | 776 | 1.0100 | 1.0131 | +0.0031 | true |
 | heterogeneous_nested | printable | 2002 | 2022 | 766 | 776 | 1.0100 | 1.0131 | +0.0031 | true |
 | heterogeneous_nested | bare | 2002 | 2022 | 766 | 776 | 1.0100 | 1.0131 | +0.0031 | true |
 | heterogeneous_nested | common_word | 2002 | 1644 | 766 | 736 | 0.8212 | 0.9608 | +0.1397 | false |
+| heterogeneous_nested | derived_cl100k_v1 | 2002 | 1659 | 766 | 700 | 0.8287 | 0.9138 | +0.0852 | false |
+| heterogeneous_nested | derived_o200k_v1 | 2002 | 1659 | 766 | 702 | 0.8287 | 0.9164 | +0.0878 | false |
+| heterogeneous_nested | derived_llama_v1 | 2002 | 1664 | 766 | 743 | 0.8312 | 0.9700 | +0.1388 | false |
 | realistic_api | control | 9382 | 7829 | 3200 | 3447 | 0.8345 | 1.0772 | +0.2427 | false |
 | realistic_api | printable | 9382 | 5799 | 3200 | 2862 | 0.6181 | 0.8944 | +0.2763 | false |
 | realistic_api | bare | 9382 | 7423 | 3200 | 2789 | 0.7912 | 0.8716 | +0.0804 | false |
 | realistic_api | common_word | 9382 | 5635 | 3200 | 2467 | 0.6006 | 0.7709 | +0.1703 | false |
+| realistic_api | derived_cl100k_v1 | 9382 | 5445 | 3200 | 2309 | 0.5804 | 0.7216 | +0.1412 | false |
+| realistic_api | derived_o200k_v1 | 9382 | 5445 | 3200 | 2311 | 0.5804 | 0.7222 | +0.1418 | false |
+| realistic_api | derived_llama_v1 | 9382 | 5484 | 3200 | 2394 | 0.5845 | 0.7481 | +0.1636 | false |
 | prose_heavy | control | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
 | prose_heavy | printable | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
 | prose_heavy | bare | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
 | prose_heavy | common_word | 14496 | 14516 | 2965 | 2975 | 1.0014 | 1.0034 | +0.0020 | true |
+| prose_heavy | derived_cl100k_v1 | 14496 | 14525 | 2965 | 2980 | 1.0020 | 1.0051 | +0.0031 | true |
+| prose_heavy | derived_o200k_v1 | 14496 | 14525 | 2965 | 2982 | 1.0020 | 1.0057 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | 14496 | 14525 | 2965 | 2982 | 1.0020 | 1.0057 | +0.0037 | true |
 | size_1k | control | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
 | size_1k | printable | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
 | size_1k | bare | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
 | size_1k | common_word | 983 | 1003 | 380 | 389 | 1.0203 | 1.0237 | +0.0033 | true |
+| size_1k | derived_cl100k_v1 | 983 | 1012 | 380 | 394 | 1.0295 | 1.0368 | +0.0073 | true |
+| size_1k | derived_o200k_v1 | 983 | 1012 | 380 | 396 | 1.0295 | 1.0421 | +0.0126 | true |
+| size_1k | derived_llama_v1 | 983 | 1012 | 380 | 396 | 1.0295 | 1.0421 | +0.0126 | true |
 | size_10k | control | 10176 | 5470 | 3860 | 2550 | 0.5375 | 0.6606 | +0.1231 | false |
 | size_10k | printable | 10176 | 3455 | 3860 | 1900 | 0.3395 | 0.4922 | +0.1527 | false |
 | size_10k | bare | 10176 | 3043 | 3860 | 1624 | 0.2990 | 0.4207 | +0.1217 | false |
 | size_10k | common_word | 10176 | 3457 | 3860 | 1651 | 0.3397 | 0.4277 | +0.0880 | false |
+| size_10k | derived_cl100k_v1 | 10176 | 3112 | 3860 | 1498 | 0.3058 | 0.3881 | +0.0823 | false |
+| size_10k | derived_o200k_v1 | 10176 | 3112 | 3860 | 1500 | 0.3058 | 0.3886 | +0.0828 | false |
+| size_10k | derived_llama_v1 | 10176 | 3097 | 3860 | 1533 | 0.3043 | 0.3972 | +0.0928 | false |
 | size_100k | control | 105894 | 50224 | 39983 | 22468 | 0.4743 | 0.5619 | +0.0877 | false |
 | size_100k | printable | 105894 | 29714 | 39983 | 15829 | 0.2806 | 0.3959 | +0.1153 | false |
 | size_100k | bare | 105894 | 25603 | 39983 | 13087 | 0.2418 | 0.3273 | +0.0855 | false |
 | size_100k | common_word | 105894 | 29716 | 39983 | 13334 | 0.2806 | 0.3335 | +0.0529 | false |
+| size_100k | derived_cl100k_v1 | 105894 | 26083 | 39983 | 11668 | 0.2463 | 0.2918 | +0.0455 | false |
+| size_100k | derived_o200k_v1 | 105894 | 26083 | 39983 | 11670 | 0.2463 | 0.2919 | +0.0456 | false |
+| size_100k | derived_llama_v1 | 105894 | 26068 | 39983 | 12117 | 0.2462 | 0.3031 | +0.0569 | false |
 | size_250k | control | 258958 | 122522 | 98603 | 55406 | 0.4731 | 0.5619 | +0.0888 | false |
 | size_250k | printable | 258958 | 72702 | 98603 | 39277 | 0.2807 | 0.3983 | +0.1176 | false |
 | size_250k | bare | 258958 | 62729 | 98603 | 32627 | 0.2422 | 0.3309 | +0.0887 | false |
 | size_250k | common_word | 258958 | 72704 | 98603 | 33224 | 0.2808 | 0.3369 | +0.0562 | false |
+| size_250k | derived_cl100k_v1 | 258958 | 63861 | 98603 | 29161 | 0.2466 | 0.2957 | +0.0491 | false |
+| size_250k | derived_o200k_v1 | 258958 | 63861 | 98603 | 29163 | 0.2466 | 0.2958 | +0.0492 | false |
+| size_250k | derived_llama_v1 | 258958 | 63845 | 98603 | 30257 | 0.2465 | 0.3069 | +0.0603 | false |
 
 ## Isolation appendix (all subsets)
 
@@ -101,6 +135,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | homogeneous_8 | common_word | S5_keys_intern | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | common_word | S6_tabular_intern | 1.0383 | 1.0331 | +0.0052 | true |
 | homogeneous_8 | common_word | S7_full | 1.0383 | 1.0331 | +0.0052 | true |
+| homogeneous_8 | derived_cl100k_v1 | S0_none | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_cl100k_v1 | S1_keys | 0.9915 | 0.9238 | +0.0676 | false |
+| homogeneous_8 | derived_cl100k_v1 | S2_tabular | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_cl100k_v1 | S3_intern | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_cl100k_v1 | S4_keys_tabular | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_cl100k_v1 | S5_keys_intern | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_cl100k_v1 | S6_tabular_intern | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_cl100k_v1 | S7_full | 1.0596 | 1.0480 | +0.0116 | true |
+| homogeneous_8 | derived_o200k_v1 | S0_none | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_o200k_v1 | S1_keys | 1.0000 | 0.9238 | +0.0762 | false |
+| homogeneous_8 | derived_o200k_v1 | S2_tabular | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_o200k_v1 | S3_intern | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_o200k_v1 | S4_keys_tabular | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_o200k_v1 | S5_keys_intern | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_o200k_v1 | S6_tabular_intern | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_o200k_v1 | S7_full | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S0_none | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S1_keys | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S2_tabular | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S3_intern | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S4_keys_tabular | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S5_keys_intern | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S6_tabular_intern | 1.0681 | 1.0480 | +0.0201 | true |
+| homogeneous_8 | derived_llama_v1 | S7_full | 1.0681 | 1.0480 | +0.0201 | true |
 | homogeneous_100 | control | S0_none | 1.0031 | 1.0026 | +0.0005 | true |
 | homogeneous_100 | control | S1_keys | 1.0031 | 1.0026 | +0.0005 | true |
 | homogeneous_100 | control | S2_tabular | 0.7327 | 0.6149 | +0.1178 | false |
@@ -133,6 +191,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | homogeneous_100 | common_word | S5_keys_intern | 0.7020 | 0.5690 | +0.1330 | false |
 | homogeneous_100 | common_word | S6_tabular_intern | 0.4623 | 0.3606 | +0.1017 | false |
 | homogeneous_100 | common_word | S7_full | 0.4647 | 0.3625 | +0.1022 | false |
+| homogeneous_100 | derived_cl100k_v1 | S0_none | 1.0048 | 1.0038 | +0.0010 | true |
+| homogeneous_100 | derived_cl100k_v1 | S1_keys | 0.9042 | 0.8371 | +0.0671 | false |
+| homogeneous_100 | derived_cl100k_v1 | S2_tabular | 0.7334 | 0.6156 | +0.1178 | false |
+| homogeneous_100 | derived_cl100k_v1 | S3_intern | 0.7158 | 0.7150 | +0.0008 | false |
+| homogeneous_100 | derived_cl100k_v1 | S4_keys_tabular | 0.7351 | 0.6177 | +0.1174 | false |
+| homogeneous_100 | derived_cl100k_v1 | S5_keys_intern | 0.6269 | 0.5483 | +0.0787 | false |
+| homogeneous_100 | derived_cl100k_v1 | S6_tabular_intern | 0.4234 | 0.3267 | +0.0966 | false |
+| homogeneous_100 | derived_cl100k_v1 | S7_full | 0.4251 | 0.3288 | +0.0962 | false |
+| homogeneous_100 | derived_o200k_v1 | S0_none | 1.0055 | 1.0038 | +0.0017 | true |
+| homogeneous_100 | derived_o200k_v1 | S1_keys | 0.9049 | 0.8371 | +0.0678 | false |
+| homogeneous_100 | derived_o200k_v1 | S2_tabular | 0.7341 | 0.6156 | +0.1185 | false |
+| homogeneous_100 | derived_o200k_v1 | S3_intern | 0.7165 | 0.7150 | +0.0015 | false |
+| homogeneous_100 | derived_o200k_v1 | S4_keys_tabular | 0.7358 | 0.6177 | +0.1181 | false |
+| homogeneous_100 | derived_o200k_v1 | S5_keys_intern | 0.6276 | 0.5483 | +0.0794 | false |
+| homogeneous_100 | derived_o200k_v1 | S6_tabular_intern | 0.4240 | 0.3267 | +0.0973 | false |
+| homogeneous_100 | derived_o200k_v1 | S7_full | 0.4258 | 0.3288 | +0.0969 | false |
+| homogeneous_100 | derived_llama_v1 | S0_none | 1.0055 | 1.0038 | +0.0017 | true |
+| homogeneous_100 | derived_llama_v1 | S1_keys | 1.0055 | 1.0038 | +0.0017 | true |
+| homogeneous_100 | derived_llama_v1 | S2_tabular | 0.7341 | 0.6156 | +0.1185 | false |
+| homogeneous_100 | derived_llama_v1 | S3_intern | 0.7282 | 0.7151 | +0.0131 | false |
+| homogeneous_100 | derived_llama_v1 | S4_keys_tabular | 0.7341 | 0.6156 | +0.1185 | false |
+| homogeneous_100 | derived_llama_v1 | S5_keys_intern | 0.7282 | 0.7151 | +0.0131 | false |
+| homogeneous_100 | derived_llama_v1 | S6_tabular_intern | 0.4337 | 0.3269 | +0.1068 | false |
+| homogeneous_100 | derived_llama_v1 | S7_full | 0.4337 | 0.3269 | +0.1068 | false |
 | homogeneous_1000 | control | S0_none | 1.0003 | 1.0003 | +0.0001 | true |
 | homogeneous_1000 | control | S1_keys | 1.0003 | 1.0003 | +0.0001 | true |
 | homogeneous_1000 | control | S2_tabular | 0.7250 | 0.6123 | +0.1126 | false |
@@ -165,6 +247,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | homogeneous_1000 | common_word | S5_keys_intern | 0.5723 | 0.4874 | +0.0849 | false |
 | homogeneous_1000 | common_word | S6_tabular_intern | 0.3311 | 0.2803 | +0.0507 | false |
 | homogeneous_1000 | common_word | S7_full | 0.3313 | 0.2805 | +0.0508 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S0_none | 1.0005 | 1.0004 | +0.0001 | true |
+| homogeneous_1000 | derived_cl100k_v1 | S1_keys | 0.8973 | 0.8324 | +0.0649 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S2_tabular | 0.7251 | 0.6124 | +0.1126 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S3_intern | 0.5866 | 0.6339 | -0.0473 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S4_keys_tabular | 0.7252 | 0.6126 | +0.1126 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S5_keys_intern | 0.4950 | 0.4659 | +0.0291 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S6_tabular_intern | 0.2892 | 0.2459 | +0.0433 | false |
+| homogeneous_1000 | derived_cl100k_v1 | S7_full | 0.2893 | 0.2461 | +0.0432 | false |
+| homogeneous_1000 | derived_o200k_v1 | S0_none | 1.0006 | 1.0004 | +0.0002 | true |
+| homogeneous_1000 | derived_o200k_v1 | S1_keys | 0.8974 | 0.8324 | +0.0650 | false |
+| homogeneous_1000 | derived_o200k_v1 | S2_tabular | 0.7251 | 0.6124 | +0.1127 | false |
+| homogeneous_1000 | derived_o200k_v1 | S3_intern | 0.5867 | 0.6339 | -0.0472 | false |
+| homogeneous_1000 | derived_o200k_v1 | S4_keys_tabular | 0.7253 | 0.6126 | +0.1127 | false |
+| homogeneous_1000 | derived_o200k_v1 | S5_keys_intern | 0.4951 | 0.4659 | +0.0291 | false |
+| homogeneous_1000 | derived_o200k_v1 | S6_tabular_intern | 0.2892 | 0.2459 | +0.0433 | false |
+| homogeneous_1000 | derived_o200k_v1 | S7_full | 0.2894 | 0.2461 | +0.0433 | false |
+| homogeneous_1000 | derived_llama_v1 | S0_none | 1.0006 | 1.0004 | +0.0002 | true |
+| homogeneous_1000 | derived_llama_v1 | S1_keys | 1.0006 | 1.0004 | +0.0002 | true |
+| homogeneous_1000 | derived_llama_v1 | S2_tabular | 0.7251 | 0.6124 | +0.1127 | false |
+| homogeneous_1000 | derived_llama_v1 | S3_intern | 0.5982 | 0.6339 | -0.0357 | false |
+| homogeneous_1000 | derived_llama_v1 | S4_keys_tabular | 0.7251 | 0.6124 | +0.1127 | false |
+| homogeneous_1000 | derived_llama_v1 | S5_keys_intern | 0.5982 | 0.6339 | -0.0357 | false |
+| homogeneous_1000 | derived_llama_v1 | S6_tabular_intern | 0.3006 | 0.2459 | +0.0546 | false |
+| homogeneous_1000 | derived_llama_v1 | S7_full | 0.3006 | 0.2459 | +0.0546 | false |
 | heterogeneous_nested | control | S0_none | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | control | S1_keys | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | control | S2_tabular | 1.0131 | 1.0100 | +0.0031 | true |
@@ -197,6 +303,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | heterogeneous_nested | common_word | S5_keys_intern | 0.9608 | 0.8212 | +0.1397 | false |
 | heterogeneous_nested | common_word | S6_tabular_intern | 1.0131 | 1.0100 | +0.0031 | true |
 | heterogeneous_nested | common_word | S7_full | 0.9608 | 0.8212 | +0.1397 | false |
+| heterogeneous_nested | derived_cl100k_v1 | S0_none | 1.0196 | 1.0145 | +0.0051 | true |
+| heterogeneous_nested | derived_cl100k_v1 | S1_keys | 0.9856 | 0.8706 | +0.1150 | false |
+| heterogeneous_nested | derived_cl100k_v1 | S2_tabular | 1.0196 | 1.0145 | +0.0051 | true |
+| heterogeneous_nested | derived_cl100k_v1 | S3_intern | 1.0196 | 1.0145 | +0.0051 | true |
+| heterogeneous_nested | derived_cl100k_v1 | S4_keys_tabular | 0.9856 | 0.8706 | +0.1150 | false |
+| heterogeneous_nested | derived_cl100k_v1 | S5_keys_intern | 0.9138 | 0.8287 | +0.0852 | false |
+| heterogeneous_nested | derived_cl100k_v1 | S6_tabular_intern | 1.0196 | 1.0145 | +0.0051 | true |
+| heterogeneous_nested | derived_cl100k_v1 | S7_full | 0.9138 | 0.8287 | +0.0852 | false |
+| heterogeneous_nested | derived_o200k_v1 | S0_none | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_o200k_v1 | S1_keys | 0.9883 | 0.8706 | +0.1176 | false |
+| heterogeneous_nested | derived_o200k_v1 | S2_tabular | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_o200k_v1 | S3_intern | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_o200k_v1 | S4_keys_tabular | 0.9883 | 0.8706 | +0.1176 | false |
+| heterogeneous_nested | derived_o200k_v1 | S5_keys_intern | 0.9164 | 0.8287 | +0.0878 | false |
+| heterogeneous_nested | derived_o200k_v1 | S6_tabular_intern | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_o200k_v1 | S7_full | 0.9164 | 0.8287 | +0.0878 | false |
+| heterogeneous_nested | derived_llama_v1 | S0_none | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_llama_v1 | S1_keys | 1.0287 | 0.8706 | +0.1581 | false |
+| heterogeneous_nested | derived_llama_v1 | S2_tabular | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_llama_v1 | S3_intern | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_llama_v1 | S4_keys_tabular | 1.0287 | 0.8706 | +0.1581 | false |
+| heterogeneous_nested | derived_llama_v1 | S5_keys_intern | 0.9700 | 0.8312 | +0.1388 | false |
+| heterogeneous_nested | derived_llama_v1 | S6_tabular_intern | 1.0222 | 1.0145 | +0.0077 | true |
+| heterogeneous_nested | derived_llama_v1 | S7_full | 0.9700 | 0.8312 | +0.1388 | false |
 | realistic_api | control | S0_none | 1.0031 | 1.0021 | +0.0010 | true |
 | realistic_api | control | S1_keys | 1.2100 | 0.9950 | +0.2150 | false |
 | realistic_api | control | S2_tabular | 0.8725 | 0.7916 | +0.0809 | false |
@@ -229,6 +359,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | realistic_api | common_word | S5_keys_intern | 0.8659 | 0.6827 | +0.1832 | false |
 | realistic_api | common_word | S6_tabular_intern | 0.7900 | 0.7091 | +0.0809 | false |
 | realistic_api | common_word | S7_full | 0.7709 | 0.6006 | +0.1703 | false |
+| realistic_api | derived_cl100k_v1 | S0_none | 1.0047 | 1.0031 | +0.0016 | true |
+| realistic_api | derived_cl100k_v1 | S1_keys | 0.9116 | 0.7700 | +0.1416 | false |
+| realistic_api | derived_cl100k_v1 | S2_tabular | 0.8731 | 0.7922 | +0.0810 | false |
+| realistic_api | derived_cl100k_v1 | S3_intern | 0.8909 | 0.8997 | -0.0088 | false |
+| realistic_api | derived_cl100k_v1 | S4_keys_tabular | 0.8413 | 0.6838 | +0.1575 | false |
+| realistic_api | derived_cl100k_v1 | S5_keys_intern | 0.7966 | 0.6666 | +0.1300 | false |
+| realistic_api | derived_cl100k_v1 | S6_tabular_intern | 0.7547 | 0.6888 | +0.0659 | false |
+| realistic_api | derived_cl100k_v1 | S7_full | 0.7216 | 0.5804 | +0.1412 | false |
+| realistic_api | derived_o200k_v1 | S0_none | 1.0053 | 1.0031 | +0.0022 | true |
+| realistic_api | derived_o200k_v1 | S1_keys | 0.9122 | 0.7700 | +0.1422 | false |
+| realistic_api | derived_o200k_v1 | S2_tabular | 0.8738 | 0.7922 | +0.0816 | false |
+| realistic_api | derived_o200k_v1 | S3_intern | 0.8916 | 0.8997 | -0.0081 | false |
+| realistic_api | derived_o200k_v1 | S4_keys_tabular | 0.8419 | 0.6838 | +0.1581 | false |
+| realistic_api | derived_o200k_v1 | S5_keys_intern | 0.7972 | 0.6666 | +0.1306 | false |
+| realistic_api | derived_o200k_v1 | S6_tabular_intern | 0.7553 | 0.6888 | +0.0665 | false |
+| realistic_api | derived_o200k_v1 | S7_full | 0.7222 | 0.5804 | +0.1418 | false |
+| realistic_api | derived_llama_v1 | S0_none | 1.0053 | 1.0031 | +0.0022 | true |
+| realistic_api | derived_llama_v1 | S1_keys | 0.9472 | 0.7700 | +0.1772 | false |
+| realistic_api | derived_llama_v1 | S2_tabular | 0.8738 | 0.7922 | +0.0816 | false |
+| realistic_api | derived_llama_v1 | S3_intern | 0.9034 | 0.8997 | +0.0037 | false |
+| realistic_api | derived_llama_v1 | S4_keys_tabular | 0.8544 | 0.6879 | +0.1665 | false |
+| realistic_api | derived_llama_v1 | S5_keys_intern | 0.8453 | 0.6666 | +0.1787 | false |
+| realistic_api | derived_llama_v1 | S6_tabular_intern | 0.7675 | 0.6888 | +0.0787 | false |
+| realistic_api | derived_llama_v1 | S7_full | 0.7481 | 0.5845 | +0.1636 | false |
 | prose_heavy | control | S0_none | 1.0034 | 1.0014 | +0.0020 | true |
 | prose_heavy | control | S1_keys | 1.0034 | 1.0014 | +0.0020 | true |
 | prose_heavy | control | S2_tabular | 1.0034 | 1.0014 | +0.0020 | true |
@@ -261,6 +415,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | prose_heavy | common_word | S5_keys_intern | 1.0034 | 1.0014 | +0.0020 | true |
 | prose_heavy | common_word | S6_tabular_intern | 1.0034 | 1.0014 | +0.0020 | true |
 | prose_heavy | common_word | S7_full | 1.0034 | 1.0014 | +0.0020 | true |
+| prose_heavy | derived_cl100k_v1 | S0_none | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S1_keys | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S2_tabular | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S3_intern | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S4_keys_tabular | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S5_keys_intern | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S6_tabular_intern | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_cl100k_v1 | S7_full | 1.0051 | 1.0020 | +0.0031 | true |
+| prose_heavy | derived_o200k_v1 | S0_none | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S1_keys | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S2_tabular | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S3_intern | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S4_keys_tabular | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S5_keys_intern | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S6_tabular_intern | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_o200k_v1 | S7_full | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S0_none | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S1_keys | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S2_tabular | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S3_intern | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S4_keys_tabular | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S5_keys_intern | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S6_tabular_intern | 1.0057 | 1.0020 | +0.0037 | true |
+| prose_heavy | derived_llama_v1 | S7_full | 1.0057 | 1.0020 | +0.0037 | true |
 | size_1k | control | S0_none | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | control | S1_keys | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | control | S2_tabular | 0.7895 | 0.6684 | +0.1211 | false |
@@ -293,6 +471,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | size_1k | common_word | S5_keys_intern | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | common_word | S6_tabular_intern | 1.0237 | 1.0203 | +0.0033 | true |
 | size_1k | common_word | S7_full | 1.0237 | 1.0203 | +0.0033 | true |
+| size_1k | derived_cl100k_v1 | S0_none | 1.0368 | 1.0295 | +0.0073 | true |
+| size_1k | derived_cl100k_v1 | S1_keys | 0.9553 | 0.8871 | +0.0682 | false |
+| size_1k | derived_cl100k_v1 | S2_tabular | 0.7947 | 0.6734 | +0.1213 | false |
+| size_1k | derived_cl100k_v1 | S3_intern | 1.0368 | 1.0295 | +0.0073 | true |
+| size_1k | derived_cl100k_v1 | S4_keys_tabular | 0.8079 | 0.6897 | +0.1182 | false |
+| size_1k | derived_cl100k_v1 | S5_keys_intern | 1.0368 | 1.0295 | +0.0073 | true |
+| size_1k | derived_cl100k_v1 | S6_tabular_intern | 1.0368 | 1.0295 | +0.0073 | true |
+| size_1k | derived_cl100k_v1 | S7_full | 1.0368 | 1.0295 | +0.0073 | true |
+| size_1k | derived_o200k_v1 | S0_none | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_o200k_v1 | S1_keys | 0.9605 | 0.8871 | +0.0734 | false |
+| size_1k | derived_o200k_v1 | S2_tabular | 0.8000 | 0.6734 | +0.1266 | false |
+| size_1k | derived_o200k_v1 | S3_intern | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_o200k_v1 | S4_keys_tabular | 0.8132 | 0.6897 | +0.1234 | false |
+| size_1k | derived_o200k_v1 | S5_keys_intern | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_o200k_v1 | S6_tabular_intern | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_o200k_v1 | S7_full | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_llama_v1 | S0_none | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_llama_v1 | S1_keys | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_llama_v1 | S2_tabular | 0.8000 | 0.6734 | +0.1266 | false |
+| size_1k | derived_llama_v1 | S3_intern | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_llama_v1 | S4_keys_tabular | 0.8000 | 0.6734 | +0.1266 | false |
+| size_1k | derived_llama_v1 | S5_keys_intern | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_llama_v1 | S6_tabular_intern | 1.0421 | 1.0295 | +0.0126 | true |
+| size_1k | derived_llama_v1 | S7_full | 1.0421 | 1.0295 | +0.0126 | true |
 | size_10k | control | S0_none | 1.0023 | 1.0020 | +0.0004 | true |
 | size_10k | control | S1_keys | 1.0023 | 1.0020 | +0.0004 | true |
 | size_10k | control | S2_tabular | 0.7306 | 0.6142 | +0.1164 | false |
@@ -325,6 +527,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | size_10k | common_word | S5_keys_intern | 0.6661 | 0.5463 | +0.1198 | false |
 | size_10k | common_word | S6_tabular_intern | 0.4259 | 0.3382 | +0.0877 | false |
 | size_10k | common_word | S7_full | 0.4277 | 0.3397 | +0.0880 | false |
+| size_10k | derived_cl100k_v1 | S0_none | 1.0036 | 1.0028 | +0.0008 | true |
+| size_10k | derived_cl100k_v1 | S1_keys | 0.9023 | 0.8358 | +0.0665 | false |
+| size_10k | derived_cl100k_v1 | S2_tabular | 0.7311 | 0.6147 | +0.1164 | false |
+| size_10k | derived_cl100k_v1 | S3_intern | 0.6801 | 0.6924 | -0.0124 | false |
+| size_10k | derived_cl100k_v1 | S4_keys_tabular | 0.7324 | 0.6163 | +0.1161 | false |
+| size_10k | derived_cl100k_v1 | S5_keys_intern | 0.5904 | 0.5254 | +0.0651 | false |
+| size_10k | derived_cl100k_v1 | S6_tabular_intern | 0.3868 | 0.3042 | +0.0825 | false |
+| size_10k | derived_cl100k_v1 | S7_full | 0.3881 | 0.3058 | +0.0823 | false |
+| size_10k | derived_o200k_v1 | S0_none | 1.0041 | 1.0028 | +0.0013 | true |
+| size_10k | derived_o200k_v1 | S1_keys | 0.9028 | 0.8358 | +0.0671 | false |
+| size_10k | derived_o200k_v1 | S2_tabular | 0.7316 | 0.6147 | +0.1169 | false |
+| size_10k | derived_o200k_v1 | S3_intern | 0.6806 | 0.6924 | -0.0118 | false |
+| size_10k | derived_o200k_v1 | S4_keys_tabular | 0.7329 | 0.6163 | +0.1166 | false |
+| size_10k | derived_o200k_v1 | S5_keys_intern | 0.5909 | 0.5254 | +0.0656 | false |
+| size_10k | derived_o200k_v1 | S6_tabular_intern | 0.3873 | 0.3042 | +0.0831 | false |
+| size_10k | derived_o200k_v1 | S7_full | 0.3886 | 0.3058 | +0.0828 | false |
+| size_10k | derived_llama_v1 | S0_none | 1.0041 | 1.0028 | +0.0013 | true |
+| size_10k | derived_llama_v1 | S1_keys | 1.0041 | 1.0028 | +0.0013 | true |
+| size_10k | derived_llama_v1 | S2_tabular | 0.7316 | 0.6147 | +0.1169 | false |
+| size_10k | derived_llama_v1 | S3_intern | 0.6925 | 0.6925 | -0.0000 | false |
+| size_10k | derived_llama_v1 | S4_keys_tabular | 0.7316 | 0.6147 | +0.1169 | false |
+| size_10k | derived_llama_v1 | S5_keys_intern | 0.6925 | 0.6925 | -0.0000 | false |
+| size_10k | derived_llama_v1 | S6_tabular_intern | 0.3972 | 0.3043 | +0.0928 | false |
+| size_10k | derived_llama_v1 | S7_full | 0.3972 | 0.3043 | +0.0928 | false |
 | size_100k | control | S0_none | 1.0002 | 1.0002 | +0.0000 | true |
 | size_100k | control | S1_keys | 1.0002 | 1.0002 | +0.0000 | true |
 | size_100k | control | S2_tabular | 0.7273 | 0.6136 | +0.1137 | false |
@@ -357,6 +583,30 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | size_100k | common_word | S5_keys_intern | 0.5724 | 0.4868 | +0.0856 | false |
 | size_100k | common_word | S6_tabular_intern | 0.3333 | 0.2805 | +0.0528 | false |
 | size_100k | common_word | S7_full | 0.3335 | 0.2806 | +0.0529 | false |
+| size_100k | derived_cl100k_v1 | S0_none | 1.0004 | 1.0003 | +0.0001 | true |
+| size_100k | derived_cl100k_v1 | S1_keys | 0.8981 | 0.8329 | +0.0652 | false |
+| size_100k | derived_cl100k_v1 | S2_tabular | 0.7273 | 0.6137 | +0.1137 | false |
+| size_100k | derived_cl100k_v1 | S3_intern | 0.5866 | 0.6328 | -0.0462 | false |
+| size_100k | derived_cl100k_v1 | S4_keys_tabular | 0.7275 | 0.6138 | +0.1136 | false |
+| size_100k | derived_cl100k_v1 | S5_keys_intern | 0.4957 | 0.4654 | +0.0304 | false |
+| size_100k | derived_cl100k_v1 | S6_tabular_intern | 0.2917 | 0.2462 | +0.0455 | false |
+| size_100k | derived_cl100k_v1 | S7_full | 0.2918 | 0.2463 | +0.0455 | false |
+| size_100k | derived_o200k_v1 | S0_none | 1.0004 | 1.0003 | +0.0001 | true |
+| size_100k | derived_o200k_v1 | S1_keys | 0.8981 | 0.8329 | +0.0653 | false |
+| size_100k | derived_o200k_v1 | S2_tabular | 0.7274 | 0.6137 | +0.1137 | false |
+| size_100k | derived_o200k_v1 | S3_intern | 0.5866 | 0.6328 | -0.0461 | false |
+| size_100k | derived_o200k_v1 | S4_keys_tabular | 0.7275 | 0.6138 | +0.1137 | false |
+| size_100k | derived_o200k_v1 | S5_keys_intern | 0.4958 | 0.4654 | +0.0304 | false |
+| size_100k | derived_o200k_v1 | S6_tabular_intern | 0.2917 | 0.2462 | +0.0456 | false |
+| size_100k | derived_o200k_v1 | S7_full | 0.2919 | 0.2463 | +0.0456 | false |
+| size_100k | derived_llama_v1 | S0_none | 1.0004 | 1.0003 | +0.0001 | true |
+| size_100k | derived_llama_v1 | S1_keys | 1.0004 | 1.0003 | +0.0001 | true |
+| size_100k | derived_llama_v1 | S2_tabular | 0.7274 | 0.6137 | +0.1137 | false |
+| size_100k | derived_llama_v1 | S3_intern | 0.5981 | 0.6328 | -0.0347 | false |
+| size_100k | derived_llama_v1 | S4_keys_tabular | 0.7274 | 0.6137 | +0.1137 | false |
+| size_100k | derived_llama_v1 | S5_keys_intern | 0.5981 | 0.6328 | -0.0347 | false |
+| size_100k | derived_llama_v1 | S6_tabular_intern | 0.3031 | 0.2462 | +0.0569 | false |
+| size_100k | derived_llama_v1 | S7_full | 0.3031 | 0.2462 | +0.0569 | false |
 | size_250k | control | S0_none | 1.0001 | 1.0001 | +0.0000 | true |
 | size_250k | control | S1_keys | 1.0001 | 1.0001 | +0.0000 | true |
 | size_250k | control | S2_tabular | 0.7309 | 0.6156 | +0.1153 | false |
@@ -389,3 +639,27 @@ Baseline Worker WASM size (pre-change reference): **601320** bytes.
 | size_250k | common_word | S5_keys_intern | 0.5725 | 0.4858 | +0.0867 | false |
 | size_250k | common_word | S6_tabular_intern | 0.3369 | 0.2807 | +0.0562 | false |
 | size_250k | common_word | S7_full | 0.3369 | 0.2808 | +0.0562 | false |
+| size_250k | derived_cl100k_v1 | S0_none | 1.0001 | 1.0001 | +0.0000 | true |
+| size_250k | derived_cl100k_v1 | S1_keys | 0.8992 | 0.8336 | +0.0657 | false |
+| size_250k | derived_cl100k_v1 | S2_tabular | 0.7309 | 0.6156 | +0.1153 | false |
+| size_250k | derived_cl100k_v1 | S3_intern | 0.5865 | 0.6310 | -0.0445 | false |
+| size_250k | derived_cl100k_v1 | S4_keys_tabular | 0.7310 | 0.6157 | +0.1152 | false |
+| size_250k | derived_cl100k_v1 | S5_keys_intern | 0.4968 | 0.4645 | +0.0324 | false |
+| size_250k | derived_cl100k_v1 | S6_tabular_intern | 0.2957 | 0.2465 | +0.0491 | false |
+| size_250k | derived_cl100k_v1 | S7_full | 0.2957 | 0.2466 | +0.0491 | false |
+| size_250k | derived_o200k_v1 | S0_none | 1.0002 | 1.0001 | +0.0001 | true |
+| size_250k | derived_o200k_v1 | S1_keys | 0.8992 | 0.8336 | +0.0657 | false |
+| size_250k | derived_o200k_v1 | S2_tabular | 0.7309 | 0.6156 | +0.1153 | false |
+| size_250k | derived_o200k_v1 | S3_intern | 0.5866 | 0.6310 | -0.0444 | false |
+| size_250k | derived_o200k_v1 | S4_keys_tabular | 0.7310 | 0.6157 | +0.1153 | false |
+| size_250k | derived_o200k_v1 | S5_keys_intern | 0.4969 | 0.4645 | +0.0324 | false |
+| size_250k | derived_o200k_v1 | S6_tabular_intern | 0.2957 | 0.2465 | +0.0492 | false |
+| size_250k | derived_o200k_v1 | S7_full | 0.2958 | 0.2466 | +0.0492 | false |
+| size_250k | derived_llama_v1 | S0_none | 1.0002 | 1.0001 | +0.0001 | true |
+| size_250k | derived_llama_v1 | S1_keys | 1.0002 | 1.0001 | +0.0001 | true |
+| size_250k | derived_llama_v1 | S2_tabular | 0.7309 | 0.6156 | +0.1153 | false |
+| size_250k | derived_llama_v1 | S3_intern | 0.5978 | 0.6310 | -0.0332 | false |
+| size_250k | derived_llama_v1 | S4_keys_tabular | 0.7309 | 0.6156 | +0.1153 | false |
+| size_250k | derived_llama_v1 | S5_keys_intern | 0.5978 | 0.6310 | -0.0332 | false |
+| size_250k | derived_llama_v1 | S6_tabular_intern | 0.3069 | 0.2465 | +0.0603 | false |
+| size_250k | derived_llama_v1 | S7_full | 0.3069 | 0.2465 | +0.0603 | false |

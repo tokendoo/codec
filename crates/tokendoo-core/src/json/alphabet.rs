@@ -63,6 +63,10 @@ impl AlphabetKind {
     }
 
     /// The four hand-written alphabets measured in TOK-002.
+    ///
+    /// Kept as the calibration / round-trip sweep set so the estimator grid
+    /// stays the historical 320-cell population. Full measurement coverage
+    /// (including derived tables) is [`Self::MEASURED`].
     pub const ALL: [Self; 4] = [
         Self::Control,
         Self::Printable,
@@ -72,6 +76,21 @@ impl AlphabetKind {
 
     /// Vocabulary-derived alphabets published in TOK-007.
     pub const DERIVED: [Self; 3] = [
+        Self::DerivedCl100kV1,
+        Self::DerivedO200kV1,
+        Self::DerivedLlamaV1,
+    ];
+
+    /// Alphabets included in `tokendoo-bench` measurement artefacts after TOK-007.
+    ///
+    /// Hand-written baselines plus frozen derived tables. The codec default is
+    /// [`Self::DerivedCl100kV1`]; regenerating without this set left
+    /// `tok-002-measurements.json` claiming a bare winner after the default moved.
+    pub const MEASURED: [Self; 7] = [
+        Self::Control,
+        Self::Printable,
+        Self::Bare,
+        Self::CommonWord,
         Self::DerivedCl100kV1,
         Self::DerivedO200kV1,
         Self::DerivedLlamaV1,
