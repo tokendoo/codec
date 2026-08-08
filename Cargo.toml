@@ -5,6 +5,7 @@ members = [
     "crates/tokendoo-bench",
     "crates/tokendoo-wasm",
     "crates/tokendoo-py",
+    "crates/cross-lang",
 ]
 
 [workspace.package]

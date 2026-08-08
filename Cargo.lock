@@ -186,6 +186,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cross-lang"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "tokendoo",
+]
+
+[[package]]
 name = "crossbeam-deque"
 version = "0.8.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"

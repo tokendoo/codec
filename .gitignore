@@ -8,3 +8,4 @@ crates/tokendoo-py/target/
 *.tar.gz
 .venv/
 __pycache__/
+node_modules/

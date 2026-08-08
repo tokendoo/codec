@@ -1,0 +1,16 @@
+[package]
+name = "cross-lang"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+publish = false
+
+[[bin]]
+name = "cross-lang"
+path = "src/main.rs"
+
+[dependencies]
+tokendoo = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
