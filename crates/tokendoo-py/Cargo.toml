@@ -1,0 +1,24 @@
+[package]
+name = "tokendoo-py"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Python bindings for the Tokendoo codec"
+repository = "https://github.com/tokendoo/codec"
+homepage = "https://tokendoo.com"
+readme = "README.md"
+publish = false
+
+[lib]
+name = "tokendoo_py"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+tokendoo = { workspace = true }
+serde_json = { workspace = true }
+pyo3 = { version = "0.23", features = ["abi3-py39"] }
+
+[features]
+default = []
+extension-module = ["pyo3/extension-module"]

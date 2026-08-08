@@ -3,3 +3,8 @@
 .DS_Store
 crates/tokendoo-bench/assets/
 crates/tokendoo-wasm/pkg/
+crates/tokendoo-py/target/
+*.whl
+*.tar.gz
+.venv/
+__pycache__/

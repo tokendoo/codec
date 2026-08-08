@@ -1,0 +1,35 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "tokendoo"
+version = "0.1.0"
+description = "Lossless structural JSON codec for Tokendoo"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Asynq" }]
+keywords = ["json", "compression", "codec", "tokens", "lossless"]
+classifiers = [
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://tokendoo.com"
+Repository = "https://github.com/tokendoo/codec"
+
+[tool.maturin]
+manifest-path = "Cargo.toml"
+module-name = "tokendoo"
+include = [
+  { path = "LICENSE", format = "sdist" },
+  { path = "NOTICE", format = "sdist" },
+  { path = "LICENSE", format = "wheel" },
+  { path = "NOTICE", format = "wheel" },
+  { path = "README.md", format = "sdist" },
+]
+features = ["extension-module"]

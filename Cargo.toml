@@ -4,6 +4,7 @@ members = [
     "crates/tokendoo",
     "crates/tokendoo-bench",
     "crates/tokendoo-wasm",
+    "crates/tokendoo-py",
 ]
 
 [workspace.package]
