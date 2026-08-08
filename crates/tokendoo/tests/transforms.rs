@@ -1,10 +1,10 @@
 //! Per-transform forward and inverse unit tests.
 
 use serde_json::json;
-use tokendoo_core::json::canonical::canonicalize_text;
-use tokendoo_core::json::intern::{apply_intern, invert_intern};
-use tokendoo_core::json::keys::{apply_keys, invert_keys};
-use tokendoo_core::json::tabular::{apply_tabular, invert_tabular, TABULAR_SENTINEL};
+use tokendoo::json::canonical::canonicalize_text;
+use tokendoo::json::intern::{apply_intern, invert_intern};
+use tokendoo::json::keys::{apply_keys, invert_keys};
+use tokendoo::json::tabular::{apply_tabular, invert_tabular, TABULAR_SENTINEL};
 
 #[test]
 fn canonicalization_strips_whitespace_and_sorts_keys() {

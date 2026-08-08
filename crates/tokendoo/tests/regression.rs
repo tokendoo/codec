@@ -1,10 +1,10 @@
 //! Regression suite for edge cases from the TOK-001 design notes.
 
 use serde_json::json;
-use tokendoo_core::json::header::{parse_header, FLAG_IDENTITY};
-use tokendoo_core::json::keys::KEY_PREFIX;
-use tokendoo_core::json::tabular::TABULAR_SENTINEL;
-use tokendoo_core::{
+use tokendoo::json::header::{parse_header, FLAG_IDENTITY};
+use tokendoo::json::keys::KEY_PREFIX;
+use tokendoo::json::tabular::TABULAR_SENTINEL;
+use tokendoo::{
     compress, compress_value, compress_with_options, decompress_to_value, AlphabetKind,
     CodecError, CompressOptions, MAX_DEPTH, MAX_INPUT_BYTES,
 };

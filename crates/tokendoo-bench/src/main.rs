@@ -12,7 +12,7 @@ use std::path::PathBuf;
 use serde::Serialize;
 use tiktoken_rs::cl100k_base;
 use tokendoo_bench::fixtures::{build_corpus, Fixture};
-use tokendoo_core::{
+use tokendoo::{
     compress_with_options, AlphabetKind, CompressOptions, HeuristicEstimator, TokenEstimator,
     ESTIMATOR_COEFFICIENTS, ESTIMATOR_MODEL,
 };

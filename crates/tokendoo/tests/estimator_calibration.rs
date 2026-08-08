@@ -23,7 +23,7 @@ use std::path::PathBuf;
 
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
-use tokendoo_core::{
+use tokendoo::{
     compress_with_options, AlphabetKind, CompressOptions, EstimatorCoefficients,
     HeuristicEstimator, TokenEstimator, ESTIMATOR_COEFFICIENTS, ESTIMATOR_MODEL,
     HEURISTIC_BIAS_TOLERANCE, HEURISTIC_COMPRESSED_BIAS, HEURISTIC_COMPRESSED_MAX_RELATIVE_ERROR,

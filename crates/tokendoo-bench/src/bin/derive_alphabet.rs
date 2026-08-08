@@ -1,4 +1,4 @@
-//! Generate frozen derived symbol tables into `tokendoo-core`.
+//! Generate frozen derived symbol tables into `tokendoo`.
 //!
 //! Usage: `cargo run -p tokendoo-bench --release --bin tokendoo-derive-alphabet`
 
@@ -20,7 +20,7 @@ fn workspace_root() -> PathBuf {
 
 fn write_table(name: &str, doc: &str, symbols: &[String]) {
     let path = workspace_root()
-        .join("crates/tokendoo-core/src/json/derived_tables")
+        .join("crates/tokendoo/src/json/derived_tables")
         .join(format!("{name}.rs"));
     let src = render_symbols_rs(doc, symbols);
     fs::write(&path, src).unwrap_or_else(|e| panic!("write {}: {e}", path.display()));

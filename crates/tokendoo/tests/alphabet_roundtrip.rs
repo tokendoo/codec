@@ -1,7 +1,7 @@
 //! Alphabet collision and cross-alphabet round-trip coverage.
 
 use serde_json::json;
-use tokendoo_core::{
+use tokendoo::{
     compress_value, compress_with_options, decompress_to_value, AlphabetKind, CompressOptions,
 };
 
@@ -101,7 +101,7 @@ fn legacy_magics_are_rejected_after_t3_bump() {
     for payload in ["T108:{}", "T240:{}"] {
         let err = decompress_to_value(payload, &Default::default()).unwrap_err();
         assert!(
-            matches!(err, tokendoo_core::CodecError::MalformedHeader),
+            matches!(err, tokendoo::CodecError::MalformedHeader),
             "{payload}"
         );
     }
@@ -160,5 +160,5 @@ fn wrong_dictionary_alphabet_id_fails_loudly() {
     let mut result = compress_with_options(&text, opts(AlphabetKind::DerivedCl100kV1)).unwrap();
     result.dictionary.a = Some("o1".into());
     let err = decompress_to_value(&result.compressed, &result.dictionary).unwrap_err();
-    assert!(matches!(err, tokendoo_core::CodecError::AlphabetMismatch));
+    assert!(matches!(err, tokendoo::CodecError::AlphabetMismatch));
 }

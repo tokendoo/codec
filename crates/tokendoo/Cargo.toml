@@ -1,10 +1,13 @@
 [package]
-name = "tokendoo-core"
+name = "tokendoo"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 authors.workspace = true
 description = "Lossless structural JSON codec for Tokendoo"
+repository = "https://github.com/tokendoo/codec"
+homepage = "https://tokendoo.com"
+readme = "../../README.md"
 
 [dependencies]
 serde = { workspace = true }

@@ -18,7 +18,7 @@ use serde::Serialize;
 use sha2::{Digest, Sha256};
 use tiktoken_rs::cl100k_base;
 use tokendoo_bench::fixtures::build_corpus;
-use tokendoo_core::{
+use tokendoo::{
     compress_with_options, AlphabetKind, CompressOptions, HEURISTIC_COMPRESSED_MAX_RELATIVE_ERROR,
     HEURISTIC_INPUT_MAX_RELATIVE_ERROR, HEURISTIC_MAX_RATIO_ERROR,
 };

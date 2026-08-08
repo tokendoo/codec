@@ -1,11 +1,11 @@
 //! Asserts transforms never beat the identity fallback when they would grow,
 //! and that compressible fixtures actually shrink.
 
-use tokendoo_core::json::header::{
+use tokendoo::json::header::{
     alphabet_flags, parse_header, FLAG_IDENTITY, FLAG_TABULAR, FLAG_VALUES, HEADER_LEN,
 };
-use tokendoo_core::json::legend::legend_bytes_for_flags;
-use tokendoo_core::{compress, compress_value, AlphabetKind, Dictionary};
+use tokendoo::json::legend::legend_bytes_for_flags;
+use tokendoo::{compress, compress_value, AlphabetKind, Dictionary};
 
 /// Framing overhead always present on the wire for the default alphabet
 /// (header + dictionary carrying the derived alphabet id).

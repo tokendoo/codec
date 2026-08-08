@@ -16,7 +16,7 @@ use tokendoo_bench::derive::{
     derive_alphabet, single_token_strings, single_token_strings_hf,
 };
 use tokendoo_bench::fixtures::{build_corpus, Fixture};
-use tokendoo_core::{compress_with_options, AlphabetKind, CompressOptions};
+use tokendoo::{compress_with_options, AlphabetKind, CompressOptions};
 
 #[derive(Debug, Serialize)]
 struct Cell {

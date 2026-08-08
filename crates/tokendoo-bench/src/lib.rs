@@ -1,15 +1,9 @@
-//! Tokendoo benchmark library: synthetic fixtures and measurement harnesses.
+//! Tokendoo benchmark library: synthetic fixtures and measurement helpers.
 //!
 //! - [`fixtures`] — the synthetic corpus. No network, no environment, no PII.
-//! - [`eval`] — the TOK-003 comprehension harness. Reaches the network only
-//!   from its own binary, and only with fixtures from [`fixtures`].
+//! - [`derive`] — vocabulary-derived alphabet construction (TOK-007). Bench-only.
 
 #![forbid(unsafe_code)]
-
-/// The comprehension harness documents every public item; the corpus module
-/// predates that convention and is left untouched.
-#[deny(missing_docs)]
-pub mod eval;
 
 /// Vocabulary-derived alphabet construction (TOK-007). Bench-only.
 pub mod derive;

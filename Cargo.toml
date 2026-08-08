@@ -1,19 +1,18 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/tokendoo-core",
-    "crates/tokendoo-worker",
+    "crates/tokendoo",
     "crates/tokendoo-bench",
 ]
 
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
-license = "MIT"
-authors = ["Tokendoo"]
+license = "Apache-2.0"
+authors = ["Asynq"]
 
 [workspace.dependencies]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 proptest = "1"
-tokendoo-core = { path = "crates/tokendoo-core" }
+tokendoo = { path = "crates/tokendoo" }

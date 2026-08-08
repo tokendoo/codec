@@ -2,7 +2,7 @@
 
 use proptest::prelude::*;
 use serde_json::{json, Number, Value};
-use tokendoo_core::{
+use tokendoo::{
     compress_value, compress_with_options, decompress_to_value, AlphabetKind, CompressOptions,
 };
 

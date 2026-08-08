@@ -7,7 +7,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use serde::Deserialize;
-use tokendoo_core::{ESTIMATOR_COEFFICIENTS, ESTIMATOR_MODEL};
+use tokendoo::{ESTIMATOR_COEFFICIENTS, ESTIMATOR_MODEL};
 
 #[derive(Debug, Deserialize)]
 struct Measurements {

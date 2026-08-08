@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 authors.workspace = true
-description = "Token-truth and comprehension measurement harnesses (dev-only; not shipped to Workers)"
+description = "Token-truth measurement harness and alphabet derivation (dev-only)"
 publish = false
 
 [lib]
@@ -14,10 +14,6 @@ path = "src/lib.rs"
 [[bin]]
 name = "tokendoo-bench"
 path = "src/main.rs"
-
-[[bin]]
-name = "tokendoo-eval"
-path = "src/bin/eval.rs"
 
 [[bin]]
 name = "tokendoo-calibrate"
@@ -34,7 +30,7 @@ path = "src/bin/alphabets.rs"
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }
-tokendoo-core = { workspace = true }
+tokendoo = { workspace = true }
 tiktoken-rs = "0.12"
 ureq = "3.3.0"
 sha2 = "0.11.0"
