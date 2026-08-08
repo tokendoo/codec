@@ -1,0 +1,26 @@
+{
+  "name": "tokendoo",
+  "version": "0.1.0",
+  "description": "Lossless structural JSON codec for Tokendoo (Node, WebAssembly)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tokendoo/codec.git"
+  },
+  "homepage": "https://tokendoo.com",
+  "keywords": ["json", "compression", "codec", "tokens", "lossless", "wasm"],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "tokendoo_wasm_bg.wasm",
+    "tokendoo_wasm.js",
+    "tokendoo_wasm.d.ts",
+    "tokendoo_wasm_bg.wasm.d.ts",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "main": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": ["./tokendoo_wasm.js", "./index.js"]
+}
