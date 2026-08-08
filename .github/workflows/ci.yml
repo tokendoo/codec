@@ -45,8 +45,12 @@ jobs:
           set -euo pipefail
           # publish --dry-run verifies then removes the .crate; re-package for extract.
           cargo package -p tokendoo --no-verify
-          CRATE=target/package/tokendoo-0.1.0.crate
+          # Derived, not hardcoded: the version appears in both the archive name and
+          # the extracted directory, and a stale literal would break the release run.
+          VERSION=$(cargo metadata --no-deps --format-version 1 \
+            | jq -r '.packages[] | select(.name == "tokendoo") | .version')
+          CRATE="target/package/tokendoo-${VERSION}.crate"
           TMP=$(mktemp -d)
           tar -xzf "$CRATE" -C "$TMP"
-          cd "$TMP/tokendoo-0.1.0"
+          cd "$TMP/tokendoo-${VERSION}"
           cargo test

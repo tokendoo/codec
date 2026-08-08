@@ -35,7 +35,7 @@ compatibility mechanism while the format is in motion.
 
 Do **not** persist compressed payloads beyond the crate version that produced
 them. Upgrading and reading old payloads through a different symbol table fails
-silently or with decode errors — there is no migration path for stored T3 blobs
+silently or with decode errors; there is no migration path for stored T3 blobs
 across breaking 0.x releases.
 
 ## Round-trip guarantee
