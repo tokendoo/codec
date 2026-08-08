@@ -22,3 +22,31 @@ jobs:
         run: cargo test --workspace
       - name: clippy
         run: cargo clippy --workspace -- -D warnings
+
+  msrv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.85
+      - uses: Swatinem/rust-cache@v2
+      - name: build
+        run: cargo build -p tokendoo
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: publish dry-run
+        run: cargo publish --dry-run -p tokendoo
+      - name: test extracted package
+        run: |
+          set -euo pipefail
+          # publish --dry-run verifies then removes the .crate; re-package for extract.
+          cargo package -p tokendoo --no-verify
+          CRATE=target/package/tokendoo-0.1.0.crate
+          TMP=$(mktemp -d)
+          tar -xzf "$CRATE" -C "$TMP"
+          cd "$TMP/tokendoo-0.1.0"
+          cargo test

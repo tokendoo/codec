@@ -26,11 +26,17 @@ fn main() -> Result<(), tokendoo::CodecError> {
 }
 ```
 
-Until the crate is on crates.io, depend on the git source:
+## Wire-format stability
 
-```toml
-tokendoo = { git = "https://github.com/tokendoo/codec" }
-```
+The current wire format is **T3** (magic bytes in the compressed header). The wire
+format is **not stable** before 1.0: it will change (table identity and further
+format work are still ahead). Cargo treats `0.x` bumps as breaking; that is the
+compatibility mechanism while the format is in motion.
+
+Do **not** persist compressed payloads beyond the crate version that produced
+them. Upgrading and reading old payloads through a different symbol table fails
+silently or with decode errors — there is no migration path for stored T3 blobs
+across breaking 0.x releases.
 
 ## Round-trip guarantee
 

@@ -8,6 +8,10 @@ description = "Lossless structural JSON codec for Tokendoo"
 repository = "https://github.com/tokendoo/codec"
 homepage = "https://tokendoo.com"
 readme = "../../README.md"
+rust-version = "1.85"
+keywords = ["json", "compression", "codec", "tokens", "lossless"]
+categories = ["compression", "encoding"]
+exclude = ["tests/estimator_calibration.rs"]
 
 [dependencies]
 serde = { workspace = true }
