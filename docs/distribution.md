@@ -13,7 +13,10 @@ python scripts/test-wheel.py
 ```
 
 The Node build requires Rust with `wasm32-unknown-unknown`, wasm-pack, Node 22 and
-Python 3.11 or newer. The Python build requires maturin 1.7–1.x and Rust.
+Python 3.11 or newer. The Python build requires maturin 1.7–1.x and Rust. Rust release optimization is
+used; the extra Binaryen optimization pass is disabled because older builds can
+cap wasm-bindgen’s exported externref table and break Node initialization
+([upstream diagnosis](https://github.com/wasm-bindgen/wasm-bindgen/issues/4528)).
 `bindings.yml` tests isolated installs on Linux, macOS and Windows, plus all nine
 Rust/Node/Python encode/decode combinations. Linux ARM64 is cross-built; its wheel
 is not executed on the x86 runner. Python wheels use CPython's stable ABI (3.9+).

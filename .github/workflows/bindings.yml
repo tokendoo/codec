@@ -25,11 +25,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install wasm-pack and wasm-opt
+      - name: Install wasm-pack
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          sudo apt-get update
-          sudo apt-get install -y binaryen
       - name: Build npm package
         run: ./crates/tokendoo-wasm/build-npm.sh
       - name: Report WASM size
@@ -127,8 +125,6 @@ jobs:
       - name: Install tools
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          sudo apt-get update
-          sudo apt-get install -y binaryen
           pip install maturin
       - name: Build artefacts
         run: |
