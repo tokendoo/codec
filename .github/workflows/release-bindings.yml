@@ -22,6 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Install wasm-pack and wasm-opt
         run: |
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -35,6 +38,15 @@ jobs:
           cd crates/tokendoo-wasm/pkg
           npm pack
           npm pack --dry-run
+      - name: Test packed package
+        run: |
+          set -euo pipefail
+          TARBALL=$(find "$PWD/crates/tokendoo-wasm/pkg" -name 'tokendoo-*.tgz')
+          TMP=$(mktemp -d)
+          cd "$TMP"
+          npm init -y >/dev/null
+          npm install --ignore-scripts "$TARBALL"
+          TOKENDOO_NPM="$TMP/node_modules/tokendoo" node "${{ github.workspace }}/crates/tokendoo-wasm/tests/package.test.cjs"
       - uses: actions/upload-artifact@v4
         with:
           name: npm-tokendoo
@@ -69,50 +81,65 @@ jobs:
           target: ${{ matrix.target }}
           manylinux: ${{ matrix.manylinux }}
           args: --release -m crates/tokendoo-py/Cargo.toml
+      - name: Test wheel in clean venv
+        if: matrix.target != 'aarch64'
+        run: python scripts/test-wheel.py
       - uses: actions/upload-artifact@v4
         with:
           name: wheels-${{ matrix.os }}-${{ matrix.target }}
           path: target/wheels/tokendoo-*.whl
 
+  sdist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install 'maturin>=1.7,<2'
+      - run: maturin sdist -m crates/tokendoo-py/Cargo.toml --out dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pypi-sdist
+          path: dist/tokendoo-*.tar.gz
+
   verify:
     runs-on: ubuntu-latest
-    needs: [npm, wheels]
+    needs: [npm, wheels, sdist]
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: wasm32-unknown-unknown
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install tools
-        run: |
-          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          sudo apt-get update
-          sudo apt-get install -y binaryen
-          pip install maturin
-      - name: Build and verify locally
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-tokendoo
+          path: release/npm
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-ubuntu-latest-x86_64
+          path: release/python
+      - uses: actions/download-artifact@v4
+        with:
+          name: pypi-sdist
+          path: release/source
+      - name: Verify the exact release artifacts
         run: |
           set -euo pipefail
-          ./crates/tokendoo-wasm/build-npm.sh
-          maturin build --release -m crates/tokendoo-py/Cargo.toml
+          python scripts/test-wheel.py --wheel-dir release/python
+          python -m pip wheel --no-deps --wheel-dir release/from-source release/source/tokendoo-*.tar.gz
+          python scripts/test-wheel.py --wheel-dir release/from-source
           cargo build -p cross-lang --release
           python -m venv .venv-cross
-          .venv-cross/bin/pip install "$(ls target/wheels/tokendoo-*.whl | head -n1)"
-          TOKENDOO_NPM="$PWD/crates/tokendoo-wasm/pkg" \
+          .venv-cross/bin/pip install --no-index --no-deps release/python/tokendoo-*.whl
+          npm install --ignore-scripts --prefix release/node "$PWD"/release/npm/tokendoo-*.tgz
+          TOKENDOO_NPM="$PWD/release/node/node_modules/tokendoo" \
           TOKENDOO_PYTHON="$PWD/.venv-cross/bin/python" \
           CROSS_LANG_BIN="$PWD/target/release/cross-lang" \
             node scripts/cross-lang-roundtrip.cjs
-          cd crates/tokendoo-wasm/pkg
-          TARBALL=$(npm pack)
-          TMP=$(mktemp -d)
-          cd "$TMP"
-          npm init -y >/dev/null
-          npm install "$OLDPWD/$TARBALL"
-          TOKENDOO_NPM="$TMP/node_modules/tokendoo" \
+          TOKENDOO_NPM="$PWD/release/node/node_modules/tokendoo" \
             node "${{ github.workspace }}/crates/tokendoo-wasm/tests/package.test.cjs"
-          cd "${{ github.workspace }}"
-          .venv-cross/bin/python crates/tokendoo-py/tests/test_package.py

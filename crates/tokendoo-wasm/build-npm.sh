@@ -11,30 +11,16 @@ cp -f index.js index.d.ts LICENSE NOTICE README.md pkg/
 
 python3 - <<'PY'
 import json
+import tomllib
 from pathlib import Path
 
 pkg = Path("pkg/package.json")
 data = json.loads(pkg.read_text())
-data["name"] = "tokendoo"
-data["version"] = "0.1.0"
-data["description"] = (
-    "Lossless structural JSON codec for Tokendoo (Node, WebAssembly)"
-)
-data["main"] = "index.js"
-data["types"] = "index.d.ts"
-data["license"] = "Apache-2.0"
-data["files"] = [
-    "index.js",
-    "index.d.ts",
-    "tokendoo_wasm_bg.wasm",
-    "tokendoo_wasm.js",
-    "tokendoo_wasm.d.ts",
-    "tokendoo_wasm_bg.wasm.d.ts",
-    "LICENSE",
-    "NOTICE",
-    "README.md",
-]
-data["sideEffects"] = ["./tokendoo_wasm.js", "./index.js"]
+metadata = json.loads(Path("package.json").read_text())
+version = tomllib.loads(Path("../../Cargo.toml").read_text())["workspace"]["package"]["version"]
+if metadata["version"] != version:
+    raise SystemExit("npm metadata version does not match the Rust workspace")
+data.update(metadata)
 pkg.write_text(json.dumps(data, indent=2) + "\n")
 PY
 

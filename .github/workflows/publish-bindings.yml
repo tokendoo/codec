@@ -1,0 +1,91 @@
+name: publish-bindings
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_run_id:
+        description: Successful release-bindings run on this commit
+        required: true
+        type: string
+      registry:
+        description: Registry to publish
+        type: choice
+        options: [both, npm, pypi]
+        default: both
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: publish-bindings
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          RELEASE_RUN_ID: ${{ inputs.release_run_id }}
+        with:
+          script: |
+            const id = process.env.RELEASE_RUN_ID;
+            if (!/^\d+$/.test(id)) throw new Error('Expected a numeric run ID');
+            const {data: run} = await github.rest.actions.getWorkflowRun({
+              ...context.repo, run_id: Number(id)
+            });
+            if (run.path !== '.github/workflows/release-bindings.yml' ||
+                run.status !== 'completed' || run.conclusion !== 'success' ||
+                run.head_sha !== context.sha ||
+                !['push', 'workflow_dispatch'].includes(run.event) ||
+                run.head_repository.full_name !== `${context.repo.owner}/${context.repo.repo}`) {
+              throw new Error('Release must be successful, from this repository and this commit');
+            }
+
+  npm:
+    needs: validate
+    if: inputs.registry == 'both' || inputs.registry == 'npm'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global npm@11
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-tokendoo
+          path: dist
+          run-id: ${{ inputs.release_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm publish dist/tokendoo-*.tgz --access public --provenance
+
+  pypi:
+    needs: validate
+    if: inputs.registry == 'both' || inputs.registry == 'pypi'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          path: dist
+          merge-multiple: true
+          run-id: ${{ inputs.release_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: pypi-sdist
+          path: dist
+          run-id: ${{ inputs.release_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: pypa/gh-action-pypi-publish@release/v1

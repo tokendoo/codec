@@ -26,6 +26,12 @@ fn main() -> Result<(), tokendoo::CodecError> {
 }
 ```
 
+## Node and Python
+
+Node/WebAssembly and Python bindings are included in this repository. Registry
+publication is pending. See [distribution and release instructions](docs/distribution.md)
+for local builds, platform coverage and publication of verified release artifacts.
+
 ## Wire-format stability
 
 The current wire format is **T3** (magic bytes in the compressed header). The wire

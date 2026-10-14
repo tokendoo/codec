@@ -20,7 +20,8 @@ export interface CompressResult {
   flags: number;
 }
 
-export class CodecError extends Error {
+// Errors are ordinary Error objects with these additional fields.
+export interface CodecError extends Error {
   name: "CodecError";
   kind: string;
   line?: number;
